@@ -76,13 +76,13 @@ export function House({
       <path d="M-18 0 V-30 a8 8 0 0 1 16 0 V0 Z" fill={door} stroke={INK} strokeWidth="2.5" />
       <circle cx="-6" cy="-14" r="1.6" fill={INK} />
       {/* windows */}
-      <rect x="-40" y="-38" width="16" height="16" rx="2" fill="#ffeaa7" stroke={INK} strokeWidth="2.5" />
+      <rect x="-40" y="-38" width="16" height="16" rx="2" fill="#ffe38a" stroke={INK} strokeWidth="2.5" />
       <path d="M-32 -38 v16 M-40 -30 h16" stroke={INK} strokeWidth="1.6" />
-      <rect x="6" y="-38" width="16" height="16" rx="2" fill="#ffeaa7" stroke={INK} strokeWidth="2.5" />
+      <rect x="6" y="-38" width="16" height="16" rx="2" fill="#ffe38a" stroke={INK} strokeWidth="2.5" />
       <path d="M14 -38 v16 M6 -30 h16" stroke={INK} strokeWidth="1.6" />
       <circle cx="-9" cy="-62" r="6" fill="#d5ecfd" stroke={INK} strokeWidth="2.5" />
       {/* side window */}
-      <path d="M40 -40 L50 -45 V-30 L40 -25 Z" fill="#ffeaa7" stroke={INK} strokeWidth="2" strokeLinejoin="round" />
+      <path d="M40 -40 L50 -45 V-30 L40 -25 Z" fill="#ffe38a" stroke={INK} strokeWidth="2" strokeLinejoin="round" />
     </g>
   );
 }
@@ -162,7 +162,7 @@ export function School({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
       <rect x="22" y="-86" width="16" height="20" rx="2" fill="#d5ecfd" stroke={INK} strokeWidth="2.2" />
       {/* sign */}
       <rect x="-34" y="-62" width="68" height="14" rx="3" fill={INK} />
-      <text x="0" y="-51.5" textAnchor="middle" fontSize="10" fontWeight="900" fill="#ffe07b" fontFamily="var(--font-display)" letterSpacing="1">
+      <text x="0" y="-51.5" textAnchor="middle" fontSize="10" fontWeight="900" fill="#ffd54f" fontFamily="var(--font-display)" letterSpacing="1">
         SCHOOL
       </text>
       {/* steps */}

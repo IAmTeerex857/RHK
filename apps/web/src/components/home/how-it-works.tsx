@@ -15,7 +15,7 @@ import { SectionHeading } from "./section-heading";
 const expressions = { thinking, happy, wink, love } as const;
 
 const palettes = [
-  { head: "#ffd45f", eye: "#1d1a2f" },
+  { head: "#ffc629", eye: "#1d1a2f" },
   { head: "#4fb3f6", eye: "#1d1a2f" },
   { head: "#3fc48a", eye: "#1d1a2f" },
   { head: "#ff6a4d", eye: "#1d1a2f" },

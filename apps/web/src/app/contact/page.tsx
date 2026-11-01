@@ -81,7 +81,7 @@ export default function ContactPage() {
                     <rect x="2" y="2" width="124" height="84" rx="10" fill="#fff" stroke="#1d1a2f" strokeWidth="3" />
                     <path d="M8 78 L52 42 M120 78 L76 42" stroke="#1d1a2f" strokeWidth="2.5" strokeLinecap="round" />
                     <path d="M4 12 Q4 4 14 4 H114 Q124 4 124 12 L64 54 Z" fill="#ff6a4d" stroke="#1d1a2f" strokeWidth="3" strokeLinejoin="round" />
-                    <circle cx="64" cy="42" r="8" fill="#ffd45f" stroke="#1d1a2f" strokeWidth="2.5" />
+                    <circle cx="64" cy="42" r="8" fill="#ffc629" stroke="#1d1a2f" strokeWidth="2.5" />
                   </g>
                 </svg>
               </div>

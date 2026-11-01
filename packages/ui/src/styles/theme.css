@@ -8,11 +8,11 @@
   /* Brand: school-bus yellow leads; the logo's red and blue plus mint and lilac are accents. */
   --color-bus-50: #fff9e6;
   --color-bus-100: #fff0bf;
-  --color-bus-200: #ffeaa7;
-  --color-bus-300: #ffe07b;
-  --color-bus-400: #ffd45f;
-  --color-bus-500: #f8c641;
-  --color-bus-600: #e3b340;
+  --color-bus-200: #ffe38a;
+  --color-bus-300: #ffd54f;
+  --color-bus-400: #ffc629;
+  --color-bus-500: #f5b301;
+  --color-bus-600: #d99a00;
   --color-bus-700: #a87400;
 
   --color-ink: #1d1a2f;
@@ -36,7 +36,7 @@
   --color-lilac-soft: #e6ddff;
 
   --color-road: #2b2840;
-  --color-road-line: #ffeaa7;
+  --color-road-line: #ffe38a;
 
   /* Type: Geist for headings, Inter for body. */
   --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;

@@ -8,7 +8,7 @@ import { cn } from "@rhk/ui/lib/cn";
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 64 64" className={className} aria-hidden>
-      <rect width="64" height="64" rx="16" fill="#ffd45f" />
+      <rect width="64" height="64" rx="16" fill="#ffc629" />
       <path
         d="M18 52 V14 H33 a10.5 10.5 0 0 1 0 21 H18 M30 35 L46 52"
         fill="none"
@@ -20,7 +20,7 @@ export function LogoMark({ className }: { className?: string }) {
       <path
         d="M18 50 V14 H33 a10.5 10.5 0 0 1 0 21 H18 M31 36 L45 51"
         fill="none"
-        stroke="#ffd45f"
+        stroke="#ffc629"
         strokeWidth="2.2"
         strokeDasharray="4.5 4"
         strokeLinecap="round"

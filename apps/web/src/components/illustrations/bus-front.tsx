@@ -25,13 +25,13 @@ export function BusFront(props: React.SVGProps<SVGSVGElement>) {
       {/* body */}
       <path
         d="M30 168 V62 Q30 30 62 28 H138 Q170 30 170 62 V168 Z"
-        fill="#ffd45f"
+        fill="#ffc629"
         stroke={INK}
         strokeWidth="3"
         strokeLinejoin="round"
       />
       {/* roof cap */}
-      <path d="M44 40 Q48 32 62 31 H138 Q152 32 156 40 Z" fill="#ffe07b" />
+      <path d="M44 40 Q48 32 62 31 H138 Q152 32 156 40 Z" fill="#ffd54f" />
       {/* destination sign */}
       <rect x="64" y="38" width="72" height="16" rx="4" fill={INK} />
       <text
@@ -41,7 +41,7 @@ export function BusFront(props: React.SVGProps<SVGSVGElement>) {
         fontSize="9"
         fontWeight="700"
         letterSpacing="0.6"
-        fill="#ffe07b"
+        fill="#ffd54f"
         style={{ fontFamily: "var(--font-display)" }}
       >
         SCHOOL BUS
@@ -67,8 +67,8 @@ export function BusFront(props: React.SVGProps<SVGSVGElement>) {
       {/* headlights */}
       <circle cx="50" cy="145" r="10" fill="#fff9e6" stroke={INK} strokeWidth="2.5" />
       <circle cx="150" cy="145" r="10" fill="#fff9e6" stroke={INK} strokeWidth="2.5" />
-      <circle cx="50" cy="145" r="4" fill="#ffeaa7" />
-      <circle cx="150" cy="145" r="4" fill="#ffeaa7" />
+      <circle cx="50" cy="145" r="4" fill="#ffe38a" />
+      <circle cx="150" cy="145" r="4" fill="#ffe38a" />
 
       {/* bumper */}
       <rect x="22" y="164" width="156" height="14" rx="5" fill="#4a4660" stroke={INK} strokeWidth="2.5" />

@@ -49,7 +49,7 @@ function OfficeView() {
         WebkitMaskComposite: "source-in",
       }}
     >
-      <div className="grid grid-cols-[1fr_1.35fr] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_0_0_1px_rgba(255,212,95,0.08)]">
+      <div className="grid grid-cols-[1fr_1.35fr] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_0_0_1px_rgba(255,198,41,0.08)]">
         {/* routes */}
         <div className="border-r border-white/10">
           <div className="flex items-center gap-2.5 border-b border-white/10 px-5 py-4 text-[18px] text-cream/80">
