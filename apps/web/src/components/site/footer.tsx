@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Activity, ChevronDown, ChevronRight, Route } from "lucide-react";
 import { areas, contact, nav, services } from "@/content/site";
 import { LinkButton } from "./link-button";
 import { Logo, LogoMark } from "./logo";
@@ -7,94 +6,6 @@ import { Logo, LogoMark } from "./logo";
 async function Year() {
   "use cache";
   return <>{new Date().getFullYear()}</>;
-}
-
-/* -------------------------------------------------------------------------------------------- */
-/* The office view: routes on the left, today's ride log on the right, tilted and fading out.    */
-/* -------------------------------------------------------------------------------------------- */
-
-const TREE: { label: string; depth: number; open?: boolean; on?: boolean; leaf?: boolean }[] = [
-  { label: "Van 2 · Stone Mountain", depth: 0, open: true, on: true },
-  { label: "Morning run", depth: 1, open: true },
-  { label: "Pick-up stops", depth: 2, leaf: true },
-  { label: "School drop-off", depth: 2, leaf: true },
-  { label: "Afternoon run", depth: 1 },
-  { label: "Van 1 · Decatur", depth: 0 },
-  { label: "Van 3 · Gwinnett", depth: 0 },
-  { label: "Van 4 · Fulton", depth: 0 },
-];
-
-const LOG: { t: string; text: string; tone: string }[] = [
-  { t: "07:02", text: "Driver is on the way", tone: "text-bus-300" },
-  { t: "07:09", text: "Driver is close", tone: "text-bus-300" },
-  { t: "07:13", text: "Ava checked on", tone: "text-mint" },
-  { t: "07:18", text: "Leo checked on", tone: "text-mint" },
-  { t: "07:26", text: "Maya checked on", tone: "text-mint" },
-  { t: "07:41", text: "Arrived at school", tone: "text-sky" },
-  { t: "07:41", text: "Ava, Leo, Maya checked off", tone: "text-mint" },
-  { t: "07:44", text: "Van walked, empty", tone: "text-lilac" },
-  { t: "07:45", text: "Morning run closed", tone: "text-lilac" },
-];
-
-function OfficeView() {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute right-[-18%] top-20 hidden w-[820px] select-none lg:block xl:right-[-10%]"
-      style={{
-        transform: "perspective(1600px) rotateX(34deg) rotateY(-20deg) rotateZ(10deg)",
-        transformOrigin: "left top",
-        maskImage: "linear-gradient(180deg, #000 25%, transparent 88%), linear-gradient(90deg, transparent, #000 18%)",
-        maskComposite: "intersect",
-        WebkitMaskComposite: "source-in",
-      }}
-    >
-      <div className="grid grid-cols-[1fr_1.35fr] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_0_0_1px_rgba(255,198,41,0.08)]">
-        {/* routes */}
-        <div className="border-r border-white/10">
-          <div className="flex items-center gap-2.5 border-b border-white/10 px-5 py-4 text-[18px] text-cream/80">
-            <Route className="size-5" />
-            Routes
-          </div>
-          <ul className="space-y-3.5 px-5 py-5 text-[15px]">
-            {TREE.map((n) => (
-              <li
-                key={n.label}
-                className={`flex items-center gap-2 ${n.on ? "text-bus-300" : "text-cream/60"}`}
-                style={{ paddingLeft: n.depth * 22 }}
-              >
-                {n.leaf ? (
-                  <span className="size-4" />
-                ) : n.open ? (
-                  <ChevronDown className="size-4 opacity-70" />
-                ) : (
-                  <ChevronRight className="size-4 opacity-70" />
-                )}
-                <span className={`size-2 rounded-full ${n.depth === 0 ? "bg-current" : "border border-current"}`} />
-                {n.label}
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* today's log */}
-        <div>
-          <div className="flex items-center gap-2.5 border-b border-white/10 px-5 py-4 text-[18px] text-cream/80">
-            <Activity className="size-5" />
-            Today
-          </div>
-          <ol className="space-y-2.5 px-5 py-5 font-mono text-[14px]">
-            {LOG.map((l, i) => (
-              <li key={i} className="flex gap-4 whitespace-nowrap">
-                <span className="w-5 text-right text-cream/25">{i + 1}</span>
-                <span className="text-cream/45">{l.t}</span>
-                <span className={l.tone}>{l.text}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 /* -------------------------------------------------------------------------------------------- */
@@ -108,7 +19,6 @@ export function Footer() {
     <footer className="relative z-[2] overflow-hidden bg-ink text-cream">
       {/* call to action */}
       <div className="relative">
-        <OfficeView />
         <div className="container-page relative pb-20 pt-24 md:pb-28 md:pt-32">
           <div className="max-w-[36rem]">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] py-1.5 pl-1.5 pr-4 text-[14px] text-cream/85">
@@ -186,10 +96,6 @@ export function Footer() {
       <div className="relative pt-6">
         <p className="relative z-[1] text-center text-[15px] leading-[1.7] text-cream/50">
           © <Year />
-          <br />
-          Rush Hour Kids Transportation
-          <br />
-          Safe rides, every school day
         </p>
         <div aria-hidden className="relative mt-4 h-[11vw] max-h-[170px] overflow-hidden">
           <p className="absolute inset-x-0 top-0 whitespace-nowrap text-center font-display text-[13vw] font-normal leading-[0.85] tracking-[-0.045em] text-white/[0.07] xl:text-[200px]">
