@@ -21,7 +21,6 @@ export function StatsBand() {
           ))}
         </div>
         {/* after the band the road swings out to the right, beside the next heading */}
-        <RoadPoint className="absolute hidden lg:block" style={{ left: "84%", bottom: "-150px" }} />
         <RoadPoint className="absolute lg:hidden" style={{ left: "128%", bottom: "-180px" }} />
       </div>
     </section>
