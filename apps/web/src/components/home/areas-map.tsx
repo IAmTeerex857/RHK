@@ -93,7 +93,7 @@ export function AreasMap({ className = "" }: { className?: string }) {
         {/* a van going round the loop */}
         {reduce ? null : (
           <g>
-            <rect x="-11" y="-7" width="22" height="14" rx="4" fill="#ffc629" stroke={INK} strokeWidth="2" />
+            <rect x="-11" y="-7" width="22" height="14" rx="4" fill="#ffd45f" stroke={INK} strokeWidth="2" />
             <rect x="5" y="-4" width="4" height="8" rx="1" fill="#d5ecfd" stroke={INK} strokeWidth="1.2" />
             <animateMotion dur="16s" repeatCount="indefinite" rotate="auto" path={LOOP} />
           </g>

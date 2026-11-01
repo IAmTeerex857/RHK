@@ -112,7 +112,7 @@ export function FinalCta() {
             </div>
             <div className="relative mx-auto mb-[30px] w-full max-w-[440px] self-end">
               <svg viewBox="0 0 460 252" className="block w-full overflow-visible" aria-hidden>
-                <circle cx="300" cy="110" r="96" fill="#ffe38a" />
+                <circle cx="300" cy="110" r="96" fill="#ffeaa7" />
                 {/* the bus, its wheels on the road below */}
                 <BusSide x={40} y={36} width={380} height={230} />
               </svg>

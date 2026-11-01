@@ -10,8 +10,8 @@ import { House, RoundTree, School } from "./scene-parts";
 
 const INK = "#1d1a2f";
 const C = {
-  yellow: "#ffc629",
-  yellowLight: "#ffd54f",
+  yellow: "#ffd45f",
+  yellowLight: "#ffe07b",
   yellowPale: "#fff9e6",
   coral: "#ff6a4d",
   sky: "#4fb3f6",
@@ -260,7 +260,7 @@ export function ApplicationArt({ className, fee = 25 }: { className?: string; fe
         <path d="M0 0 L-11 -26 H11 Z" fill={C.sand} {...ink} />
         <path d="M0 0 L-4 -9 H4 Z" fill={INK} />
         <rect x="-11" y="-126" width="22" height="100" fill={C.yellowLight} {...ink} />
-        <path d="M-3.5 -122 V-30" stroke="#f5b301" strokeWidth="3" />
+        <path d="M-3.5 -122 V-30" stroke="#f8c641" strokeWidth="3" />
         <rect x="-11" y="-140" width="22" height="14" fill="#b9b5c9" {...ink} />
         <path d="M-11 -140 V-152 Q-11 -160 -3 -160 H3 Q11 -160 11 -152 V-140 Z" fill={C.coral} {...ink} />
       </g>

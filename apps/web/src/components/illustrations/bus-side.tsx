@@ -20,13 +20,13 @@ export function BusSide({ label = "RUSH HOUR KIDS", ...props }: React.SVGProps<S
       {/* body */}
       <path
         d="M14 196 V58 Q14 30 42 30 H272 Q290 30 296 46 L308 82 H346 Q362 82 362 98 V188 Q362 196 354 196 Z"
-        fill="#ffc629"
+        fill="#ffd45f"
         {...ink}
       />
       {/* roof cap */}
-      <path d="M34 30 V22 Q34 16 40 16 H264 Q270 16 270 22 V30" fill="#ffd54f" {...ink} />
+      <path d="M34 30 V22 Q34 16 40 16 H264 Q270 16 270 22 V30" fill="#ffe07b" {...ink} />
       {/* lower shade */}
-      <path d="M15.5 176 H360.5 V188 Q360.5 194.5 354 194.5 H15.5 Z" fill="#f5b301" />
+      <path d="M15.5 176 H360.5 V188 Q360.5 194.5 354 194.5 H15.5 Z" fill="#f8c641" />
       {/* rub rails */}
       <path d="M15.5 112 H360.5 M15.5 124 H360.5" stroke={INK} strokeWidth="2.5" />
 
@@ -38,7 +38,7 @@ export function BusSide({ label = "RUSH HOUR KIDS", ...props }: React.SVGProps<S
         </g>
       ))}
       {/* door */}
-      <rect x="216" y="40" width="50" height="146" rx="6" fill="#ffd54f" stroke={INK} strokeWidth="2.5" />
+      <rect x="216" y="40" width="50" height="146" rx="6" fill="#ffe07b" stroke={INK} strokeWidth="2.5" />
       <rect x="223" y="48" width="16" height="58" rx="4" fill="#d5ecfd" stroke={INK} strokeWidth="2" />
       <rect x="243" y="48" width="16" height="58" rx="4" fill="#d5ecfd" stroke={INK} strokeWidth="2" />
       <path d="M241 112 V180" stroke={INK} strokeWidth="2" />

@@ -622,7 +622,7 @@ function Confetti() {
       Array.from({ length: 28 }, (_, i) => ({
         x: (i * 37) % 100,
         delay: (i % 7) * 0.08,
-        color: ["#ffc629", "#ff6a4d", "#4fb3f6", "#3fc48a", "#9b7bff"][i % 5],
+        color: ["#ffd45f", "#ff6a4d", "#4fb3f6", "#3fc48a", "#9b7bff"][i % 5],
         rot: (i * 53) % 360,
         round: i % 3 === 0,
       })),

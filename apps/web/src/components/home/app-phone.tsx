@@ -71,7 +71,7 @@ function Map({ arrived }: { arrived: boolean }) {
       {/* the van, riding the same path */}
       <span className="rhk-app__van" data-arrived={arrived || undefined} style={{ offsetPath: `path("${ROUTE}")` }}>
         <svg viewBox="0 0 40 24" width="40" height="24" aria-hidden>
-          <rect x="1.5" y="1.5" width="37" height="21" rx="6" fill="#ffc629" stroke="#1d1a2f" strokeWidth="3" />
+          <rect x="1.5" y="1.5" width="37" height="21" rx="6" fill="#ffd45f" stroke="#1d1a2f" strokeWidth="3" />
           <rect x="29" y="5" width="6" height="14" rx="2" fill="#d5ecfd" stroke="#1d1a2f" strokeWidth="1.8" />
           <path d="M8 6 V18 M15 6 V18 M22 6 V18" stroke="#1d1a2f" strokeWidth="1.6" strokeOpacity="0.45" />
         </svg>
@@ -113,7 +113,7 @@ export function AppPhone() {
       script={script}
       play="once"
       className="rhk-app"
-      accent="#ffc629"
+      accent="#ffd45f"
     >
       {(s, _rect, layout) => (
         <Phone width={layout === "compact" ? 330 : 370} time="7:41" className="rhk-app__phone">

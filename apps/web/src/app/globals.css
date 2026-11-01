@@ -22,3 +22,4 @@
 .rhk-drift-slow { animation: rhk-drift 22s ease-in-out infinite alternate-reverse; }
 .rhk-idle { animation: rhk-idle 0.35s ease-in-out infinite; }
 .rhk-float { animation: rhk-float 5s ease-in-out infinite; }
+.rhk-stamp-spin { animation: rhk-spin 48s linear infinite; }

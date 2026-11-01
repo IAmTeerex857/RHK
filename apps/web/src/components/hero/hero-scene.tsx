@@ -256,8 +256,8 @@ export function HeroScene({ heroRef }: { heroRef: React.RefObject<HTMLElement | 
         <g mask="url(#hero-fade)">
         {/* far: sun, clouds, hills */}
         <motion.g style={{ x: far.x, y: far.y, translateY: farScroll }}>
-          <circle cx="640" cy="120" r="64" fill="#ffe38a" />
-          <circle cx="640" cy="120" r="46" fill="#ffd54f" />
+          <circle cx="640" cy="120" r="64" fill="#ffeaa7" />
+          <circle cx="640" cy="120" r="46" fill="#ffe07b" />
           <g className="rhk-drift">
             <Cloud x={110} y={70} s={1} />
             <Cloud x={500} y={40} s={0.7} />
@@ -294,7 +294,7 @@ export function HeroScene({ heroRef }: { heroRef: React.RefObject<HTMLElement | 
         <path d={ROAD} fill="url(#hero-road-fade)" />
         <path d={EDGE_L} fill="none" stroke="#1d1a2f" strokeWidth="3" vectorEffect="non-scaling-stroke" />
         <path d={EDGE_R} fill="none" stroke="#1d1a2f" strokeWidth="3" vectorEffect="non-scaling-stroke" />
-        <path d={DASH_D} fill="#ffe38a" />
+        <path d={DASH_D} fill="#ffeaa7" />
 
         {/* near: trees, bus stop */}
         <motion.g style={{ x: near.x, y: near.y }}>
