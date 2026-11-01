@@ -11,6 +11,7 @@ import { cn } from "@rhk/ui/lib/cn";
 import { steps } from "@/content/site";
 import { RoadPoint } from "../route/road-point";
 import { SectionHeading } from "./section-heading";
+import { stepPictures } from "./step-pictures";
 
 const expressions = { thinking, happy, wink, love } as const;
 
@@ -27,6 +28,7 @@ function Step({ i }: { i: number }) {
   const s = steps[i];
   const p = palettes[i];
   const left = i % 2 === 0;
+  const Picture = stepPictures[i];
   return (
     <div className={cn("relative lg:grid lg:grid-cols-[1fr_200px_1fr] lg:items-center")}>
       {/* road stop: centre column on desktop, gap between cards on phones */}
@@ -38,24 +40,27 @@ function Step({ i }: { i: number }) {
         viewport={{ once: true, amount: 0.4 }}
         transition={{ type: "spring", stiffness: 160, damping: 22 }}
         className={cn(
-          "relative flex items-center gap-5 rounded-2xl border border-line bg-white p-5 shadow-card md:p-6",
+          "relative flex flex-col gap-5 rounded-2xl border border-line bg-white p-4 shadow-card md:p-5",
           left ? "lg:col-start-1" : "lg:col-start-3",
         )}
       >
-        <div className={cn("grid size-[92px] shrink-0 place-items-center rounded-2xl bg-raised md:size-[108px]")}>
-          <Blobatar
-            name={`rhk-step-${i}`}
-            size={76}
-            animate="always"
-            traits={{ shape: s.blob.shape }}
-            palette={{ head: p.head, eye: p.eye }}
-            expression={inView ? expressions[s.blob.expression] : idle}
-            title={s.title}
-          />
-        </div>
-        <div>
-          <p className="font-display text-[13px] font-semibold text-ink-muted">Stop {i + 1}</p>
-          <h3 className="mt-1 font-display text-[21px] font-semibold leading-tight tracking-[-0.02em] md:text-[23px]">{s.title}</h3>
+        <Picture />
+        <div className="px-1 pb-1">
+          <div className="flex items-center gap-2.5">
+            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-raised">
+              <Blobatar
+                name={`rhk-step-${i}`}
+                size={30}
+                animate="always"
+                traits={{ shape: s.blob.shape }}
+                palette={{ head: p.head, eye: p.eye }}
+                expression={inView ? expressions[s.blob.expression] : idle}
+                title=""
+              />
+            </span>
+            <p className="font-display text-[13px] font-semibold text-ink-muted">Stop {i + 1}</p>
+          </div>
+          <h3 className="mt-3 font-display text-[21px] font-semibold leading-tight tracking-[-0.02em] md:text-[23px]">{s.title}</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">{s.body}</p>
         </div>
       </motion.div>
@@ -83,7 +88,7 @@ export function HowItWorks() {
         <div className="relative mt-14 flex flex-col gap-16 md:mt-16 lg:gap-10">
           <RoadPoint className="absolute lg:hidden" style={{ left: "96%", top: "-34px" }} />
           {steps.map((_, i) => (
-            <div key={i} className="relative">
+            <div key={i} className={cn("relative", i > 0 && "lg:-mt-48")}>
               <Step i={i} />
               {i < steps.length - 1 ? (
                 <RoadPoint className="absolute lg:hidden" style={{ left: i % 2 === 0 ? "10%" : "90%", bottom: "-32px" }} />

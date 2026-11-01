@@ -6,6 +6,7 @@ import { cn } from "@rhk/ui/lib/cn";
 import { contact, services } from "@/content/site";
 import { ServiceIcon } from "@/components/home/service-icon";
 import { ServicesArt } from "@/components/illustrations/hero-art";
+import { ServicePicture } from "@/components/services/service-picture";
 import { PageHero } from "@/components/site/page-hero";
 
 export const metadata: Metadata = {
@@ -80,12 +81,13 @@ export default function ServicesPage() {
                 </LinkButton>
               </div>
             </div>
-            <div>
-              <ul className="flex flex-col gap-3">
+            <div className="flex flex-col gap-5">
+              <ServicePicture slug={s.slug} />
+              <ul className="flex flex-col gap-2.5 px-1">
                 {s.points.map((p) => (
-                  <li key={p} className="flex items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3 text-[15px] font-semibold">
-                    <span className="grid size-6 shrink-0 place-items-center rounded-full bg-mint">
-                      <Check className="size-3.5 stroke-[2.5]" />
+                  <li key={p} className="flex items-center gap-3 text-[15px] font-medium">
+                    <span className="grid size-5 shrink-0 place-items-center rounded-full bg-mint">
+                      <Check className="size-3 stroke-[2.75]" />
                     </span>
                     {p}
                   </li>
