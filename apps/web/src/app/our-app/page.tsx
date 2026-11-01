@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { LinkButton } from "@/components/site/link-button";
 import { CalendarCheck, KeyRound, Smartphone } from "lucide-react";
-import { FinalCta } from "@/components/home/areas-faq-cta";
 import { RideTracker } from "@/components/home/ride-tracker";
 import { SectionHeading } from "@/components/home/section-heading";
 import { FeaturesBento } from "@/components/app/features-bento";
@@ -102,8 +101,6 @@ export default function OurAppPage() {
           </p>
         </div>
       </section>
-
-      <FinalCta />
     </>
   );
 }

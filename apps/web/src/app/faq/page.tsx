@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { MessageCircle, Phone } from "lucide-react";
 import { Accordion } from "@rhk/ui/components/accordion";
 import { Button } from "@rhk/ui/components/button";
-import { FinalCta } from "@/components/home/areas-faq-cta";
 import { FaqArt } from "@/components/illustrations/hero-art";
 import { PageHero } from "@/components/site/page-hero";
 import { contact, faqs } from "@/content/site";
@@ -46,8 +45,6 @@ export default function FaqPage() {
           <Accordion items={faqs} />
         </div>
       </section>
-
-      <FinalCta />
     </>
   );
 }

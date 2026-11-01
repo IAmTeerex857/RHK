@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { GraduationCap, HeartHandshake, ShieldCheck } from "lucide-react";
 import { School } from "@/components/illustrations/scene-parts";
-import { FinalCta } from "@/components/home/areas-faq-cta";
 import { SectionHeading } from "@/components/home/section-heading";
 import { StatsBand } from "@/components/home/stats-band";
 import { AboutArt } from "@/components/illustrations/hero-art";
@@ -134,8 +133,6 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-
-      <FinalCta />
     </>
   );
 }

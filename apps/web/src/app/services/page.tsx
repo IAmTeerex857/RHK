@@ -4,7 +4,6 @@ import { Check, Phone } from "lucide-react";
 import { Button } from "@rhk/ui/components/button";
 import { cn } from "@rhk/ui/lib/cn";
 import { contact, services } from "@/content/site";
-import { FinalCta } from "@/components/home/areas-faq-cta";
 import { ServiceIcon } from "@/components/home/service-icon";
 import { ServicesArt } from "@/components/illustrations/hero-art";
 import { PageHero } from "@/components/site/page-hero";
@@ -96,8 +95,6 @@ export default function ServicesPage() {
           </article>
         ))}
       </div>
-
-      <FinalCta />
     </>
   );
 }

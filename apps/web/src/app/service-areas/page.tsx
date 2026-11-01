@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { MapPin, Phone } from "lucide-react";
 import { Button } from "@rhk/ui/components/button";
-import { FinalCta } from "@/components/home/areas-faq-cta";
 import { AreasMap } from "@/components/home/areas-map";
 import { SectionHeading } from "@/components/home/section-heading";
 import { PageHero } from "@/components/site/page-hero";
@@ -74,8 +73,6 @@ export default function ServiceAreasPage() {
           </div>
         </div>
       </section>
-
-      <FinalCta />
     </>
   );
 }

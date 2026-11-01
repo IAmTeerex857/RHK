@@ -1,5 +1,5 @@
 import { AppTeaser } from "@/components/home/app-teaser";
-import { Areas, FaqPreview, FinalCta } from "@/components/home/areas-faq-cta";
+import { Areas, FaqPreview } from "@/components/home/areas-faq-cta";
 import { Hero } from "@/components/home/hero";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { Safety } from "@/components/home/safety";
@@ -18,7 +18,6 @@ export default function HomePage() {
       <AppTeaser />
       <Areas />
       <FaqPreview />
-      <FinalCta />
     </ScrollRoute>
   );
 }
