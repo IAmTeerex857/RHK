@@ -1,0 +1,182 @@
+/* The parent-app phone (app-phone.tsx). Everything is scoped under .rhk-app; sizes inside the
+   phone are iOS points (the Phone scales its screen as a whole). */
+
+.rhk-app .ss-stage {
+  background: transparent;
+  --ss-font: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+.rhk-app .rhk-app__phone {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  translate: -50% 0;
+}
+
+.rhk-app .rhk-app__screen {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 14px;
+  padding: 6px 20px 0;
+  background: #f5f5f3;
+  color: #1d1a2f;
+}
+
+.rhk-app .rhk-app__head {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 2px;
+}
+
+.rhk-app .rhk-app__kicker {
+  font-size: 15px;
+  line-height: 1.3;
+  color: #6b6780;
+}
+
+.rhk-app .rhk-app__title {
+  font-family: var(--font-geist), var(--font-inter), sans-serif;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* map */
+.rhk-app .rhk-app__map {
+  position: relative;
+  flex: none;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #dff3e8;
+}
+
+.rhk-app .rhk-app__map-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.rhk-app .rhk-app__driven {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 0.62;
+  transition: stroke-dashoffset 4300ms cubic-bezier(0.45, 0, 0.25, 1);
+}
+
+.rhk-app .rhk-app__driven[data-arrived] {
+  stroke-dashoffset: 0.14;
+}
+
+.rhk-app .rhk-app__van {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 40px;
+  height: 24px;
+  offset-distance: 38%;
+  offset-rotate: auto;
+  filter: drop-shadow(0 3px 3px rgb(29 26 47 / 0.25));
+  transition: offset-distance 4300ms cubic-bezier(0.45, 0, 0.25, 1);
+}
+
+/* stops at the school gate, just short of the school pin */
+.rhk-app .rhk-app__van[data-arrived] {
+  offset-distance: 86%;
+}
+
+/* tracker sheet */
+.rhk-app .rhk-app__sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 18px 18px;
+  border-radius: 22px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(29 26 47 / 0.06);
+}
+
+.rhk-app .rhk-app__eta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rhk-app .rhk-app__eta-label {
+  font-size: 15px;
+  color: #6b6780;
+}
+
+.rhk-app .rhk-app__eta-time {
+  font-family: var(--font-geist), var(--font-inter), sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.rhk-app .rhk-app__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* the line behind the dots */
+.rhk-app .rhk-app__steps::before {
+  content: "";
+  position: absolute;
+  top: 7px;
+  right: 16.66%;
+  left: 16.66%;
+  height: 3px;
+  border-radius: 2px;
+  background: #e3e1ea;
+}
+
+.rhk-app .rhk-app__steps li {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.rhk-app .rhk-app__dot {
+  width: 17px;
+  height: 17px;
+  border: 3px solid #1d1a2f;
+  border-radius: 50%;
+  background: #ffffff;
+  transition: background-color 300ms ease;
+}
+
+.rhk-app li[data-done] .rhk-app__dot {
+  background: #3fc48a;
+}
+
+.rhk-app li[data-now] .rhk-app__dot {
+  background: #ffc629;
+}
+
+.rhk-app .rhk-app__step {
+  font-size: 13px;
+  line-height: 1.3;
+  color: #6b6780;
+}
+
+.rhk-app li[data-done] .rhk-app__step,
+.rhk-app li[data-now] .rhk-app__step {
+  color: #1d1a2f;
+  font-weight: 600;
+}
+
+.rhk-app .ss-notification__icon {
+  background: none;
+}

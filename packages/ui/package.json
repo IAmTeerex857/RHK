@@ -1,0 +1,32 @@
+{
+  "name": "@rhk/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./styles.css": "./src/styles/theme.css",
+    "./loaders.css": "./src/vendor/generative-loaders/styles.css",
+    "./loaders": "./src/vendor/generative-loaders/index.ts",
+    "./lib/*": "./src/lib/*.ts",
+    "./components/*": "./src/components/*.tsx"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "echo skip"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.3.1",
+    "motion": "^14.9.0",
+    "lucide-react": "^1.66.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

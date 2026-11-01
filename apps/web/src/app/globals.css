@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@import "@rhk/ui/styles.css";
+@import "@rhk/ui/loaders.css";
+
+@source "../../../../packages/ui/src";
+
+/* ---- illustration motion ---- */
+@keyframes rhk-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.25; } }
+@keyframes rhk-wave { 0%, 100% { transform: rotate(-14deg); } 50% { transform: rotate(18deg); } }
+@keyframes rhk-spin { to { transform: rotate(360deg); } }
+@keyframes rhk-flag { 0%, 100% { transform: skewY(0deg) scaleX(1); } 50% { transform: skewY(-6deg) scaleX(0.92); } }
+@keyframes rhk-drift { from { transform: translateX(-30px); } to { transform: translateX(30px); } }
+@keyframes rhk-idle { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1.6px); } }
+@keyframes rhk-float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+
+.rhk-blink { animation: rhk-blink 0.9s steps(1) infinite; }
+.rhk-blink-alt { animation: rhk-blink 0.9s steps(1) infinite 0.45s; }
+.rhk-wave { animation: rhk-wave 0.9s ease-in-out infinite; transform-box: view-box; }
+.rhk-wheel { animation: rhk-spin 0.7s linear infinite; }
+.rhk-flag { animation: rhk-flag 1.4s ease-in-out infinite; transform-box: fill-box; transform-origin: left center; }
+.rhk-drift { animation: rhk-drift 14s ease-in-out infinite alternate; }
+.rhk-drift-slow { animation: rhk-drift 22s ease-in-out infinite alternate-reverse; }
+.rhk-idle { animation: rhk-idle 0.35s ease-in-out infinite; }
+.rhk-float { animation: rhk-float 5s ease-in-out infinite; }

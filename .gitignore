@@ -1,0 +1,16 @@
+node_modules
+.next
+.turbo
+dist
+.env*.local
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# local agent tooling (installed skills)
+.agents
+.claude
+skills-lock.json
+
+# client planning document, kept out of the public repo
+rush-hour-kids-app-prd.md
