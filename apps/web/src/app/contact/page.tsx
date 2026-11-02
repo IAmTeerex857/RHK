@@ -39,7 +39,7 @@ export default function ContactPage() {
               href={call.href}
               className="group relative flex flex-col overflow-hidden rounded-2xl border border-bus-500 bg-bus-400 p-7 shadow-card transition-shadow hover:shadow-float md:row-span-2 md:p-9"
             >
-              <span className="grid size-14 place-items-center rounded-2xl bg-white/60">
+              <span className="grid size-14 place-items-center rounded-2xl bg-card/60">
                 <Phone className="size-6" />
               </span>
               <p className="mt-10 font-display text-[16px] font-medium text-ink/70">{call.title}</p>
@@ -55,7 +55,7 @@ export default function ContactPage() {
 
             <a
               href={text.href}
-              className="group flex flex-col gap-5 rounded-2xl border border-line bg-white p-6 shadow-card transition-shadow hover:shadow-float sm:flex-row sm:items-center"
+              className="group flex flex-col gap-5 rounded-2xl border border-line bg-card p-6 shadow-card transition-shadow hover:shadow-float sm:flex-row sm:items-center"
             >
               <div className="flex shrink-0 flex-col gap-1.5 sm:w-[46%]">
                 <span className="self-start rounded-2xl rounded-bl-md bg-raised px-3.5 py-2.5 text-[14px]">Hi, quick question</span>
@@ -73,7 +73,7 @@ export default function ContactPage() {
 
             <a
               href={email.href}
-              className="group flex flex-col gap-5 rounded-2xl border border-line bg-white p-6 shadow-card transition-shadow hover:shadow-float sm:flex-row sm:items-center"
+              className="group flex flex-col gap-5 rounded-2xl border border-line bg-card p-6 shadow-card transition-shadow hover:shadow-float sm:flex-row sm:items-center"
             >
               <div className="grid shrink-0 place-items-center sm:w-[46%]">
                 <svg viewBox="0 0 128 88" className="h-[72px] w-auto" aria-hidden>
@@ -100,7 +100,7 @@ export default function ContactPage() {
                 <h2 className="font-display text-[19px] font-semibold">Where we drive</h2>
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {areas.map((a) => (
-                    <li key={a.name} className="rounded-lg border border-line bg-white px-3 py-1.5 text-[14px] font-semibold">
+                    <li key={a.name} className="rounded-lg border border-line bg-card px-3 py-1.5 text-[14px] font-semibold">
                       {a.name}
                     </li>
                   ))}

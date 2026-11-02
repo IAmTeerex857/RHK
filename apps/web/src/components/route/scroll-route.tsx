@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { BusTop } from "../illustrations/bus-top";
 
@@ -313,9 +313,9 @@ export function ScrollRoute({
           preserveAspectRatio="none"
         >
           <g fill="none" strokeLinejoin="round">
-            <path d={geo.d} stroke="var(--color-ink)" strokeWidth={w * 1.34 + 3} />
+            <path d={geo.d} stroke="var(--color-outline)" strokeWidth={w * 1.34 + 3} />
             <path d={geo.d} stroke="var(--color-sand)" strokeWidth={w * 1.34 - 3} />
-            <path d={geo.d} stroke="var(--color-ink)" strokeWidth={w + 3} />
+            <path d={geo.d} stroke="var(--color-outline)" strokeWidth={w + 3} />
             <path d={geo.d} stroke="var(--color-road)" strokeWidth={w - 3} />
             <path
               d={geo.d}
@@ -327,13 +327,13 @@ export function ScrollRoute({
           </g>
           {geo.stops.map((s) => (
             <g key={s.n} transform={`translate(${s.x} ${s.y})`}>
-              <circle r={w * 0.34} fill="var(--color-bus-400)" stroke="var(--color-ink)" strokeWidth={3} />
+              <circle r={w * 0.34} fill="var(--color-bus-400)" stroke="var(--color-outline)" strokeWidth={3} />
               <text
                 textAnchor="middle"
                 dominantBaseline="central"
                 fontSize={w * 0.34}
                 fontWeight={600}
-                fill="var(--color-ink)"
+                fill="var(--color-outline)"
                 style={{ fontFamily: "var(--font-display)" }}
               >
                 {s.n}

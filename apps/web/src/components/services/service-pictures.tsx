@@ -6,7 +6,8 @@
  * and one small motion that plays once as the card scrolls in.
  */
 
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useInView } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { ArrowRight, Check, MapPin } from "lucide-react";
 import { useRef, type ReactNode } from "react";
 import { cn } from "@rhk/ui/lib/cn";
@@ -24,7 +25,7 @@ function Frame({ children, className }: { children: (play: boolean) => ReactNode
 }
 
 const spring = { type: "spring" as const, stiffness: 380, damping: 26 };
-const card = "rounded-xl border border-line bg-white shadow-card";
+const card = "rounded-xl border border-line bg-card shadow-card";
 
 /* 01 · Before & after school: the week, morning and afternoon */
 function BeforeAfter() {
@@ -48,9 +49,13 @@ function BeforeAfter() {
                   <motion.span
                     key={i}
                     initial={false}
-                    animate={{ scale: play && v ? 1 : 0.9, backgroundColor: play && v ? "#ffc629" : "#ffffff" }}
+                    animate={{ scale: play && v ? 1 : 0.9 }}
                     transition={{ ...spring, delay: play ? 0.15 + (r * 5 + i) * 0.05 : 0 }}
-                    className="grid aspect-square w-full max-w-10 place-items-center justify-self-center rounded-lg border border-line-strong"
+                    style={{ transitionDelay: `${play ? 0.15 + (r * 5 + i) * 0.05 : 0}s` }}
+                    className={cn(
+                      "grid aspect-square w-full max-w-10 place-items-center justify-self-center rounded-lg border border-line-strong transition-colors duration-300",
+                      play && v ? "bg-bus-400" : "bg-card",
+                    )}
                   >
                     {play && v ? <Check className="size-3.5" strokeWidth={2.5} /> : null}
                   </motion.span>
@@ -88,7 +93,7 @@ function DailyTrips() {
                   transition={{ ...spring, delay: play ? 0.4 : 0 }}
                   className={cn(
                     "flex flex-1 flex-col items-center gap-0.5 rounded-xl border py-2.5 transition-colors duration-300",
-                    on ? "border-bus-500 bg-bus-400" : "border-line bg-white",
+                    on ? "border-bus-500 bg-bus-400" : "border-line bg-card",
                   )}
                 >
                   <span className={cn("text-[11px]", on ? "text-ink" : "text-ink-muted")}>{d}</span>
@@ -117,7 +122,7 @@ function DailyTrips() {
 /* 03 · Satellite stops: a meeting point on a map */
 function Satellite() {
   return (
-    <Frame className="h-[190px] bg-[#dff3e8] p-0">
+    <Frame className="theme-light h-[190px] bg-[#dff3e8] p-0">
       {(play) => (
         <>
           <svg viewBox="0 0 400 220" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 size-full">
@@ -154,15 +159,20 @@ function OneWay() {
     <Frame>
       {(play) => (
         <div className="flex flex-col gap-4">
-          <div className="relative grid grid-cols-2 rounded-xl bg-white p-1 shadow-card">
+          <div className="relative grid grid-cols-2 rounded-xl bg-card p-1 shadow-card">
             <motion.span
               initial={false}
               animate={{ x: play ? "100%" : "0%" }}
               transition={{ ...spring, delay: play ? 0.4 : 0 }}
               className="absolute inset-y-1 left-1 w-[calc(50%-4px)] rounded-lg bg-bus-400"
             />
-            <span className="relative py-2 text-center text-[14px] font-medium">To school</span>
-            <span className="relative py-2 text-center text-[14px] font-medium">Home</span>
+            {/* the label over the yellow pill keeps dark ink in both themes */}
+            <span className={cn("relative py-2 text-center text-[14px] font-medium transition-colors duration-300", !play && "text-outline")}>
+              To school
+            </span>
+            <span className={cn("relative py-2 text-center text-[14px] font-medium transition-colors duration-300", play && "text-outline")}>
+              Home
+            </span>
           </div>
           <div className={cn(card, "flex items-center gap-3 p-4")}>
             <span className="size-3 rounded-full border-2 border-ink bg-white" />
@@ -198,9 +208,11 @@ function RoundTrips() {
             <div key={l.label} className={cn("relative flex items-center gap-3", i ? "mt-9" : "")}>
               <motion.span
                 initial={false}
-                animate={{ backgroundColor: play ? "#3fc48a" : "#ffffff" }}
-                transition={{ delay: play ? 0.3 + i * 0.6 : 0 }}
-                className="grid size-6 place-items-center rounded-full border-2 border-ink"
+                style={{ transitionDelay: `${play ? 0.3 + i * 0.6 : 0}s` }}
+                className={cn(
+                  "grid size-6 place-items-center rounded-full border-2 border-ink transition-colors duration-300",
+                  play ? "bg-mint" : "bg-card",
+                )}
               >
                 {play ? <Check className="size-3" strokeWidth={3} /> : null}
               </motion.span>
@@ -234,12 +246,13 @@ function Monthly() {
             {cells.map((i) => {
               const weekday = i % 7 < 5;
               return (
-                <motion.span
+                <span
                   key={i}
-                  initial={false}
-                  animate={{ backgroundColor: play && weekday ? "#ffe38a" : weekday ? "#f5f5f3" : "#ffffff" }}
-                  transition={{ delay: play ? 0.2 + i * 0.012 : 0, duration: 0.2 }}
-                  className="h-[18px] rounded-[5px]"
+                  style={{ transitionDelay: `${play ? 0.2 + i * 0.012 : 0}s` }}
+                  className={cn(
+                    "h-[18px] rounded-[5px] transition-colors duration-200",
+                    play && weekday ? "bg-bus-200" : weekday ? "bg-raised" : "bg-card",
+                  )}
                 />
               );
             })}

@@ -30,7 +30,7 @@ export function Areas() {
           />
           <ul className="mt-7 flex flex-wrap gap-2.5">
             {areas.map((a) => (
-              <li key={a.name} className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-white px-3.5 py-2 text-[14px] font-semibold shadow-subtle">
+              <li key={a.name} className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-card px-3.5 py-2 text-[14px] font-semibold shadow-subtle">
                 <MapPin className="size-4 text-ink-muted" />
                 {a.name}
               </li>

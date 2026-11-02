@@ -2,17 +2,25 @@
 
 const INK = "#1d1a2f";
 
+/** A puffy cloud: flat base, four lobes, a soft shaded underside. Origin at the base's left end, about 140 wide. */
 export function Cloud({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${s})`}>
       <path
-        d="M10 40 q-14 0 -14 -13 q0 -13 15 -13 q4 -16 22 -16 q16 0 21 13 q4 -3 10 -3 q15 0 15 16 q0 16 -16 16 z"
-        fill="#fff"
+        d="M18 0 C4 0 -2 -20 13 -26 C11 -45 35 -53 47 -41 C53 -66 94 -68 100 -39 C114 -48 136 -35 128 -16 C140 -11 136 0 121 0 Z"
+        style={{ fill: "var(--hero-cloud, #fff)" }}
+      />
+      {/* shade along the base */}
+      <path d="M18 0 C9 0 4 -7 6 -12 C34 -4 100 -4 133 -11 C136 -4 131 0 121 0 Z" style={{ fill: "var(--hero-cloud-shade, #e3ecfb)" }} />
+      <path
+        d="M18 0 C4 0 -2 -20 13 -26 C11 -45 35 -53 47 -41 C53 -66 94 -68 100 -39 C114 -48 136 -35 128 -16 C140 -11 136 0 121 0 Z"
+        fill="none"
         stroke={INK}
         strokeWidth="3"
         strokeLinejoin="round"
       />
-      <path d="M20 31 q8 4 16 0" stroke="#d5ecfd" strokeWidth="3" fill="none" strokeLinecap="round" />
+      {/* small inner curls where the lobes meet */}
+      <path d="M47 -41 q4 4 4 10 M100 -39 q-3 5 -2 11" fill="none" stroke={INK} strokeWidth="2.5" strokeLinecap="round" />
     </g>
   );
 }

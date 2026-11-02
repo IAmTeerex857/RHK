@@ -15,7 +15,7 @@ export function AppTeaser() {
     <section id="app" className="relative py-16 md:py-24">
       <div className="container-page">
         <div className="relative">
-        <div className="relative overflow-hidden rounded-3xl border border-line bg-ink px-6 pt-12 text-cream shadow-float md:px-12 md:pt-16">
+        <div className="theme-light relative overflow-hidden rounded-3xl border border-line bg-ink px-6 pt-12 text-cream shadow-float md:px-12 md:pt-16">
           <div className="relative grid items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-12">
             <div>
               <div className="flex items-center gap-3">

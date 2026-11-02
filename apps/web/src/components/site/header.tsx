@@ -10,6 +10,7 @@ import { Button } from "@rhk/ui/components/button";
 import { cn } from "@rhk/ui/lib/cn";
 import { contact, nav } from "@/content/site";
 import { Logo } from "./logo";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
   const pathname = usePathname();
@@ -37,7 +38,7 @@ export function Header() {
           className={cn(
             "mx-auto flex h-[68px] max-w-[76rem] items-center justify-between gap-4 rounded-2xl border px-3 pl-4 transition-all duration-300 md:px-4 md:pl-5",
             scrolled || open
-              ? "border-line bg-white/90 shadow-card backdrop-blur-md"
+              ? "border-line bg-card/90 shadow-card backdrop-blur-md dark:bg-card/85"
               : "border-transparent bg-transparent",
           )}
         >
@@ -69,6 +70,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <a
               href={contact.phoneHref}
               className="hidden items-center gap-2 rounded-lg px-3 py-2 text-[14px] font-semibold text-ink hover:bg-ink/5 xl:inline-flex"
@@ -85,7 +87,7 @@ export function Header() {
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="relative grid size-11 place-items-center rounded-full border border-line bg-white shadow-subtle lg:hidden"
+              className="relative grid size-11 place-items-center rounded-full border border-line bg-card shadow-subtle lg:hidden"
             >
               <span className="sr-only">Menu</span>
               <motion.span
@@ -123,7 +125,7 @@ export function Header() {
                     onClick={() => setOpen(false)}
                     className={cn(
                       "flex items-center justify-between rounded-2xl border px-5 py-4 font-display text-[22px] font-semibold tracking-[-0.02em]",
-                      pathname === item.href ? "border-bus-500 bg-bus-300" : "border-line bg-white",
+                      pathname === item.href ? "border-bus-500 bg-bus-300" : "border-line bg-card",
                     )}
                   >
                     {item.label}

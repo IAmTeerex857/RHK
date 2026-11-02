@@ -35,7 +35,7 @@ export default function ServiceAreasPage() {
           <AreasMap />
           <ul className="grid gap-3">
             {areas.map((a) => (
-              <li key={a.name} className={`flex items-center gap-4 rounded-2xl border border-line p-4 bg-white shadow-subtle`}>
+              <li key={a.name} className={`flex items-center gap-4 rounded-2xl border border-line p-4 bg-card shadow-subtle`}>
                 <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-raised text-ink-soft">
                   <MapPin className="size-5" />
                 </span>
@@ -51,7 +51,7 @@ export default function ServiceAreasPage() {
 
       <section className="pb-20 md:pb-28">
         <div className="container-page">
-          <div className="grid gap-8 rounded-3xl border border-line bg-white p-6 shadow-float md:grid-cols-[1fr_1.2fr] md:p-12">
+          <div className="grid gap-8 rounded-3xl border border-line bg-card p-6 shadow-float md:grid-cols-[1fr_1.2fr] md:p-12">
             <SectionHeading
               eyebrow="Satellite stops"
               title={

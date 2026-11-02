@@ -24,7 +24,7 @@ function Tile({ children, className, i }: { children: ReactNode; className?: str
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ delay: i * 0.08, type: "spring", stiffness: 180, damping: 22 }}
-      className={cn("overflow-hidden rounded-2xl border border-line bg-white p-6 shadow-card", className)}
+      className={cn("overflow-hidden rounded-2xl border border-line bg-card p-6 shadow-card", className)}
     >
       {children}
     </motion.div>
@@ -121,7 +121,7 @@ export function Safety() {
               <CheckPair />
               <Copy title={checked.title} body={checked.body} />
             </Tile>
-            <Tile i={2} className="border-ink bg-ink text-cream lg:py-10">
+            <Tile i={2} className="theme-light border-ink bg-ink text-cream lg:py-10">
               <ShieldCheck className="size-8 text-bus-300" />
               <p className="mt-5 font-display text-[30px] font-semibold leading-[1.08] tracking-[-0.025em] md:text-[36px]">
                 {emptyVan.title}

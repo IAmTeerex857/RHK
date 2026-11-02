@@ -120,22 +120,18 @@ export const steps = [
   {
     title: "Apply online",
     body: `Fill in one application per child and pay the $${applicationFee} application fee to hold their spot.`,
-    blob: { shape: 0.11, hue: 85, expression: "thinking" },
   },
   {
     title: "We confirm your spot",
     body: "Our office checks your address is in a service area with room on a van, then sends your welcome and your app access code.",
-    blob: { shape: 0.825, hue: 230, expression: "happy" },
   },
   {
     title: "Plan your week",
     body: "Choose before school, after school or both for each weekday. Last week's plan is filled in for you.",
-    blob: { shape: 0.965, hue: 150, expression: "wink" },
   },
   {
     title: "Ride and relax",
     body: "Follow the van live and get a message when your child boards and arrives. Nobody has to text anyone.",
-    blob: { shape: 0.66, hue: 20, expression: "love" },
   },
 ] as const;
 

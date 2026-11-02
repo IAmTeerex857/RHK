@@ -10,9 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@blobatar/react": "^2.7.0",
     "@rhk/ui": "workspace:*",
-    "blobatar": "^2.7.0",
     "border-beam": "^1.4.1",
     "clsx": "^2.1.1",
     "liquid-gooey": "^0.2.2",

@@ -1,32 +1,16 @@
 "use client";
 
-/* How it works: four stops on the route, each with a Blobatar buddy (blobatar, MIT). */
+/* How it works: four stops on the route, each card led by its moment in the product. */
 
-import { Blobatar } from "@blobatar/react";
-import { happy, idle, love, thinking, wink } from "blobatar/expression";
-import "blobatar/motion.css";
-import { motion, useInView } from "motion/react";
-import { useRef } from "react";
+import { motion } from "motion/react";
 import { cn } from "@rhk/ui/lib/cn";
 import { steps } from "@/content/site";
 import { RoadPoint } from "../route/road-point";
 import { SectionHeading } from "./section-heading";
 import { stepPictures } from "./step-pictures";
 
-const expressions = { thinking, happy, wink, love } as const;
-
-const palettes = [
-  { head: "#ffc629", eye: "#1d1a2f" },
-  { head: "#4fb3f6", eye: "#1d1a2f" },
-  { head: "#3fc48a", eye: "#1d1a2f" },
-  { head: "#ff6a4d", eye: "#1d1a2f" },
-];
-
 function Step({ i }: { i: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.6 });
   const s = steps[i];
-  const p = palettes[i];
   const left = i % 2 === 0;
   const Picture = stepPictures[i];
   return (
@@ -34,33 +18,19 @@ function Step({ i }: { i: number }) {
       {/* road stop: centre column on desktop, gap between cards on phones */}
       <RoadPoint stop={i + 1} className="absolute hidden lg:block" style={{ left: "50%", top: "50%" }} />
       <motion.div
-        ref={ref}
         initial={{ opacity: 0, y: 30, rotate: left ? -1.5 : 1.5 }}
         whileInView={{ opacity: 1, y: 0, rotate: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ type: "spring", stiffness: 160, damping: 22 }}
         className={cn(
-          "relative flex flex-col gap-5 rounded-2xl border border-line bg-white p-4 shadow-card md:p-5",
+          "relative flex flex-col gap-5 rounded-2xl border border-line bg-card p-4 shadow-card md:p-5",
           left ? "lg:col-start-1" : "lg:col-start-3",
         )}
       >
         <Picture />
         <div className="px-1 pb-1">
-          <div className="flex items-center gap-2.5">
-            <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-raised">
-              <Blobatar
-                name={`rhk-step-${i}`}
-                size={30}
-                animate="always"
-                traits={{ shape: s.blob.shape }}
-                palette={{ head: p.head, eye: p.eye }}
-                expression={inView ? expressions[s.blob.expression] : idle}
-                title=""
-              />
-            </span>
-            <p className="font-display text-[13px] font-semibold text-ink-muted">Stop {i + 1}</p>
-          </div>
-          <h3 className="mt-3 font-display text-[21px] font-semibold leading-tight tracking-[-0.02em] md:text-[23px]">{s.title}</h3>
+          <p className="font-display text-[13px] font-semibold text-ink-muted">Stop {i + 1}</p>
+          <h3 className="mt-2 font-display text-[21px] font-semibold leading-tight tracking-[-0.02em] md:text-[23px]">{s.title}</h3>
           <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">{s.body}</p>
         </div>
       </motion.div>

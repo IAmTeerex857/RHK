@@ -6,7 +6,8 @@
  * the card scrolls in).
  */
 
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { motion, useInView } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { Check, Lock } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@rhk/ui/lib/cn";
@@ -59,7 +60,7 @@ function ApplyPicture() {
   const sent = state >= 200;
   return (
     <Frame innerRef={ref} className="flex flex-col gap-3 p-4">
-      <div className="rounded-xl border border-line bg-white p-4 shadow-card">
+      <div className="rounded-xl border border-line bg-card p-4 shadow-card">
         <p className="text-[12px] text-ink-muted">Child&rsquo;s full name</p>
         <div className="mt-1.5 flex h-10 items-center rounded-lg border border-line-strong px-3 text-[15px]">
           {typed}
@@ -105,7 +106,7 @@ function ConfirmPicture() {
         initial={false}
         animate={{ opacity: state >= 1 ? 1 : 0, y: state >= 1 ? 0 : 8 }}
         transition={{ type: "spring", stiffness: 300, damping: 26 }}
-        className="max-w-[88%] self-start rounded-2xl rounded-bl-md bg-white px-4 py-3 text-[14px] leading-snug shadow-card"
+        className="max-w-[88%] self-start rounded-2xl rounded-bl-md bg-card px-4 py-3 text-[14px] leading-snug shadow-card"
       >
         {state >= 2 ? (
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="block">
@@ -137,7 +138,7 @@ function PlanPicture() {
   const on = state >= 1;
   return (
     <Frame innerRef={ref} className="p-5">
-      <div className="flex items-center justify-between rounded-xl border border-line bg-white px-4 py-3 shadow-card">
+      <div className="flex items-center justify-between rounded-xl border border-line bg-card px-4 py-3 shadow-card">
         <span className="text-[14px] font-medium">Repeat last week</span>
         <span className={cn("relative h-6 w-10 rounded-full transition-colors duration-300", on ? "bg-mint" : "bg-[#d9d7e0]")}>
           <motion.span
@@ -160,7 +161,7 @@ function PlanPicture() {
                 transition={{ type: "spring", stiffness: 420, damping: 22 }}
                 className={cn(
                   "grid h-11 w-full place-items-center rounded-lg border transition-colors duration-200",
-                  filled ? "border-bus-500 bg-bus-400" : "border-line-strong bg-white",
+                  filled ? "border-bus-500 bg-bus-400" : "border-line-strong bg-card",
                 )}
               >
                 {filled ? <Check className="size-4" strokeWidth={2.5} /> : null}
@@ -183,7 +184,7 @@ const ALERTS = [
 function RidePicture() {
   const { ref, state } = usePlayOnce<number>([{ at: 300, to: 1 }, { at: 1300, to: 2 }], 0, 2);
   return (
-    <Frame innerRef={ref} className="min-h-[176px] bg-[linear-gradient(170deg,#8ea9d6,#aca3cf)] p-4">
+    <Frame innerRef={ref} className="theme-light min-h-[176px] bg-[linear-gradient(170deg,#8ea9d6,#aca3cf)] p-4">
       <div className="flex items-center justify-center gap-1.5 text-[12px] font-medium text-white/85">
         <Lock className="size-3" />
         Tuesday

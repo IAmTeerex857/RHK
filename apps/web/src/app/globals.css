@@ -22,3 +22,29 @@
 .rhk-drift-slow { animation: rhk-drift 22s ease-in-out infinite alternate-reverse; }
 .rhk-idle { animation: rhk-idle 0.35s ease-in-out infinite; }
 .rhk-float { animation: rhk-float 5s ease-in-out infinite; }
+.rhk-sun-rays { animation: rhk-spin 80s linear infinite; transform-box: fill-box; transform-origin: center; }
+
+/* theme switch: every colour changes in the same frame */
+.rhk-theme-switching *,
+.rhk-theme-switching *::before,
+.rhk-theme-switching *::after {
+  transition: none !important;
+}
+
+/* home hero scene palette: day in light, evening in dark */
+.rhk-hero {
+  --hero-ground-1: #d3f4e4;
+  --hero-ground-2: #e9f8ee;
+  --hero-hill-1: #e6ddff;
+  --hero-hill-2: #d5ecfd;
+  --hero-cloud: #ffffff;
+  --hero-cloud-shade: #e3ecfb;
+}
+.dark .rhk-hero {
+  --hero-ground-1: #1f3a30;
+  --hero-ground-2: #18261f;
+  --hero-hill-1: #3a3266;
+  --hero-hill-2: #233a58;
+  --hero-cloud: #4a4766;
+  --hero-cloud-shade: #3a3754;
+}

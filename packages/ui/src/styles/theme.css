@@ -20,6 +20,7 @@
   --color-ink-muted: #6b6780;
 
   --color-cream: #ffffff; /* page background (white, per client direction) */
+  --color-card: #ffffff; /* cards and panels on the page */
   --color-raised: #f5f5f3; /* inset panels, quiet tiles, secondary buttons */
   --color-line: rgb(29 26 47 / 0.09); /* hairline borders */
   --color-line-strong: rgb(29 26 47 / 0.16); /* inputs and secondary buttons */
@@ -35,6 +36,7 @@
   --color-lilac: #9b7bff;
   --color-lilac-soft: #e6ddff;
 
+  --color-outline: #1d1a2f; /* illustration ink: the same in both themes */
   --color-road: #2b2840;
   --color-road-line: #ffe38a;
 
@@ -54,7 +56,68 @@
   --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Dark theme: `.dark` on <html> (set before paint by the layout's script, toggled in the header). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
+  .dark {
+    color-scheme: dark;
+    --color-cream: #100e18;
+    --color-card: #1a1825;
+    --color-raised: #24212f;
+    --color-ink: #f3f1ec;
+    --color-ink-soft: #c8c4d4;
+    --color-ink-muted: #9a95ad;
+    --color-line: rgb(255 255 255 / 0.09);
+    --color-line-strong: rgb(255 255 255 / 0.17);
+    --color-paper: #2a2213;
+    --color-sand: #3a3322;
+    --color-bus-50: #231c0b;
+    --color-bus-100: #33280c;
+    --color-bus-200: #4a3a0f;
+    --color-coral-soft: #3b2420;
+    --color-sky-soft: #172a3c;
+    --color-mint-soft: #142c22;
+    --color-lilac-soft: #262041;
+    --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 16px -4px rgb(0 0 0 / 0.4);
+    --shadow-float: 0 2px 4px rgb(0 0 0 / 0.25), 0 20px 44px -12px rgb(0 0 0 / 0.55);
+  }
+
+  /*
+   * Surfaces that keep the light palette in dark mode: brand-coloured tiles and buttons (dark ink
+   * on yellow reads; light ink would not), the ink panels (they are already dark), maps and
+   * pictures of real light screens. Inside them every token is back to its light value.
+   */
+  .dark :is(.theme-light, .bg-bus-300, .bg-bus-400, .bg-bus-500, .bg-mint, .bg-coral, .bg-sky, .bg-lilac) {
+    color-scheme: light;
+    --color-cream: #ffffff;
+    --color-card: #ffffff;
+    --color-raised: #f5f5f3;
+    --color-ink: #1d1a2f;
+    --color-ink-soft: #4a4660;
+    --color-ink-muted: #6b6780;
+    --color-line: rgb(29 26 47 / 0.09);
+    --color-line-strong: rgb(29 26 47 / 0.16);
+    --color-paper: #fff4dc;
+    --color-sand: #f6e7c8;
+    --color-bus-50: #fff9e6;
+    --color-bus-100: #fff0bf;
+    --color-bus-200: #ffe38a;
+    --color-coral-soft: #ffd9cf;
+    --color-sky-soft: #d5ecfd;
+    --color-mint-soft: #d3f4e4;
+    --color-lilac-soft: #e6ddff;
+    --shadow-subtle: 0 1px 2px rgb(29 26 47 / 0.06);
+    --shadow-card: 0 1px 2px rgb(29 26 47 / 0.05), 0 6px 16px -4px rgb(29 26 47 / 0.08);
+    --shadow-float: 0 2px 4px rgb(29 26 47 / 0.04), 0 20px 44px -12px rgb(29 26 47 / 0.16);
+    color: var(--color-ink);
+  }
+  /* the ink panels keep light-on-dark text */
+  .dark :is(.theme-light.bg-ink, .theme-light .bg-ink) {
+    color: var(--color-cream);
+  }
+
   html {
     -webkit-tap-highlight-color: transparent;
     scroll-behavior: smooth;

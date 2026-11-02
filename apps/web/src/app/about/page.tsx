@@ -80,14 +80,14 @@ export default function AboutPage() {
           <SectionHeading eyebrow="What we stand for" title="Dedication, education, safety" align="center" />
           {/* three tiles, three kinds: a statement on ink, an object on white, an icon on yellow */}
           <div className="mt-12 grid gap-4 md:grid-cols-[1.25fr_1fr] lg:grid-cols-[1.3fr_1fr_1fr] lg:gap-5">
-            <div className="flex flex-col justify-between rounded-2xl border border-ink bg-ink p-7 text-cream shadow-card md:row-span-2 lg:row-span-1 md:p-9">
+            <div className="theme-light flex flex-col justify-between rounded-2xl border border-ink bg-ink p-7 text-cream shadow-card md:row-span-2 lg:row-span-1 md:p-9">
               <p className="font-display text-[15px] font-medium text-cream/60">{dedication.title}</p>
               <p className="mt-10 font-display text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] md:text-[42px]">
                 Every child known by name
               </p>
               <p className="mt-4 max-w-sm text-[16px] leading-relaxed text-cream/70">{dedication.body}</p>
             </div>
-            <div className="flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+            <div className="flex flex-col overflow-hidden rounded-2xl border border-line bg-card shadow-card">
               <div className="grid h-[150px] place-items-end bg-mint-soft px-6">
                 <svg viewBox="-160 -150 320 160" className="h-[130px] w-auto" aria-hidden>
                   <School x={0} y={0} s={0.9} />
@@ -99,7 +99,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="flex flex-col rounded-2xl border border-bus-500 bg-bus-400 p-6 shadow-card">
-              <span className="grid size-14 place-items-center rounded-2xl bg-white/60">
+              <span className="grid size-14 place-items-center rounded-2xl bg-card/60">
                 <ShieldCheck className="size-7" />
               </span>
               <h3 className="mt-auto pt-10 font-display text-[22px] font-semibold tracking-[-0.02em]">{safetyValue.title}</h3>
@@ -114,7 +114,7 @@ export default function AboutPage() {
           <div className="rounded-3xl border border-line bg-raised p-6 shadow-float md:p-12">
             <SectionHeading eyebrow="Our promise" title="Here's how we keep every ride safe" />
             {/* one panel ruled into four, no gaps */}
-            <div className="mt-10 grid overflow-hidden rounded-2xl border border-line bg-white sm:grid-cols-2">
+            <div className="mt-10 grid overflow-hidden rounded-2xl border border-line bg-card sm:grid-cols-2">
               {safety.map((s, i) => (
                 <div
                   key={s.title}

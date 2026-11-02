@@ -33,7 +33,7 @@ export default function ApplicationPage() {
       >
         <ul className="flex flex-wrap gap-2.5">
           {facts.map(({ icon: Icon, text }) => (
-            <li key={text} className="inline-flex items-center gap-2 rounded-lg border border-line bg-white px-3.5 py-2 text-[14px] font-semibold shadow-subtle">
+            <li key={text} className="inline-flex items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2 text-[14px] font-semibold shadow-subtle">
               <Icon className="size-4 text-ink-muted" />
               {text}
             </li>
@@ -43,7 +43,7 @@ export default function ApplicationPage() {
 
       <section className="relative z-[2] pb-20 md:pb-28">
         <div className="container-page grid gap-8 lg:grid-cols-[1fr_300px]">
-          <ClientOnly fallback={<div className="h-[640px] rounded-3xl border border-line bg-white shadow-float" aria-busy="true" />}>
+          <ClientOnly fallback={<div className="h-[640px] rounded-3xl border border-line bg-card shadow-float" aria-busy="true" />}>
             <ApplicationForm />
           </ClientOnly>
           <aside className="flex flex-col gap-4 lg:sticky lg:top-28 lg:self-start">
@@ -55,7 +55,7 @@ export default function ApplicationPage() {
                 <li><strong className="text-ink">3.</strong> You plan your first week in the app.</li>
               </ol>
             </div>
-            <div className="rounded-2xl border border-line bg-white p-5 shadow-card">
+            <div className="rounded-2xl border border-line bg-card p-5 shadow-card">
               <h2 className="font-display text-[18px] font-semibold">Rather talk it through?</h2>
               <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">Call or text and we&rsquo;ll help you fill it in.</p>
               <a href={contact.phoneHref} className="mt-4 inline-flex items-center gap-2 font-display text-[17px] font-semibold text-ink hover:text-coral">

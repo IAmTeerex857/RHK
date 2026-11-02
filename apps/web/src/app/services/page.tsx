@@ -44,7 +44,7 @@ export default function ServicesPage() {
             <li key={s.slug}>
               <a
                 href={`#${s.slug}`}
-                className="inline-flex rounded-lg border border-line bg-white px-3.5 py-1.5 text-[14px] font-semibold text-ink-soft transition-colors hover:border-ink hover:text-ink"
+                className="inline-flex rounded-lg border border-line bg-card px-3.5 py-1.5 text-[14px] font-semibold text-ink-soft transition-colors hover:border-ink hover:text-ink"
               >
                 {s.title}
               </a>
@@ -60,7 +60,7 @@ export default function ServicesPage() {
             id={s.slug}
             className={cn(
               "relative grid scroll-mt-28 gap-8 overflow-hidden rounded-3xl border border-line p-6 shadow-card md:grid-cols-[1.4fr_1fr] md:p-10",
-              "bg-white",
+              "bg-card",
             )}
           >
             <div>

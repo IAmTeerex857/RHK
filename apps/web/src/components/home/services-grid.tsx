@@ -33,7 +33,7 @@ const PLAN = {
 function WeekPlanner() {
   const rides = Object.values(PLAN).flat().filter(Boolean).length;
   return (
-    <div className="flex h-full w-full flex-col rounded-2xl border border-line bg-white p-5 shadow-card md:p-6">
+    <div className="flex h-full w-full flex-col rounded-2xl border border-line bg-card p-5 shadow-card md:p-6">
       <div className="flex items-baseline justify-between gap-3">
         <span className="font-display text-[16px] font-semibold">This week</span>
         <span className="text-[14px] tabular-nums text-ink-muted">{rides} rides</span>
@@ -57,7 +57,7 @@ function WeekPlanner() {
                 transition={{ delay: 0.25 + i * 0.06, type: "spring", stiffness: 320, damping: 20 }}
                 className={cn(
                   "grid aspect-square w-full max-w-12 place-items-center justify-self-center rounded-xl border",
-                  on ? "border-bus-500 bg-bus-400 text-ink" : "border-line-strong bg-white",
+                  on ? "border-bus-500 bg-bus-400 text-ink" : "border-line-strong bg-card",
                 )}
               >
                 {on ? <Check className="size-4" strokeWidth={2.5} /> : null}
@@ -133,8 +133,8 @@ export function ServicesGrid() {
                   href={`/services#${s.slug}`}
                   className={cn(
                     "group relative flex h-full flex-col overflow-hidden rounded-2xl border p-5 shadow-card transition-shadow duration-200 hover:shadow-float md:p-6",
-                    tone === "white" && "border-line bg-white",
-                    tone === "ink" && "border-ink bg-ink text-cream",
+                    tone === "white" && "border-line bg-card",
+                    tone === "ink" && "theme-light border-ink bg-ink text-cream",
                     tone === "yellow" && "border-bus-500 bg-bus-400",
                     wide && "sm:flex-row sm:items-center sm:gap-6",
                   )}
@@ -142,7 +142,7 @@ export function ServicesGrid() {
                   <span
                     className={cn(
                       "absolute right-4 top-4 grid size-9 place-items-center rounded-full border transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
-                      tone === "ink" ? "border-white/15 text-cream" : "border-line bg-white",
+                      tone === "ink" ? "border-white/15 text-cream" : "border-line bg-card",
                     )}
                   >
                     <ArrowUpRight className="size-4" />
@@ -153,8 +153,8 @@ export function ServicesGrid() {
                       <ServiceIcon
                         icon={s.icon}
                         className={cn(
-                          tone === "ink" && "bg-white/10 text-bus-300",
-                          tone === "yellow" && "bg-white/50 text-ink",
+                          tone === "ink" && "bg-card/10 text-bus-300",
+                          tone === "yellow" && "bg-card/50 text-ink",
                         )}
                       />
                     )}

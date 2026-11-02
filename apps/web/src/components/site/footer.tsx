@@ -3,11 +3,6 @@ import { areas, contact, nav, services } from "@/content/site";
 import { LinkButton } from "./link-button";
 import { Logo, LogoMark } from "./logo";
 
-async function Year() {
-  "use cache";
-  return <>{new Date().getFullYear()}</>;
-}
-
 /* -------------------------------------------------------------------------------------------- */
 
 const colHead = "font-display text-[16px] font-semibold text-cream";
@@ -16,7 +11,7 @@ const colLink = "text-[15px] text-cream/55 transition-colors hover:text-cream";
 export function Footer() {
   const company = [{ label: "Home", href: "/" }, ...nav, { label: "Apply", href: "/application" }];
   return (
-    <footer className="relative z-[2] overflow-hidden bg-ink text-cream">
+    <footer className="theme-light relative z-[2] overflow-hidden bg-ink text-cream">
       {/* call to action */}
       <div className="relative">
         <div className="container-page relative pb-20 pt-24 md:pb-28 md:pt-32">
@@ -92,12 +87,9 @@ export function Footer() {
         </nav>
       </div>
 
-      {/* copyright and the big wordmark */}
+      {/* the big wordmark */}
       <div className="relative pt-6">
-        <p className="relative z-[1] text-center text-[15px] leading-[1.7] text-cream/50">
-          © <Year />
-        </p>
-        <div aria-hidden className="relative mt-4 h-[11vw] max-h-[170px] overflow-hidden">
+        <div aria-hidden className="relative h-[11vw] max-h-[170px] overflow-hidden">
           <p className="absolute inset-x-0 top-0 whitespace-nowrap text-center font-display text-[13vw] font-normal leading-[0.85] tracking-[-0.045em] text-white/[0.07] xl:text-[200px]">
             Rush Hour Kids
           </p>

@@ -6,7 +6,7 @@ export function StatsBand() {
   return (
     <section className="relative">
       <div className="container-page relative">
-        <div data-road-clear className="relative z-[1] grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-ink text-cream shadow-float md:grid-cols-4">
+        <div data-road-clear className="theme-light relative z-[1] grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-ink text-cream shadow-float md:grid-cols-4">
           {stats.map((s) => (
             <div
               key={s.label}

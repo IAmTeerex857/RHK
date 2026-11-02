@@ -31,7 +31,7 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={submit} noValidate className="rounded-3xl border border-line bg-white p-6 shadow-float md:p-9">
+    <form onSubmit={submit} noValidate className="rounded-3xl border border-line bg-card p-6 shadow-float md:p-9">
       <h2 className="font-display text-[26px] font-semibold tracking-[-0.03em]">Send us a message</h2>
       <p className="mt-1.5 text-[15px] text-ink-soft">This opens your email app with your message ready to send.</p>
       <fieldset className="mt-6">
@@ -46,7 +46,7 @@ export function ContactForm() {
               className={
                 f.topic === t
                   ? "rounded-lg border border-line bg-bus-400 px-3.5 py-1.5 text-[14px] font-semibold shadow-subtle"
-                  : "rounded-lg border border-line bg-white px-3.5 py-1.5 text-[14px] font-semibold text-ink-soft hover:border-ink/40"
+                  : "rounded-lg border border-line bg-card px-3.5 py-1.5 text-[14px] font-semibold text-ink-soft hover:border-ink/40"
               }
             >
               {t}

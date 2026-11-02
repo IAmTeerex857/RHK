@@ -1,7 +1,8 @@
 "use client";
 
 import { LinkButton } from "@/components/site/link-button";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useRef } from "react";
 import { Phone, ShieldCheck } from "lucide-react";
 import { Button } from "@rhk/ui/components/button";
@@ -13,14 +14,13 @@ const words = ["Safe", "rides", "to", "school", "and", "back,"];
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const rise = (i: number) =>
-    reduce
-      ? {}
-      : {
-          initial: { opacity: 0, y: 24, filter: "blur(6px)" },
-          animate: { opacity: 1, y: 0, filter: "blur(0px)" },
-          transition: { delay: 0.08 + i * 0.06, type: "spring" as const, stiffness: 220, damping: 26 },
-        };
+  // Always the same props, so the server HTML and the first client render agree; with reduced
+  // motion the words simply appear.
+  const rise = (i: number) => ({
+    initial: { opacity: 0, y: 24, filter: "blur(6px)" },
+    animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+    transition: reduce ? { duration: 0 } : { delay: 0.08 + i * 0.06, type: "spring" as const, stiffness: 220, damping: 26 },
+  });
 
   return (
     <section ref={ref} className="relative overflow-hidden pt-[108px] md:pt-[120px]">

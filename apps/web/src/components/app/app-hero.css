@@ -1,0 +1,240 @@
+/* Our App hero (app-hero.tsx). Island units are screen points; the Phone scales its screen. */
+.rhk-apphero {
+  --rhk-wall: radial-gradient(90% 45% at 72% 0%, rgba(255, 214, 120, 0.28), rgba(255, 214, 120, 0) 70%),
+    linear-gradient(180deg, #2a2756 0%, #4b3f8f 30%, #8a64a8 55%, #d98b8a 78%, #ffbe6b 100%);
+
+  .ss-stage {
+    background: transparent;
+    overflow: hidden;
+    --ss-font: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /* the phone runs off the foot of the stage and fades into the page there */
+  .rhk-apphero__device {
+    position: absolute;
+    bottom: 0;
+    --ss-fade: 120px;
+    /* room for the phone's shadow inside the mask, so the shadow isn't cut into a box */
+    padding: 0 56px;
+    margin: 0 -56px;
+  }
+
+  .rhk-apphero__lock .ss-lock__date,
+  .rhk-apphero__lock .ss-lock__clock {
+    transition: opacity 0.18s ease, filter 0.18s ease;
+  }
+  .rhk-apphero__lock[data-obscured] .ss-lock__date,
+  .rhk-apphero__lock[data-obscured] .ss-lock__clock {
+    opacity: 0;
+    filter: blur(6px);
+  }
+  /* the alert sits where the clock was, under the open activity */
+  .rhk-apphero__lock .ss-lock__stack[data-at="top"] {
+    top: 206px;
+  }
+
+  .rhk-apphero__alert {
+    opacity: 0;
+    translate: 0 -14px;
+    scale: 0.96;
+    transition: opacity 0.3s ease, translate 0.5s cubic-bezier(0.25, 1, 0.5, 1), scale 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .rhk-apphero__alert[data-on] {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+  .rhk-apphero__alert .ss-notification__icon {
+    overflow: hidden;
+    border-radius: 9px;
+  }
+
+  .rhk-apphero__hit {
+    position: absolute;
+    z-index: 7;
+  }
+
+  /* ---- the island ---- */
+  .rhk-di {
+    --di-tint: #ffc629;
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+    transform-origin: 201px 33px;
+    will-change: transform, scale;
+    transition: scale 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .rhk-di[data-press] {
+    scale: 0.965;
+  }
+
+  .rhk-di__shape {
+    position: absolute;
+    background: #000;
+    will-change: left, width, height;
+    transition-property: left, top, width, height, border-radius;
+  }
+
+  .rhk-di__item {
+    position: absolute;
+    color: var(--di-tint);
+    opacity: 0;
+    scale: 0.88;
+    filter: blur(8px);
+    will-change: transform, filter, opacity;
+    transition: opacity 0.12s ease-in, scale 0.14s ease-in, filter 0.12s ease-in;
+  }
+  .rhk-di__item[data-on] {
+    opacity: 1;
+    scale: 1;
+    filter: blur(0);
+    transition: opacity 0.24s ease-out 0.16s, scale 0.4s cubic-bezier(0.25, 1, 0.5, 1) 0.16s, filter 0.26s ease-out 0.16s;
+  }
+  .rhk-di__trail[data-on],
+  .rhk-di__body[data-on] {
+    transition-delay: 0.2s;
+  }
+
+  .rhk-di__lead {
+    display: grid;
+    width: 22px;
+    height: 22px;
+  }
+  .rhk-di__trail {
+    display: flex;
+    align-items: center;
+    height: 37px;
+    font-size: 15.5px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rhk-di__body {
+    display: flex;
+    flex-direction: column;
+    padding: 22px 26px 20px 28px;
+    color: #fff;
+    scale: 0.94;
+    transform-origin: 50% 20%;
+  }
+  .rhk-di__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .rhk-di__words {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .rhk-di__label {
+    white-space: nowrap;
+    font-size: 17px;
+    font-weight: 500;
+    color: #9d9fa6;
+  }
+  .rhk-di__eta {
+    white-space: nowrap;
+    font-size: 38px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .rhk-di__badge {
+    display: grid;
+    place-items: center;
+    width: 54px;
+    height: 54px;
+    flex: none;
+    border-radius: 50%;
+    background: #ffc629;
+    color: #1d1a2f;
+    transition: background-color 0.3s ease;
+  }
+  .rhk-di__badge[data-aboard] {
+    background: #3fc48a;
+  }
+  .rhk-di__glyph {
+    display: grid;
+    place-items: center;
+  }
+
+  /* the route: a dim track, the driven part in yellow, the bus riding its head, home at the end */
+  .rhk-di__track {
+    position: relative;
+    height: 6px;
+    margin: 16px 0 0;
+    border-radius: 3px;
+    background: #26282b;
+  }
+  .rhk-di__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(var(--p) * 100%);
+    border-radius: inherit;
+    background: #ffc629;
+    transition: width 1.4s cubic-bezier(0.45, 0, 0.1, 1);
+  }
+  .rhk-di__rider {
+    position: absolute;
+    top: 50%;
+    left: calc(var(--p) * (100% - 7px));
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #ffc629;
+    color: #1d1a2f;
+    box-shadow: 0 0 0 3px #000;
+    translate: -50% -50%;
+    will-change: transform;
+    transition: left 1.4s cubic-bezier(0.45, 0, 0.1, 1);
+  }
+  .rhk-di__end {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #000;
+    box-shadow: inset 0 0 0 3px #ffc629;
+    translate: 0 -50%;
+  }
+  .rhk-di__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #9d9fa6;
+  }
+  .rhk-di__van {
+    padding: 3px 8px;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1.5px #44464b;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rhk-di__item,
+    .rhk-di__item[data-on] {
+      filter: none;
+      scale: 1;
+    }
+  }
+
+  .ss-phone__signal {
+    transition: opacity 0.2s ease;
+  }
+  .ss-phone__screen:has(.rhk-di) .ss-phone__signal {
+    opacity: 0;
+  }
+}

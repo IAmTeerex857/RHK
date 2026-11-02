@@ -4,7 +4,7 @@ import { CalendarCheck, KeyRound, Smartphone } from "lucide-react";
 import { RideTracker } from "@/components/home/ride-tracker";
 import { SectionHeading } from "@/components/home/section-heading";
 import { FeaturesBento } from "@/components/app/features-bento";
-import { AppArt } from "@/components/illustrations/hero-art";
+import { AppHero } from "@/components/app/app-hero";
 import { PageHero } from "@/components/site/page-hero";
 
 export const metadata: Metadata = {
@@ -37,7 +37,7 @@ export default function OurAppPage() {
           </>
         }
         body="Plan rides, follow the van live, get alerts and pay, all in one place. Only approved families and staff can get in, with a personal access code."
-        art={<AppArt />}
+        art={<AppHero />}
       >
         <LinkButton href="/application" size="lg" arrow>
           Apply to get access
@@ -62,7 +62,7 @@ export default function OurAppPage() {
               }
               body="Nobody has to text anyone. Here's what you see, and what our office sees, as the driver works the route."
             />
-            <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+            <div className="mt-8 overflow-hidden rounded-2xl border border-line bg-card shadow-card">
               <div className="grid grid-cols-3 border-b border-line bg-raised font-display text-[13px] font-semibold">
                 <span className="p-3 md:p-4">The driver</span>
                 <span className="border-l border-line p-3 md:p-4">You see</span>
@@ -86,7 +86,7 @@ export default function OurAppPage() {
           <SectionHeading eyebrow="Getting the app" title="Three steps after you're approved" align="center" />
           <ol className="mt-12 grid gap-5 md:grid-cols-3">
             {getIt.map(({ icon: Icon, title, body }, i) => (
-              <li key={title} className="relative rounded-2xl border border-line bg-white p-6 shadow-card">
+              <li key={title} className="relative rounded-2xl border border-line bg-card p-6 shadow-card">
                 <span className="absolute -top-4 left-6 grid size-9 place-items-center rounded-full bg-bus-400 font-display text-[15px] font-semibold">
                   {i + 1}
                 </span>

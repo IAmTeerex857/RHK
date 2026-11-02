@@ -22,7 +22,7 @@ function Tile({ children, className, i }: { children: ReactNode; className?: str
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.25 }}
       transition={{ delay: i * 0.08, type: "spring", stiffness: 180, damping: 22 }}
-      className={cn("flex flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-card", className)}
+      className={cn("flex flex-col overflow-hidden rounded-2xl border border-line bg-card shadow-card", className)}
     >
       {children}
     </motion.div>
@@ -42,7 +42,7 @@ const ROUTE = "M30 250 C 90 240, 120 190, 190 186 S 300 150, 330 96 S 450 60, 56
 
 function TrackingMap() {
   return (
-    <div className="relative min-h-[260px] flex-1 overflow-hidden bg-[#dff3e8]">
+    <div className="theme-light relative min-h-[260px] flex-1 overflow-hidden bg-[#dff3e8]">
       <svg viewBox="0 0 600 300" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 size-full" aria-hidden>
         {[
           [20, 20, 140, 90],
@@ -71,7 +71,7 @@ function TrackingMap() {
         <circle cx="30" cy="250" r="12" fill="#9b7bff" stroke="#1d1a2f" strokeWidth="3" />
         <circle cx="560" cy="70" r="16" fill="#3fc48a" stroke="#1d1a2f" strokeWidth="3" />
       </svg>
-      <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-xl border border-line bg-white px-3 py-2 shadow-card">
+      <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-xl border border-line bg-card px-3 py-2 shadow-card">
         <span className="size-2.5 rounded-full bg-mint" />
         <span className="text-[14px] font-medium">Arrives 7:42</span>
       </div>
@@ -104,7 +104,7 @@ function DayChips() {
           key={d}
           className={cn(
             "flex-1 rounded-lg border py-2 text-center text-[13px] font-medium",
-            on[i] ? "border-bus-500 bg-bus-400" : "border-line-strong bg-white text-ink-muted",
+            on[i] ? "border-bus-500 bg-bus-400" : "border-line-strong bg-card text-ink-muted",
           )}
         >
           {d}
@@ -142,7 +142,7 @@ function AbsenceSwitch() {
 function Receipt() {
   return (
     <div className="relative mx-6 mt-6 h-[132px]">
-      <div className="absolute inset-x-4 top-0 h-[120px] rotate-[-2deg] rounded-xl border border-line bg-white p-4 shadow-card">
+      <div className="absolute inset-x-4 top-0 h-[120px] rotate-[-2deg] rounded-xl border border-line bg-card p-4 shadow-card">
         <div className="flex items-baseline justify-between">
           <span className="text-[13px] text-ink-muted">November</span>
           <span className="font-display text-[22px] font-semibold tabular-nums">Paid</span>

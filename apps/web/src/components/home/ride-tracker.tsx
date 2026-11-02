@@ -6,16 +6,17 @@
  * the active row shows a sweeping ring, then pops to a check and a pill.
  */
 
-import { AnimatePresence, motion, useInView, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useInView } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@rhk/ui/lib/cn";
 import { rideAlerts } from "@/content/site";
 
 const tones = {
-  sky: "bg-sky-soft text-[#1f6fa8]",
-  bus: "bg-bus-100 text-bus-700",
-  mint: "bg-mint-soft text-[#1d7a52]",
-  lilac: "bg-lilac-soft text-[#5b3fc4]",
+  sky: "bg-sky-soft text-[#1f6fa8] dark:text-[#8fcdf8]",
+  bus: "bg-bus-100 text-bus-700 dark:text-bus-300",
+  mint: "bg-mint-soft text-[#1d7a52] dark:text-[#7fdcb2]",
+  lilac: "bg-lilac-soft text-[#5b3fc4] dark:text-[#bba6ff]",
 } as const;
 
 function Ring({ n }: { n: number }) {
@@ -52,7 +53,8 @@ export function RideTracker({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.4 });
   const reduce = useReducedMotion();
-  const [step, setStep] = useState(reduce ? rideAlerts.length : 0);
+  const [played, setStep] = useState(0);
+  const step = reduce ? rideAlerts.length : played;
 
   useEffect(() => {
     if (!inView || reduce) return;
@@ -67,7 +69,7 @@ export function RideTracker({ className }: { className?: string }) {
   const progress = done / rideAlerts.length;
 
   return (
-    <div ref={ref} className={cn("rounded-2xl border border-line bg-white p-4 shadow-float md:p-5", className)}>
+    <div ref={ref} className={cn("rounded-2xl border border-line bg-card p-4 shadow-float md:p-5", className)}>
       <div className="flex items-center justify-between gap-3 px-1 pb-4">
         <div>
           <p className="font-display text-[13px] font-semibold text-ink-muted">Today · Morning ride</p>
@@ -100,7 +102,7 @@ export function RideTracker({ className }: { className?: string }) {
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 className={cn(
                   "flex items-center gap-3 rounded-2xl border px-3 py-2.5",
-                  isDone ? "border-transparent bg-raised" : "border-line-strong bg-white shadow-subtle",
+                  isDone ? "border-transparent bg-raised" : "border-line-strong bg-card shadow-subtle",
                 )}
               >
                 {isDone ? <Check /> : <Ring n={i + 1} />}

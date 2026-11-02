@@ -28,7 +28,7 @@ export function Accordion({
           <div
             key={item.q}
             className={cn(
-              "rounded-2xl border border-line bg-white transition-shadow duration-200",
+              "rounded-2xl border border-line bg-card transition-shadow duration-200",
               isOpen ? "shadow-card" : "shadow-subtle",
             )}
           >

@@ -1,14 +1,7 @@
 "use client";
 
-import {
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useSpring,
-  useTransform,
-  type MotionValue,
-} from "motion/react";
+import { motion, useMotionValue, useScroll, useSpring, useTransform, type MotionValue } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useEffect, useRef } from "react";
 import { BusFront } from "../illustrations/bus-front";
 import { Cloud, House, PineTree, RoundTree, School, StopSign } from "../illustrations/scene-parts";
@@ -28,7 +21,7 @@ export const ROAD_EXIT_W = 132;
 
 type P = [number, number];
 const segs: [P, P, P, P][] = [
-  [[400, 292], [372, 360], [548, 400], [512, 486]],
+  [[400, 292], [400, 352], [540, 392], [512, 486]],
   [[512, 486], [484, 570], [ROAD_EXIT.x, 650], [ROAD_EXIT.x, ROAD_EXIT.y]],
 ];
 
@@ -124,6 +117,63 @@ const [BUS_X, BUS_Y] = centre(BUS_S);
 const BUS_W = widthAt(BUS_S) * 1.18;
 
 /* -------------------------------------------------------------------------------------------- */
+
+/** The sun: a pale halo, slowly turning rays, an ink-outlined disc with a soft highlight. */
+function Sun({ x, y }: { x: number; y: number }) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <circle r="78" fill="#fff0bf" opacity="0.7" />
+      <g className="rhk-sun-rays">
+        {Array.from({ length: 12 }, (_, i) => {
+          const a = (i * Math.PI) / 6;
+          const r0 = 56;
+          const r1 = i % 2 ? 66 : 70;
+          return (
+            <path
+              key={i}
+              d={`M${(Math.cos(a) * r0).toFixed(1)} ${(Math.sin(a) * r0).toFixed(1)} L${(Math.cos(a) * r1).toFixed(1)} ${(Math.sin(a) * r1).toFixed(1)}`}
+              stroke="#ffc629"
+              strokeWidth="7"
+              strokeLinecap="round"
+            />
+          );
+        })}
+      </g>
+      <circle r="44" fill="#ffd54f" stroke="#1d1a2f" strokeWidth="3" />
+      <circle r="44" fill="none" stroke="#ffc629" strokeWidth="8" opacity="0.6" transform="scale(0.86)" />
+      <path d="M-28 -12 A30 30 0 0 1 -10 -29" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" opacity="0.75" />
+    </g>
+  );
+}
+
+/** Dark theme: a full moon with a soft glow, and a few stars around it. */
+const STARS: [number, number, number][] = [
+  [520, 60, 1], [740, 52, 0.8], [770, 200, 0.7], [380, 40, 0.9], [230, 70, 0.7], [560, 190, 0.6], [40, 60, 0.8],
+];
+function Moon({ x, y }: { x: number; y: number }) {
+  return (
+    <g>
+      {STARS.map(([sx, sy, k], i) => (
+        <path
+          key={i}
+          transform={`translate(${sx} ${sy}) scale(${k})`}
+          d="M0 -9 C1 -2 2 -1 9 0 C2 1 1 2 0 9 C-1 2 -2 1 -9 0 C-2 -1 -1 -2 0 -9 Z"
+          fill="#ffe38a"
+          opacity="0.85"
+        />
+      ))}
+      <g transform={`translate(${x} ${y})`}>
+        <circle r="78" fill="#ffe38a" opacity="0.08" />
+        <circle r="60" fill="#ffe38a" opacity="0.08" />
+        <circle r="44" fill="#fff6d6" stroke="#1d1a2f" strokeWidth="3" />
+        <circle cx="-14" cy="-10" r="9" fill="#f1e3b4" />
+        <circle cx="14" cy="12" r="12" fill="#f1e3b4" />
+        <circle cx="16" cy="-18" r="5" fill="#f1e3b4" />
+        <circle cx="-16" cy="18" r="4" fill="#f1e3b4" />
+      </g>
+    </g>
+  );
+}
 
 function useParallax(px: MotionValue<number>, py: MotionValue<number>, depth: number) {
   const x = useTransform(px, (v) => v * depth);
@@ -227,15 +277,15 @@ export function HeroScene({ heroRef }: { heroRef: React.RefObject<HTMLElement | 
       <svg
         viewBox={`0 0 ${VB_W} ${VB_H}`}
         ref={svgRef}
-        className="absolute inset-0 size-full overflow-visible"
+        className="rhk-hero absolute inset-0 size-full overflow-visible"
         role="img"
         aria-label="A yellow Rush Hour Kids school bus driving down a winding road from the school, past houses and a bus stop."
       >
         <defs>
           <linearGradient id="hero-ground" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#d3f4e4" />
-            <stop offset="0.72" stopColor="#e9f8ee" />
-            <stop offset="1" stopColor="#ffffff" />
+            <stop offset="0" style={{ stopColor: "var(--hero-ground-1)" }} />
+            <stop offset="0.72" style={{ stopColor: "var(--hero-ground-2)" }} />
+            <stop offset="1" style={{ stopColor: "var(--color-cream)" }} />
           </linearGradient>
           <linearGradient id="hero-fade-x" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2={VB_W} y2="0">
             <stop offset="0" stopColor="#000" />
@@ -256,17 +306,34 @@ export function HeroScene({ heroRef }: { heroRef: React.RefObject<HTMLElement | 
         <g mask="url(#hero-fade)">
         {/* far: sun, clouds, hills */}
         <motion.g style={{ x: far.x, y: far.y, translateY: farScroll }}>
-          <circle cx="640" cy="120" r="64" fill="#ffe38a" />
-          <circle cx="640" cy="120" r="46" fill="#ffd54f" />
+          <g className="dark:hidden">
+            <Sun x={640} y={124} />
+          </g>
+          <g className="hidden dark:inline">
+            <Moon x={640} y={124} />
+          </g>
           <g className="rhk-drift">
-            <Cloud x={110} y={70} s={1} />
-            <Cloud x={500} y={40} s={0.7} />
+            <Cloud x={70} y={118} s={0.9} />
+            <Cloud x={470} y={78} s={0.62} />
           </g>
           <g className="rhk-drift-slow">
-            <Cloud x={690} y={210} s={0.8} />
+            <Cloud x={262} y={214} s={0.5} />
           </g>
-          <path d="M-60 330 Q120 210 300 290 T640 250 T880 300 V420 H-60 Z" fill="#e6ddff" stroke="#1d1a2f" strokeWidth="3" />
-          <path d="M-60 360 Q160 280 380 330 T880 320 V460 H-60 Z" fill="#d5ecfd" stroke="#1d1a2f" strokeWidth="3" />
+          {/* rolling hills; their feet sit under the ground, so only soft tops show */}
+          <path
+            d="M-90 300 C-30 214 130 196 230 236 S 350 280 400 286 V420 H-90 Z"
+            style={{ fill: "var(--hero-hill-1)" }}
+            stroke="#1d1a2f"
+            strokeWidth="3"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M430 286 C520 282 580 214 690 208 S 850 240 900 262 V420 H430 Z"
+            style={{ fill: "var(--hero-hill-2)" }}
+            stroke="#1d1a2f"
+            strokeWidth="3"
+            strokeLinejoin="round"
+          />
         </motion.g>
 
         {/* ground */}

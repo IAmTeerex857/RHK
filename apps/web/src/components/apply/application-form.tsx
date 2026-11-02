@@ -8,7 +8,8 @@
  */
 
 import { LinkButton } from "@/components/site/link-button";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { ArrowLeft, CalendarDays, CreditCard, Lock, Mail, MapPin, Pencil, Phone, ShieldCheck, User } from "lucide-react";
 import { BorderBeam } from "border-beam";
@@ -134,7 +135,7 @@ function Stepper({ step, onJump, maxReached }: { step: number; onJump: (i: numbe
               <motion.span
                 className={cn(
                   "grid size-9 place-items-center rounded-full border font-display text-[14px] font-semibold",
-                  active ? "border-bus-500 bg-bus-400" : done ? "border-ink bg-ink text-cream" : "border-ink/20 bg-white text-ink-muted",
+                  active ? "border-bus-500 bg-bus-400" : done ? "border-ink bg-ink text-cream" : "border-ink/20 bg-card text-ink-muted",
                 )}
                 animate={{ scale: active ? 1.08 : 1 }}
               >
@@ -323,7 +324,7 @@ export function ApplicationForm() {
         <motion.div
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="relative overflow-hidden rounded-3xl border border-line bg-white p-7 text-center shadow-float md:p-12"
+          className="relative overflow-hidden rounded-3xl border border-line bg-card p-7 text-center shadow-float md:p-12"
         >
           <Confetti />
           <div className="relative mx-auto grid size-20 place-items-center rounded-full border border-line bg-mint shadow-card">
@@ -370,7 +371,7 @@ export function ApplicationForm() {
 
   return (
     <div ref={topRef} className="scroll-mt-28">
-      <div className="rounded-3xl border border-line bg-white shadow-float">
+      <div className="rounded-3xl border border-line bg-card shadow-float">
         <div className="border-b border-line px-5 pb-5 pt-6 md:px-10 md:pt-8">
           <Stepper step={step} onJump={go} maxReached={maxReached} />
           {restored ? (
@@ -588,7 +589,7 @@ export function ApplicationForm() {
         </div>
 
         {/* actions */}
-        <div className="sticky bottom-0 z-10 flex items-center justify-between gap-3 rounded-b-3xl border-t border-line bg-white/95 px-5 py-4 backdrop-blur md:static md:px-10 md:py-6">
+        <div className="sticky bottom-0 z-10 flex items-center justify-between gap-3 rounded-b-3xl border-t border-line bg-card/95 px-5 py-4 backdrop-blur md:static md:px-10 md:py-6">
           {step > 0 ? (
             <Button variant="ghost" onClick={() => go(step - 1)} icon={<ArrowLeft className="size-[18px]" />}>
               Back

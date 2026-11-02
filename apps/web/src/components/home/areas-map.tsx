@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { areas } from "@/content/site";
 
 /*
@@ -49,7 +50,7 @@ const tree = (x: number, y: number, k = 1) => (
 export function AreasMap({ className = "" }: { className?: string }) {
   const reduce = useReducedMotion();
   return (
-    <div className={`relative overflow-hidden rounded-3xl border border-line bg-[#d5ecfd] shadow-float ${className}`}>
+    <div className={`theme-light relative overflow-hidden rounded-3xl border border-line bg-[#d5ecfd] shadow-float ${className}`}>
       <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label="Map of the five areas we drive: Gwinnett County, Fulton County, Decatur, Stone Mountain and Douglas County">
         {/* land */}
         <path d="M18 34 Q24 14 52 14 H548 Q586 14 586 50 V372 Q586 406 550 406 H48 Q16 406 16 374 Z" fill="#eaf6ee" stroke={INK} strokeWidth="2.5" />
@@ -113,7 +114,7 @@ export function AreasMap({ className = "" }: { className?: string }) {
             transition={{ delay: 0.15 + i * 0.09, type: "spring", stiffness: 300, damping: 20 }}
           >
             <div className="flex flex-col items-center">
-              <span className="whitespace-nowrap rounded-md border border-line bg-white px-1.5 py-0.5 font-display text-[10px] font-semibold shadow-subtle sm:rounded-lg sm:px-2.5 sm:py-1 sm:text-[12px] md:text-[13px]">
+              <span className="whitespace-nowrap rounded-md border border-line bg-card px-1.5 py-0.5 font-display text-[10px] font-semibold shadow-subtle sm:rounded-lg sm:px-2.5 sm:py-1 sm:text-[12px] md:text-[13px]">
                 {a.name}
               </span>
               <svg viewBox="0 0 24 30" className="mt-0.5 h-[18px] w-[15px] sm:mt-1 sm:h-[26px] sm:w-[21px]" aria-hidden>

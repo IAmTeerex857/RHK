@@ -34,7 +34,7 @@ function useShake<T extends HTMLElement>(error?: string) {
 }
 
 const shell =
-  "group relative rounded-xl border bg-white transition-[border-color,box-shadow] duration-200 " +
+  "group relative rounded-xl border bg-card transition-[border-color,box-shadow] duration-200 " +
   "focus-within:border-ink/40 focus-within:shadow-[0_0_0_4px_var(--color-bus-100)]";
 
 function ErrorText({ id, error }: { id: string; error?: string }) {
@@ -194,7 +194,7 @@ export function Checkbox({ checked, onChange, label, description, className, err
           aria-hidden
           className={cn(
             "absolute inset-0 rounded-lg border transition-colors peer-focus-visible:shadow-[0_0_0_4px_var(--color-sky-soft)]",
-            checked ? "border-bus-500 bg-bus-400" : error ? "border-coral bg-white" : "border-line-strong bg-white group-hover:border-ink/60",
+            checked ? "border-bus-500 bg-bus-400" : error ? "border-coral bg-card" : "border-line-strong bg-card group-hover:border-ink/60",
           )}
           animate={{ scale: checked ? [1, 0.88, 1] : 1 }}
           transition={{ duration: 0.25 }}
@@ -239,7 +239,7 @@ export function ToggleChip({ pressed, onChange, children, className, ...rest }: 
       whileTap={{ scale: 0.94 }}
       className={cn(
         "relative inline-flex h-11 items-center justify-center gap-1.5 rounded-lg border px-4 font-display text-[14px] font-semibold transition-colors",
-        pressed ? "border-bus-500 bg-bus-400 text-ink" : "border-line-strong bg-white text-ink-soft hover:border-ink/30",
+        pressed ? "border-bus-500 bg-bus-400 text-ink" : "border-line-strong bg-card text-ink-soft hover:border-ink/30",
         className,
       )}
       {...rest}

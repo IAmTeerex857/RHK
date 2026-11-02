@@ -49,7 +49,6 @@ disappears under solid cards and shows through open space. Keep it away from pla
 ## Third-party components (all MIT)
 
 - [border-beam](https://libraries.dev/beam), [liquid-gooey](https://libraries.dev/gooey), [metal-fx](https://libraries.dev/metal) by Jakub Antalik
-- [blobatar](https://blobatar.dev) step characters
 - [Generative Loaders](https://generativeloaders.com) (vendored in `packages/ui/src/vendor/generative-loaders`, with its licence)
 - [Stageshow](https://github.com/benjitaylor/skills) kit (MIT, vendored in `apps/web/src/vendor/stageshow`): the iPhone frame and notification in the app section
 - Button hover and form-control behaviour adapted from [amicro](https://github.com/Subhan-code/Amicro--Micro-transitions-)
