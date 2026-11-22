@@ -31,6 +31,7 @@ export function ReportView() {
   const [step, setStep] = useState(0);
   const [kind, setKind] = useState<Kind | null>(null);
   const [who, setWho] = useState<string[]>([]);
+  const [safe, setSafe] = useState<"yes" | "no" | null>(null);
   const [severity, setSeverity] = useState<"low" | "medium" | "high" | null>(null);
   const [note, setNote] = useState("");
   const [photos, setPhotos] = useState(0);
@@ -123,7 +124,7 @@ export function ReportView() {
             </>
           ) : step === 1 ? (
             <>
-              <Title sub="Tap everyone involved.">Which children?</Title>
+              <Title sub="Tap everyone involved.">Which children, and are they safe?</Title>
               <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                 {riders.map((c) => {
                   const on = who.includes(c.id);
@@ -163,7 +164,26 @@ export function ReportView() {
                   No child involved
                 </button>
               </div>
-              <Next disabled={!who.length} onClick={next} />
+              <p className="mb-2.5 mt-6 text-[15px] font-semibold">Is every child safe right now?</p>
+              <ChoiceChips
+                aria-label="Children safe"
+                size="lg"
+                value={safe}
+                onChange={setSafe}
+                options={[
+                  { value: "yes", label: "Yes, everyone's safe" },
+                  { value: "no", label: "No" },
+                ]}
+              />
+              {safe === "no" ? (
+                <a href="tel:911" className="mt-3 flex items-center gap-3 rounded-2xl border border-[color-mix(in_oklab,var(--color-bad)_30%,transparent)] bg-coral-soft p-4 text-[14px]">
+                  <Siren className="size-5 shrink-0 text-bad" />
+                  <span className="flex-1">
+                    <span className="font-semibold">Call 911 now.</span> Finish this report when everyone is safe.
+                  </span>
+                </a>
+              ) : null}
+              <Next disabled={!who.length || !safe} onClick={next} />
             </>
           ) : step === 2 ? (
             <>
@@ -193,8 +213,9 @@ export function ReportView() {
               <dl className="rounded-[20px] border border-line bg-card px-5">
                 <Line label="What" value={k?.label} />
                 <Line label="Who" value={who.includes("none") ? "No child involved" : who.map((id) => getChild(id).first).join(", ")} />
+                <Line label="Children safe" value={safe === "yes" ? "Yes" : "No · 911 called"} />
                 <Line label="How serious" value={{ low: "Minor", medium: "Needs follow-up", high: "Serious" }[severity ?? "low"]} />
-                <Line label="Where" value={`${route.name} · ${run.stop ? `near ${run.stop.address}` : "after the last stop"}`} />
+                <Line label="Location" value={`Sent from your phone · ${run.stop ? `near ${run.stop.address}` : "after the last stop"}`} />
                 <Line label="When" value={time} />
                 <Line label="Note" value={note} />
                 {photos ? <Line label="Photos" value={String(photos)} /> : null}

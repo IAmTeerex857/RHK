@@ -17,7 +17,8 @@ import { Field } from "../components/field";
 import { LogoMark } from "../components/logo-mark";
 import { ThemeToggle } from "../components/theme-toggle";
 
-function Frame({ app, children, footer }: { app: string; children: ReactNode; footer?: ReactNode }) {
+/** Full-screen frame for sign-in and first-time setup: logo, theme toggle, dot grid. */
+export function AuthFrame({ app, children, footer, width = 400 }: { app: string; children: ReactNode; footer?: ReactNode; width?: number }) {
   return (
     <div className="relative flex min-h-dvh flex-col bg-canvas">
       <div className="dot-grid pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)] opacity-70" aria-hidden />
@@ -31,7 +32,9 @@ function Frame({ app, children, footer }: { app: string; children: ReactNode; fo
         <ThemeToggle />
       </header>
       <main className="relative flex flex-1 items-start justify-center px-5 pb-16 pt-[8vh] sm:items-center sm:pt-0">
-        <div className="w-full max-w-[400px]">{children}</div>
+        <div className="w-full" style={{ maxWidth: width }}>
+          {children}
+        </div>
       </main>
       {footer ? <footer className="relative px-5 pb-6 text-center text-[12.5px] text-ink-muted">{footer}</footer> : null}
     </div>
@@ -82,7 +85,7 @@ export function SignIn({ app, audience, home = "/" }: { app: string; audience: s
   };
 
   return (
-    <Frame app={app} footer={<>Accounts are created by the Rush Hour Kids office. Trouble signing in? Call (770) 555-0142.</>}>
+    <AuthFrame app={app} footer={<>Accounts are created by the Rush Hour Kids office. Trouble signing in? Call (770) 555-0142.</>}>
       <AnimatePresence mode="wait" initial={false}>
         {step === "password" ? (
           <motion.div key="pw" {...fade}>
@@ -161,7 +164,7 @@ export function SignIn({ app, audience, home = "/" }: { app: string; audience: s
           </motion.div>
         )}
       </AnimatePresence>
-    </Frame>
+    </AuthFrame>
   );
 }
 
@@ -182,7 +185,7 @@ export function SetPassword({ app, name }: { app: string; name?: string }) {
     router.push("/sign-in");
   };
   return (
-    <Frame app={app}>
+    <AuthFrame app={app}>
       <h1 className="font-display text-[28px] font-medium tracking-[-0.035em]">{name ? `Welcome, ${name}` : "Set your password"}</h1>
       <p className="mt-2 text-[14.5px] text-ink-muted">Choose a password for your Rush Hour Kids account. You&apos;ll also get a code by email each time you sign in.</p>
       <form onSubmit={submit} className="mt-8 flex flex-col gap-3" noValidate>
@@ -200,6 +203,6 @@ export function SetPassword({ app, name }: { app: string; name?: string }) {
           Save password
         </Button>
       </form>
-    </Frame>
+    </AuthFrame>
   );
 }
