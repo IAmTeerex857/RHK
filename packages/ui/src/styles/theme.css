@@ -36,6 +36,24 @@
   --color-lilac: #9b7bff;
   --color-lilac-soft: #e6ddff;
 
+  /* App canvas: the grey the portals' cards sit on (the landing page stays white). */
+  --color-canvas: #f3f3f1;
+  --color-sunken: #ececea; /* wells inside a canvas panel: segmented tracks, tinted panels */
+
+  /* Data: one blue ramp for magnitude (validated reference ramp), used by charts and heatmaps. */
+  --color-data-100: #cde2fb;
+  --color-data-200: #9ec5f4;
+  --color-data-300: #6da7ec;
+  --color-data-400: #3987e5;
+  --color-data-500: #2a78d6;
+  --color-data-600: #1c5cab;
+  --color-data-700: #0d366b;
+
+  /* Status: reserved for state, always shipped with an icon or a word. */
+  --color-good: #12a150;
+  --color-warn: #d99a00;
+  --color-bad: #e0453a;
+
   --color-outline: #1d1a2f; /* illustration ink: the same in both themes */
   --color-road: #2b2840;
   --color-road-line: #ffe38a;
@@ -43,6 +61,7 @@
   /* Type: Geist for headings, Inter for body. */
   --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", Menlo, monospace;
 
   --radius-card: 1.75rem;
   --radius-pill: 999px;
@@ -79,6 +98,18 @@
     --color-sky-soft: #172a3c;
     --color-mint-soft: #142c22;
     --color-lilac-soft: #262041;
+    --color-canvas: #0b0a11;
+    --color-sunken: #14121c;
+    --color-data-100: #172a44;
+    --color-data-200: #1d3d66;
+    --color-data-300: #24538d;
+    --color-data-400: #3987e5;
+    --color-data-500: #5598e7;
+    --color-data-600: #86b6ef;
+    --color-data-700: #b7d3f6;
+    --color-good: #3fc48a;
+    --color-warn: #f5b301;
+    --color-bad: #ff6a4d;
     --shadow-subtle: 0 1px 2px rgb(0 0 0 / 0.3);
     --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 16px -4px rgb(0 0 0 / 0.4);
     --shadow-float: 0 2px 4px rgb(0 0 0 / 0.25), 0 20px 44px -12px rgb(0 0 0 / 0.55);
@@ -185,4 +216,56 @@
   svg.lucide {
     stroke-width: 1.5;
   }
+}
+
+/* ---- app kit utilities (portals) ---- */
+
+/* Diagonal hatch in the current text colour: past periods, projections, "not yet" fills. */
+@utility hatch {
+  background-image: repeating-linear-gradient(-45deg, currentColor 0 2px, transparent 2px 6px);
+}
+
+/* Dotted canvas, for map and flow backgrounds. */
+@utility dot-grid {
+  background-image: radial-gradient(circle, var(--color-line-strong) 1px, transparent 1.2px);
+  background-size: 16px 16px;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Uppercase mono meta label ("POLICY V14 · UNSAVED CHANGES"). */
+@utility mono-label {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Dialogs and sheets: a short rise / slide on open (native <dialog>). */
+@keyframes rhk-dialog-in { from { opacity: 0; transform: translateY(8px) scale(0.985); } }
+@keyframes rhk-sheet-in { from { transform: translateX(24px); opacity: 0; } }
+@keyframes rhk-backdrop-in { from { opacity: 0; } }
+dialog.rhk-dialog[open] > div { animation: rhk-dialog-in 180ms cubic-bezier(0.22, 1, 0.36, 1); }
+dialog.rhk-sheet[open] > div { animation: rhk-sheet-in 220ms cubic-bezier(0.22, 1, 0.36, 1); }
+dialog[open]::backdrop { animation: rhk-backdrop-in 180ms ease-out; }
+@media (max-width: 639px) {
+  dialog.rhk-dialog { margin-bottom: 0; max-height: 100dvh; }
+  @keyframes rhk-dialog-in { from { transform: translateY(40px); } }
+}
+
+/* Theme switch: every colour changes in the same frame. */
+.rhk-theme-switching *,
+.rhk-theme-switching *::before,
+.rhk-theme-switching *::after {
+  transition: none !important;
 }

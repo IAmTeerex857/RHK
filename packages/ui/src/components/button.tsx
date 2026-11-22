@@ -10,17 +10,20 @@ import { ArrowRight } from "lucide-react";
 import { forwardRef, useMemo, type ElementType, type ReactNode } from "react";
 import { cn } from "../lib/cn";
 
-type Variant = "primary" | "ink" | "outline" | "ghost";
-type Size = "sm" | "md" | "lg";
+type Variant = "primary" | "ink" | "outline" | "ghost" | "soft" | "danger";
+type Size = "xs" | "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
   primary: "bg-bus-400 text-ink shadow-subtle hover:bg-bus-300",
   ink: "bg-ink text-cream shadow-subtle hover:bg-ink/90",
   outline: "border border-line-strong bg-card text-ink hover:bg-raised",
   ghost: "bg-transparent text-ink hover:bg-raised",
+  soft: "bg-raised text-ink hover:bg-sunken",
+  danger: "border border-[color-mix(in_oklab,var(--color-bad)_35%,transparent)] bg-card text-bad hover:bg-coral-soft",
 };
 
 const sizes: Record<Size, string> = {
+  xs: "h-8 px-3 gap-1.5 text-[13px] rounded-lg [&_svg]:size-4",
   sm: "h-9 px-4 gap-2 text-[14px] rounded-[10px]",
   md: "h-11 px-5 gap-2 text-[15px] rounded-xl",
   lg: "h-12 px-6 gap-2.5 text-[16px] rounded-xl",

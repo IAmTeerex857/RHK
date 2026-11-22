@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "@rhk/ui/styles.css";
+@import "@rhk/ui/loaders.css";
+
+@source "../../../../packages/ui/src";
+
+body {
+  background: var(--color-canvas);
+}
