@@ -110,7 +110,7 @@ export function DriversView() {
                     <Avatar seed={d.id} name={d.name} size={32} status={d.id === "d-ray" ? "off" : "online"} />
                     <span>
                       <span className="block font-medium">{d.name}</span>
-                      <span className="block text-[12.5px] text-ink-muted">{d.phone}</span>
+                      <span className="block text-[13px] text-ink-muted">{d.phone}</span>
                     </span>
                   </span>
                 ),
@@ -131,7 +131,7 @@ export function DriversView() {
                 cell: (d) => (
                   <span className="flex items-center gap-2.5">
                     <SegmentBar className="w-20" size="sm" value={d.trainingDone} total={d.trainingTotal} tone={d.trainingDone === d.trainingTotal ? "good" : "warn"} label="Courses done" />
-                    <span className="font-mono text-[12.5px] text-ink-muted tabular">
+                    <span className="font-mono text-[13px] text-ink-muted tabular">
                       {d.trainingDone}/{d.trainingTotal}
                     </span>
                   </span>

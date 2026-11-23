@@ -80,9 +80,9 @@ export function RouteDetail({ id }: { id: string }) {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-3">
                       <p className="truncate text-[14px] font-medium">{s.kind === "home" ? `${s.label} home` : s.label}</p>
-                      <span className="shrink-0 font-mono text-[12.5px] text-ink-muted tabular">{st?.at ?? s.time}</span>
+                      <span className="shrink-0 font-mono text-[13px] text-ink-muted tabular">{st?.at ?? s.time}</span>
                     </div>
-                    <p className="truncate text-[12.5px] text-ink-muted">
+                    <p className="truncate text-[13px] text-ink-muted">
                       {s.address}
                       {s.kind === "satellite" ? " · satellite stop" : ""}
                     </p>
@@ -91,7 +91,7 @@ export function RouteDetail({ id }: { id: string }) {
                         {s.childIds.map((c) => {
                           const ch = getChild(c);
                           return (
-                            <span key={c} className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card py-0.5 pl-0.5 pr-2.5 text-[12.5px]">
+                            <span key={c} className="inline-flex items-center gap-1.5 rounded-full border border-line bg-card py-0.5 pl-0.5 pr-2.5 text-[13px]">
                               <Avatar seed={c} name={ch.first} size={20} />
                               {ch.first}
                               {ch.medical ? <HeartPulse className="size-3 text-bad" aria-label="Medical note" /> : null}
@@ -117,7 +117,7 @@ export function RouteDetail({ id }: { id: string }) {
           </div>
           <div className="mt-4">
             <SegmentBar value={riders.length} total={van.capacity} tone="ink" size="sm" label="Seats used" />
-            <p className="mt-2 font-mono text-[11.5px] text-ink-muted">
+            <p className="mt-2 font-mono text-[12px] text-ink-muted">
               {riders.length} / {van.capacity} SEATS USED
             </p>
           </div>
@@ -127,7 +127,7 @@ export function RouteDetail({ id }: { id: string }) {
           <div className="mt-4 flex items-center gap-3">
             <Avatar seed={d.id} name={d.name} size={44} />
             <div>
-              <p className="text-[14.5px] font-medium">{d.name}</p>
+              <p className="text-[15px] font-medium">{d.name}</p>
               <p className="text-[13px] text-ink-muted">Since {d.since} · {Math.round(d.onTimeRate * 100)}% on time</p>
             </div>
           </div>

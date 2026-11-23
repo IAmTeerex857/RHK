@@ -66,17 +66,17 @@ export function RoutesView() {
                   <Card className="h-full transition-[border-color,box-shadow] group-hover:border-line-strong group-hover:shadow-card">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="font-display text-[17px] font-medium tracking-[-0.02em]">{r.name.split(" · ")[0]}</p>
+                        <p className="font-display text-[18px] font-medium tracking-[-0.02em]">{r.name.split(" · ")[0]}</p>
                         <p className="mt-0.5 text-[13px] text-ink-muted">{r.schoolIds.map((s) => getSchool(s).short).join(", ")}</p>
                       </div>
                       <Badge tone={van.status === "in_service" ? "neutral" : "warn"}>{van.name}</Badge>
                     </div>
                     <div className="mt-5 flex items-center gap-2.5">
                       <Avatar seed={d.id} name={d.name} size={28} />
-                      <span className="text-[13.5px]">{d.name}</span>
+                      <span className="text-[14px]">{d.name}</span>
                     </div>
                     <div className="mt-5">
-                      <div className="mb-2 flex justify-between text-[12.5px] text-ink-muted">
+                      <div className="mb-2 flex justify-between text-[13px] text-ink-muted">
                         <span>Seats</span>
                         <span className="font-mono tabular">
                           {riders}/{van.capacity}
@@ -84,7 +84,7 @@ export function RoutesView() {
                       </div>
                       <SegmentBar value={riders} total={van.capacity} tone="ink" size="sm" label="Seats used" />
                     </div>
-                    <dl className="mt-5 grid grid-cols-[0.7fr_1.4fr_0.8fr] gap-3 border-t border-line pt-4 text-[12.5px]">
+                    <dl className="mt-5 grid grid-cols-[0.7fr_1.4fr_0.8fr] gap-3 border-t border-line pt-4 text-[13px]">
                       <div>
                         <dt className="flex items-center gap-1 text-ink-muted">
                           <MapPin className="size-3.5" /> Stops
@@ -125,7 +125,7 @@ export function RoutesView() {
                     </span>
                     <span>
                       <span className="block font-medium">{s.name}</span>
-                      <span className="block text-[12.5px] text-ink-muted">
+                      <span className="block text-[13px] text-ink-muted">
                         {s.address}, {s.city}
                       </span>
                     </span>
@@ -151,7 +151,7 @@ export function RoutesView() {
                 cell: (s) => (
                   <span>
                     <span className="block font-medium">{s.name}</span>
-                    <span className="block text-[12.5px] text-ink-muted">{s.address}</span>
+                    <span className="block text-[13px] text-ink-muted">{s.address}</span>
                   </span>
                 ),
               },
@@ -166,7 +166,7 @@ export function RoutesView() {
               },
             ]}
           />
-          <p className="border-t border-line px-5 py-3 text-[12.5px] text-ink-muted">Turning a stop off asks you to move its children to another stop first. Parents are told by email and push.</p>
+          <p className="border-t border-line px-5 py-3 text-[13px] text-ink-muted">Turning a stop off asks you to move its children to another stop first. Parents are told by email and push.</p>
         </Card>
       )}
     </>

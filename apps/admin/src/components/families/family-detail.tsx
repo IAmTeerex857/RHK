@@ -51,14 +51,14 @@ function ChildCard({ c }: { c: Child }) {
             </p>
             <StatusBadge map={childStatus} value={c.status} />
           </div>
-          <p className="mt-0.5 text-[13.5px] text-ink-muted">
+          <p className="mt-0.5 text-[14px] text-ink-muted">
             Age {c.age} · {c.grade} grade · {school.short} · {c.teacher}
           </p>
         </div>
       </div>
 
       {c.medical ? (
-        <p className="mt-4 flex items-start gap-2.5 rounded-xl border border-[color-mix(in_oklab,var(--color-bad)_25%,transparent)] bg-coral-soft px-3.5 py-2.5 text-[13.5px] text-ink">
+        <p className="mt-4 flex items-start gap-2.5 rounded-xl border border-[color-mix(in_oklab,var(--color-bad)_25%,transparent)] bg-coral-soft px-3.5 py-2.5 text-[14px] text-ink">
           <HeartPulse className="mt-0.5 size-4 shrink-0 text-bad" /> {c.medical}
         </p>
       ) : null}
@@ -105,7 +105,7 @@ function ChildCard({ c }: { c: Child }) {
             {c.approvedAdults.map((a) => (
               <li key={a.id} className="flex items-center gap-3 rounded-xl bg-raised px-3 py-2">
                 <Avatar seed={a.id} name={a.name} size={28} />
-                <span className="min-w-0 flex-1 text-[13.5px]">
+                <span className="min-w-0 flex-1 text-[14px]">
                   <span className="font-medium">{a.name}</span> <span className="text-ink-muted">· {a.relationship}</span>
                 </span>
                 <span className="font-mono text-[12px] text-ink-muted">{a.phone}</span>
@@ -116,7 +116,7 @@ function ChildCard({ c }: { c: Child }) {
           <p className="mt-2 rounded-xl border border-dashed border-line-strong px-3 py-2.5 text-[13px] text-ink-muted">Only the guardians on this account can receive {c.first}.</p>
         )}
       </div>
-      {c.notes ? <p className="mt-4 text-[13.5px] text-ink-soft">Driver note: {c.notes}</p> : null}
+      {c.notes ? <p className="mt-4 text-[14px] text-ink-soft">Driver note: {c.notes}</p> : null}
     </Card>
   );
 }
@@ -174,7 +174,7 @@ export function FamilyDetail({ id }: { id: string }) {
                   <Avatar seed={p.id} name={p.name} size={40} />
                   <div className="min-w-0 flex-1">
                     <p className="text-[14px] font-medium">{p.name}</p>
-                    <p className="truncate text-[12.5px] text-ink-muted">{p.email}</p>
+                    <p className="truncate text-[13px] text-ink-muted">{p.email}</p>
                   </div>
                   <Button variant="ghost" size="xs" href={`tel:${p.phone}`} icon={<Phone />} aria-label={`Call ${p.name}`}>
                     Call
@@ -240,7 +240,7 @@ export function FamilyDetail({ id }: { id: string }) {
                   {payments
                     .filter((p) => p.familyId === id)
                     .map((p) => (
-                      <li key={p.id} className="flex items-center justify-between py-2.5 text-[13.5px]">
+                      <li key={p.id} className="flex items-center justify-between py-2.5 text-[14px]">
                         <span>
                           {methodLabel[p.method]} <span className="text-ink-muted">· {p.reference} · recorded by {p.recordedBy}</span>
                         </span>
@@ -264,7 +264,7 @@ export function FamilyDetail({ id }: { id: string }) {
                         <p>
                           <span className="font-medium">{e.who}</span> <span className="text-ink-soft">{e.action.toLowerCase()}</span> {e.target}
                         </p>
-                        <p className="text-[12.5px] text-ink-muted">{e.detail}</p>
+                        <p className="text-[13px] text-ink-muted">{e.detail}</p>
                       </div>
                       <span className="font-mono text-[12px] text-ink-muted">{e.at}</span>
                     </li>

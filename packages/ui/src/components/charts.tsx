@@ -168,7 +168,7 @@ export function Ring({
 
 function Tip({ children }: { children: ReactNode }) {
   return (
-    <span className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-xl border border-line bg-card px-3 py-2 text-[12.5px] text-ink shadow-float">
+    <span className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-xl border border-line bg-card px-3 py-2 text-[13px] text-ink shadow-float">
       {children}
     </span>
   );
@@ -236,7 +236,7 @@ export function BarChart({
                   </Tip>
                 ) : null}
                 {isLast ? (
-                  <span className="absolute left-1/2 -translate-x-1/2 text-[12.5px] font-medium tabular text-ink" style={{ bottom: `calc(${h(d.value)} + 6px)` }}>
+                  <span className="absolute left-1/2 -translate-x-1/2 text-[13px] font-medium tabular text-ink" style={{ bottom: `calc(${h(d.value)} + 6px)` }}>
                     {format(d.value)}
                   </span>
                 ) : null}
@@ -297,7 +297,7 @@ export function Heatmap({
       <div className="grid gap-1.5" style={{ gridTemplateColumns: `auto repeat(${cols.length}, minmax(0, 1fr))` }}>
         {rows.map((r, ri) => (
           <div key={r} className="contents">
-            <span className="pr-2 text-[12.5px] leading-[26px] text-ink-muted">{r}</span>
+            <span className="pr-2 text-[13px] leading-[26px] text-ink-muted">{r}</span>
             {cols.map((c, ci) => {
               const v = values[ri]?.[ci] ?? null;
               const k = `${ri}-${ci}`;
@@ -321,7 +321,7 @@ export function Heatmap({
         ))}
         <span />
         {cols.map((c, ci) => (
-          <span key={c} className="pt-1 text-center text-[11.5px] text-ink-muted">
+          <span key={c} className="pt-1 text-center text-[12px] text-ink-muted">
             {ci % colEvery === 0 ? c : ""}
           </span>
         ))}

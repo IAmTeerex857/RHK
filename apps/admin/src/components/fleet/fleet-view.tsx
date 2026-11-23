@@ -55,7 +55,7 @@ export function FleetView() {
                   {s.label}
                 </Badge>
               }
-              footer={`${v.capacity} SEATS · ${v.mileage.toLocaleString()} MI`}
+              footer={`${v.capacity} seats · ${v.mileage.toLocaleString()} mi`}
             >
               <PanelCard className="flex items-center gap-4">
                 <Ring value={v.fuelLevel} size={64} stroke={6} tone={v.fuelLevel < 0.4 ? "warn" : "good"}>
@@ -77,8 +77,8 @@ export function FleetView() {
                 {d ? (
                   <>
                     <Avatar seed={d.id} name={d.name} size={28} />
-                    <span className="flex-1 truncate text-[13.5px]">{d.name}</span>
-                    <span className="font-mono text-[11.5px] text-ink-muted">CHECKED {v.lastInspection.toUpperCase()}</span>
+                    <span className="flex-1 truncate text-[14px]">{d.name}</span>
+                    <span className="font-mono text-[12px] text-ink-muted">Checked {v.lastInspection}</span>
                   </>
                 ) : (
                   <span className="text-[13px] text-ink-muted">No driver assigned</span>

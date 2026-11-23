@@ -43,15 +43,15 @@ export function Stat({
       ) : null}
       <p
         className={cn(
-          "flex items-baseline gap-1.5 font-display font-medium tracking-[-0.04em] text-ink tabular",
-          { md: "text-[30px] leading-none", lg: "text-[44px] leading-none", xl: "text-[64px] leading-[0.95]" }[size],
+          "flex items-baseline gap-1 font-display font-medium text-ink tabular",
+          { md: "text-[32px] leading-none tracking-[-0.025em]", lg: "text-[40px] leading-none tracking-[-0.03em]", xl: "text-[64px] leading-[0.95] tracking-[-0.035em]" }[size],
         )}
       >
         {value}
-        {unit ? <span className="text-[0.42em] font-normal tracking-normal text-ink-muted">{unit}</span> : null}
+        {unit ? <span className={cn("font-normal tracking-normal text-ink-muted", { md: "text-[15px]", lg: "text-[16px]", xl: "text-[24px]" }[size])}>{unit}</span> : null}
       </p>
       {delta || note ? (
-        <p className="mt-3 flex flex-wrap items-center gap-2 text-[13px] text-ink-muted">
+        <p className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[13px] text-ink-muted">
           {delta}
           {note}
         </p>
@@ -99,7 +99,7 @@ export function ActionRow({
         <span className="block truncate text-[14px] font-medium text-ink">{title}</span>
         {subtitle ? <span className="mt-0.5 block truncate text-[13px] text-ink-muted">{subtitle}</span> : null}
       </span>
-      {meta ? <span className="shrink-0 text-[12.5px] text-ink-muted tabular">{meta}</span> : null}
+      {meta ? <span className="shrink-0 text-[13px] text-ink-muted tabular">{meta}</span> : null}
       {href || onClick ? <ChevronRight className="size-4 shrink-0 text-ink-muted transition-transform group-hover:translate-x-0.5" /> : null}
     </>
   );
@@ -128,7 +128,7 @@ export function EmptyState({ icon, title, body, action, className }: { icon?: Re
     <div className={cn("flex flex-col items-center px-6 py-12 text-center", className)}>
       {icon ? <span className="grid size-12 place-items-center rounded-2xl border border-line bg-raised text-ink-muted [&_svg]:size-5">{icon}</span> : null}
       <p className="mt-4 text-[15px] font-medium text-ink">{title}</p>
-      {body ? <p className="mt-1 max-w-sm text-[13.5px] text-ink-muted">{body}</p> : null}
+      {body ? <p className="mt-1 max-w-sm text-[14px] text-ink-muted">{body}</p> : null}
       {action ? <div className="mt-5">{action}</div> : null}
     </div>
   );
@@ -168,22 +168,22 @@ export function Steps({ steps, className, dense }: { steps: Step[]; className?: 
                 </span>
               ) : s.state === "current" ? (
                 <span className="relative grid size-6 place-items-center rounded-full border-2 border-data-500 bg-card">
-                  <span className="size-2 animate-pulse rounded-full bg-data-500" />
+                  <span className="size-2 rounded-full bg-data-500" />
                 </span>
               ) : s.state === "alert" ? (
                 <span className="grid size-6 place-items-center rounded-full bg-bad text-[13px] font-bold text-white">!</span>
               ) : s.state === "skipped" ? (
-                <span className="grid size-6 place-items-center rounded-full border border-dashed border-line-strong bg-card text-[10px] text-ink-muted">–</span>
+                <span className="grid size-6 place-items-center rounded-full border border-dashed border-line-strong bg-card text-[11px] text-ink-muted">–</span>
               ) : (
                 <span className="size-6 rounded-full border border-line-strong bg-card" />
               )}
             </span>
             <div className="min-w-0 flex-1">
               <div className="flex items-start justify-between gap-3">
-                <p className={cn("text-[14.5px] font-medium", s.state === "todo" || s.state === "skipped" ? "text-ink-soft" : "text-ink", s.state === "alert" && "text-bad")}>
+                <p className={cn("text-[15px] font-medium", s.state === "todo" || s.state === "skipped" ? "text-ink-soft" : "text-ink", s.state === "alert" && "text-bad")}>
                   {s.title}
                 </p>
-                {s.meta ? <span className="shrink-0 font-mono text-[12.5px] text-ink-muted tabular">{s.meta}</span> : null}
+                {s.meta ? <span className="shrink-0 font-mono text-[13px] text-ink-muted tabular">{s.meta}</span> : null}
               </div>
               {s.detail ? <div className="mt-0.5 text-[13px] text-ink-muted">{s.detail}</div> : null}
               {s.children ? <div className="mt-3">{s.children}</div> : null}
@@ -272,11 +272,11 @@ export function SlideToConfirm({
   const bg = { brand: "bg-bus-400 text-[#1d1a2f]", ink: "bg-ink text-cream", bad: "bg-coral text-white" }[tone];
   return (
     <div ref={track} className={cn("relative h-16 overflow-hidden rounded-full p-1.5", bg, className)}>
-      <motion.span style={{ opacity: fade }} className="pointer-events-none absolute inset-0 flex items-center justify-center gap-2 pl-10 text-[16px] font-semibold">
+      <motion.span style={{ opacity: fade }} className="pointer-events-none absolute inset-0 flex items-center justify-center gap-2 pl-10 text-[16px] font-medium">
         {label}
         <ChevronsRight className="size-5 opacity-60" />
       </motion.span>
-      {done ? <span className="absolute inset-0 grid place-items-center text-[16px] font-semibold">{doneLabel}</span> : null}
+      {done ? <span className="absolute inset-0 grid place-items-center text-[16px] font-medium">{doneLabel}</span> : null}
       <motion.button
         type="button"
         aria-label={label}
@@ -358,8 +358,8 @@ export function RouteMap({
       ))}
       {vans?.map((v) => (
         <span key={v.id} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${v.x}%`, top: `${v.y}%` }}>
-          <span className="flex items-center gap-1.5 rounded-full border border-line bg-card py-1 pl-1 pr-2.5 text-[11.5px] font-semibold text-ink shadow-float">
-            <span className="grid size-5 place-items-center rounded-full text-[10px] text-white" style={{ background: tone[v.tone] }}>
+          <span className="flex items-center gap-1.5 rounded-full border border-line bg-card py-1 pl-1 pr-2.5 text-[12px] font-medium text-ink shadow-float">
+            <span className="grid size-5 place-items-center rounded-full text-[11px] text-white" style={{ background: tone[v.tone] }}>
               ▲
             </span>
             {v.label}
@@ -375,7 +375,7 @@ export function RouteMap({
             </svg>
           </span>
           {van.label ? (
-            <span className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-2 py-0.5 text-[11px] font-semibold text-cream">{van.label}</span>
+            <span className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink px-2 py-0.5 text-[11px] font-medium text-cream">{van.label}</span>
           ) : null}
         </span>
       ) : null}
@@ -391,8 +391,8 @@ export function MetaStrip({ items, className }: { items: { label: string; value:
     <dl className={cn("flex divide-x divide-line", className)}>
       {items.map((i) => (
         <div key={i.label} className="px-4 first:pl-0">
-          <dt className="text-[12.5px] text-ink-muted">{i.label}</dt>
-          <dd className="mt-0.5 font-mono text-[17px] font-medium text-ink tabular">{i.value}</dd>
+          <dt className="text-[13px] text-ink-muted">{i.label}</dt>
+          <dd className="mt-0.5 font-mono text-[18px] font-medium text-ink tabular">{i.value}</dd>
         </div>
       ))}
     </dl>
@@ -402,7 +402,7 @@ export function MetaStrip({ items, className }: { items: { label: string; value:
 /** Two-tone greeting: "Hi Tanya, here's today." */
 export function Greeting({ strong, soft, className }: { strong: string; soft: string; className?: string }) {
   return (
-    <h1 className={cn("font-display text-[30px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-[34px]", className)}>
+    <h1 className={cn("font-display text-[28px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-[32px]", className)}>
       <span className="text-ink">{strong}</span> <span className="text-ink-muted">{soft}</span>
     </h1>
   );

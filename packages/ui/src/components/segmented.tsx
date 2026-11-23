@@ -96,7 +96,7 @@ export function Tabs<V extends string>({
             aria-selected={active}
             onClick={() => onChange(o.value)}
             className={cn(
-              "relative inline-flex h-11 shrink-0 items-center gap-2 text-[14.5px] font-medium transition-colors",
+              "relative inline-flex h-11 shrink-0 items-center gap-2 text-[15px] font-medium transition-colors",
               active ? "text-ink" : "text-ink-muted hover:text-ink",
             )}
           >

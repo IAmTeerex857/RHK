@@ -44,8 +44,8 @@ export function MessagesView() {
           <div className="flex items-center gap-3 border-b border-line px-4 py-3">
             <AvatarStack people={staff.map((s) => ({ seed: s.id, name: s.name }))} size={30} />
             <div className="min-w-0 flex-1">
-              <p className="text-[14.5px] font-medium">Rush Hour Kids office</p>
-              <p className="truncate text-[12.5px] text-ink-muted">Weekdays 6 AM – 6 PM · {OFFICE.phone}</p>
+              <p className="text-[15px] font-medium">Rush Hour Kids office</p>
+              <p className="truncate text-[13px] text-ink-muted">Weekdays 6 AM – 6 PM · {OFFICE.phone}</p>
             </div>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto bg-canvas/50 px-4 py-5">
@@ -61,11 +61,11 @@ export function MessagesView() {
             <Card key={a.id}>
               <div className="flex items-center justify-between">
                 <Badge tone="info">{a.audience}</Badge>
-                <span className="text-[12.5px] text-ink-muted">{a.sentAt}</span>
+                <span className="text-[13px] text-ink-muted">{a.sentAt}</span>
               </div>
-              <h3 className="mt-4 font-display text-[17px] font-medium tracking-[-0.02em]">{a.title}</h3>
+              <h3 className="mt-4 font-display text-[18px] font-medium tracking-[-0.02em]">{a.title}</h3>
               <p className="mt-2 text-[14px] text-ink-soft">{a.body}</p>
-              <p className="mt-4 text-[12.5px] text-ink-muted">From {a.sentBy}</p>
+              <p className="mt-4 text-[13px] text-ink-muted">From {a.sentBy}</p>
             </Card>
           ))}
         </div>
@@ -92,7 +92,7 @@ export function TripsView() {
               </Badge>
             </div>
             <h3 className="mt-4 font-display text-[20px] font-medium tracking-[-0.03em]">{p.name}</h3>
-            <div className="mt-3 flex flex-col gap-1.5 text-[13.5px] text-ink-soft">
+            <div className="mt-3 flex flex-col gap-1.5 text-[14px] text-ink-soft">
               <span className="flex items-center gap-2">
                 <CalendarDays className="size-4 text-ink-muted" /> {p.dates}
               </span>
@@ -100,7 +100,7 @@ export function TripsView() {
                 <MapPin className="size-4 text-ink-muted" /> {p.place}
               </span>
             </div>
-            <p className="mt-4 rounded-xl bg-raised p-3 text-[13.5px] text-ink-soft">{p.notes}</p>
+            <p className="mt-4 rounded-xl bg-raised p-3 text-[14px] text-ink-soft">{p.notes}</p>
             <div className="mt-auto flex items-center gap-2 pt-5">
               {p.childIds
                 .filter((id) => kids.some((k) => k.id === id))
@@ -119,11 +119,11 @@ export function TripsView() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {other.map((p) => (
               <Card key={p.id}>
-                <h3 className="text-[15.5px] font-medium">{p.name}</h3>
-                <p className="mt-1 text-[13.5px] text-ink-muted">
+                <h3 className="text-[16px] font-medium">{p.name}</h3>
+                <p className="mt-1 text-[14px] text-ink-muted">
                   {p.dates} · {p.place}
                 </p>
-                <p className="mt-3 text-[13.5px] text-ink-soft">{p.notes}</p>
+                <p className="mt-3 text-[14px] text-ink-soft">{p.notes}</p>
               </Card>
             ))}
           </div>
@@ -181,15 +181,15 @@ export function HistoryView() {
                       {r.absent ? <X className="size-4" /> : r.end === "On the way" ? <Clock3 className="size-4" /> : <Check className="size-4 stroke-[2.5]" />}
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-[14.5px] font-medium">
+                      <span className="block text-[15px] font-medium">
                         {r.slot} · {r.absent ? "Absent" : `${r.from} → ${r.to}`}
                       </span>
-                      <span className="block truncate text-[12.5px] text-ink-muted">
+                      <span className="block truncate text-[13px] text-ink-muted">
                         {r.note ?? (r.by ? `Received by ${r.by}` : "Checked in at school")}
                       </span>
                     </span>
                     {!r.absent ? (
-                      <span className="text-right font-mono text-[12.5px] tabular">
+                      <span className="text-right font-mono text-[13px] tabular">
                         <span className="block">{r.start}</span>
                         <span className="block text-ink-muted">{r.end}</span>
                       </span>
@@ -217,8 +217,8 @@ export function AccountView() {
           <div className="flex items-center gap-3.5">
             <Avatar seed={parent.id} name={parent.name} size={52} />
             <div className="min-w-0">
-              <p className="text-[16px] font-semibold">{parent.name}</p>
-              <p className="truncate text-[13.5px] text-ink-muted">{family.name} family · since {family.joined}</p>
+              <p className="text-[16px] font-medium">{parent.name}</p>
+              <p className="truncate text-[14px] text-ink-muted">{family.name} family · since {family.joined}</p>
             </div>
           </div>
           <div className="mt-4">
@@ -227,7 +227,7 @@ export function AccountView() {
             <Row label="Home" value={`${family.address}, ${family.city}`} />
             <Row label="Emergency contact" value={`${family.emergency.name} · ${family.emergency.relationship}`} />
           </div>
-          <p className="mt-3 text-[12.5px] text-ink-muted">To change your address or add a second guardian, message the office. Routes depend on it.</p>
+          <p className="mt-3 text-[13px] text-ink-muted">To change your address or add a second guardian, message the office. Routes depend on it.</p>
         </Card>
 
         <Card>

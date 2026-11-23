@@ -103,8 +103,8 @@ export function HoursView() {
           <div className="flex items-center gap-3.5">
             <Avatar seed={me.id} name={me.name} size={52} status="online" />
             <div className="min-w-0">
-              <p className="text-[16px] font-semibold">{me.name}</p>
-              <p className="truncate text-[13.5px] text-ink-muted">{me.email}</p>
+              <p className="text-[16px] font-medium">{me.name}</p>
+              <p className="truncate text-[14px] text-ink-muted">{me.email}</p>
             </div>
           </div>
           <div className="mt-4">

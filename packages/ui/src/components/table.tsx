@@ -72,7 +72,7 @@ export function DataTable<T>({
                   scope="col"
                   style={{ width: c.width }}
                   className={cn(
-                    "h-10 whitespace-nowrap border-b border-line px-4 text-[12.5px] font-medium text-ink-muted first:pl-5 last:pr-5",
+                    "h-10 whitespace-nowrap border-b border-line px-4 text-[13px] font-medium text-ink-muted first:pl-5 last:pr-5",
                     c.align === "right" && "text-right",
                     c.align === "center" && "text-center",
                     c.hideBelow && hide[c.hideBelow],

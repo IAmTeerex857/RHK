@@ -56,7 +56,7 @@ export function HistoryView() {
           rowKey={(e) => e.id}
           empty={<EmptyState icon={<History />} title="No changes match" />}
           columns={[
-            { key: "at", header: "When", width: "110px", cell: (e) => <span className="font-mono text-[12.5px] text-ink-muted">{e.at}</span> },
+            { key: "at", header: "When", width: "110px", cell: (e) => <span className="font-mono text-[13px] text-ink-muted">{e.at}</span> },
             {
               key: "who",
               header: "Who",

@@ -80,7 +80,7 @@ export function FamiliesView() {
                   <Avatar seed={f.guardians[0].id} name={f.guardians[0].name} size={32} />
                   <span className="min-w-0">
                     <span className="block truncate font-medium">{f.name}</span>
-                    <span className="block truncate text-[12.5px] text-ink-muted">{f.guardians.map((g) => g.name.split(" ")[0]).join(" & ")}</span>
+                    <span className="block truncate text-[13px] text-ink-muted">{f.guardians.map((g) => g.name.split(" ")[0]).join(" & ")}</span>
                   </span>
                 </span>
               ),

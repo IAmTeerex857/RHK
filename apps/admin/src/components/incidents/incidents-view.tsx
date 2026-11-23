@@ -64,7 +64,7 @@ export function IncidentsView() {
                     <span className="truncate text-[14px] font-medium">{i.title}</span>
                     <StatusBadge map={incidentStatus} value={closed[i.id] ? "closed" : i.status} />
                   </span>
-                  <span className="mt-1 block truncate text-[12.5px] text-ink-muted">
+                  <span className="mt-1 block truncate text-[13px] text-ink-muted">
                     {i.at} · {i.driverId ? getDriver(i.driverId).name : "Office"}
                   </span>
                 </span>
@@ -77,7 +77,7 @@ export function IncidentsView() {
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <p className="font-mono text-[12px] text-ink-muted">{inc.id.toUpperCase()}</p>
-              <h2 className="mt-1 font-display text-[22px] font-medium tracking-[-0.03em]">{inc.title}</h2>
+              <h2 className="mt-1 font-display text-[24px] font-medium tracking-[-0.03em]">{inc.title}</h2>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <StatusBadge map={incidentStatus} value={status} />
                 <Badge tone={sev[inc.severity]}>{inc.severity === "low" ? "Low" : inc.severity === "medium" ? "Medium" : "High"} severity</Badge>
@@ -89,7 +89,7 @@ export function IncidentsView() {
               </Button>
             ) : null}
           </div>
-          <p className="mt-5 text-[14.5px] leading-relaxed text-ink-soft">{inc.summary}</p>
+          <p className="mt-5 text-[15px] leading-relaxed text-ink-soft">{inc.summary}</p>
           <div className="mt-5 grid grid-cols-1 gap-x-8 md:grid-cols-2">
             <div>
               <Row label="When" value={inc.at} />

@@ -81,7 +81,7 @@ export function Composer({ onSend, placeholder = "Write a message…", className
         }}
         placeholder={placeholder}
         aria-label="Message"
-        className="max-h-40 min-h-9 flex-1 resize-none bg-transparent py-2 text-[14.5px] outline-none [field-sizing:content] placeholder:text-ink-muted"
+        className="max-h-40 min-h-9 flex-1 resize-none bg-transparent py-2 text-[15px] outline-none [field-sizing:content] placeholder:text-ink-muted"
       />
       <button
         type="button"

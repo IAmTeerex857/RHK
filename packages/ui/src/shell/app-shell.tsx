@@ -144,7 +144,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
               <LogoMark className="size-8 shrink-0" />
               {!collapsed ? (
                 <span className="min-w-0 leading-none">
-                  <span className="block truncate font-display text-[14.5px] font-semibold tracking-[-0.02em]">Rush Hour Kids</span>
+                  <span className="block truncate font-display text-[15px] font-medium tracking-[-0.02em]">Rush Hour Kids</span>
                   <span className="mt-1 block truncate text-[12px] text-ink-muted">{app}</span>
                 </span>
               ) : null}
@@ -160,7 +160,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
             type="button"
             onClick={openPalette}
             className={cn(
-              "mt-3 flex h-9 items-center gap-2 rounded-[10px] border border-line bg-card text-[13.5px] text-ink-muted shadow-[0_1px_0_rgb(0_0_0/0.02)] transition-colors hover:text-ink",
+              "mt-3 flex h-9 items-center gap-2 rounded-[10px] border border-line bg-card text-[14px] text-ink-muted shadow-[0_1px_0_rgb(0_0_0/0.02)] transition-colors hover:text-ink",
               collapsed ? "w-full justify-center" : "px-3",
             )}
             aria-label="Search and jump (⌘K)"
@@ -213,7 +213,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
         <div className="flex min-w-0 flex-1 flex-col">
           {/* desktop top bar */}
           <header className="sticky top-0 z-30 hidden h-14 items-center justify-between gap-4 bg-canvas/85 px-8 backdrop-blur-md lg:flex">
-            <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5 text-[13.5px]">
+            <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5 text-[14px]">
               {current ? (
                 <>
                   <Link href={current.href} className="flex items-center gap-1.5 text-ink-muted transition-colors hover:text-ink">
@@ -233,7 +233,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
               <button
                 type="button"
                 onClick={openPalette}
-                className="flex h-9 w-56 items-center gap-2 rounded-full border border-line bg-card px-3.5 text-[13.5px] text-ink-muted transition-colors hover:text-ink xl:w-64"
+                className="flex h-9 w-56 items-center gap-2 rounded-full border border-line bg-card px-3.5 text-[14px] text-ink-muted transition-colors hover:text-ink xl:w-64"
               >
                 <Search className="size-4" />
                 <span className="flex-1 text-left">Search or jump to…</span>
@@ -293,7 +293,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
                   <span className="flex items-center gap-2.5">
                     <LogoMark className="size-8" />
                     <span className="leading-none">
-                      <span className="block font-display text-[14.5px] font-semibold">Rush Hour Kids</span>
+                      <span className="block font-display text-[15px] font-medium">Rush Hour Kids</span>
                       <span className="mt-1 block text-[12px] text-ink-muted">{app}</span>
                     </span>
                   </span>
@@ -369,7 +369,7 @@ function UserMenu({ user, up }: { user: ShellUser; up?: boolean }) {
         >
           <Avatar seed={user.seed} name={user.name} photo={user.photo} size={34} status="online" />
           <span className="min-w-0 flex-1 leading-tight">
-            <span className="block truncate text-[13.5px] font-medium">{user.name}</span>
+            <span className="block truncate text-[14px] font-medium">{user.name}</span>
             <span className="block truncate text-[12px] text-ink-muted">{user.role}</span>
           </span>
           <ChevronsUpDown className="size-4 text-ink-muted" />
@@ -416,10 +416,10 @@ function Notifications({ notices, unread, compact }: { notices: Notice[]; unread
           >
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <p className="text-[14px] font-medium">Notifications</p>
-              <span className="text-[12.5px] text-ink-muted">{unread} unread</span>
+              <span className="text-[13px] text-ink-muted">{unread} unread</span>
             </div>
             <ul className="max-h-[60dvh] overflow-y-auto p-1.5">
-              {notices.length === 0 ? <li className="px-3 py-8 text-center text-[13.5px] text-ink-muted">You&apos;re all caught up.</li> : null}
+              {notices.length === 0 ? <li className="px-3 py-8 text-center text-[14px] text-ink-muted">You&apos;re all caught up.</li> : null}
               {notices.map((n) => (
                 <li key={n.id}>
                   <Link
@@ -429,7 +429,7 @@ function Notifications({ notices, unread, compact }: { notices: Notice[]; unread
                   >
                     <span className={cn("mt-1.5 size-2 shrink-0 rounded-full", n.unread ? dot[n.tone ?? "info"] : "bg-transparent")} />
                     <span className="min-w-0 flex-1">
-                      <span className="block text-[13.5px] font-medium text-ink">{n.title}</span>
+                      <span className="block text-[14px] font-medium text-ink">{n.title}</span>
                       {n.body ? <span className="mt-0.5 block text-[13px] text-ink-muted">{n.body}</span> : null}
                     </span>
                     <span className="shrink-0 text-[12px] text-ink-muted tabular">{n.time}</span>
@@ -599,7 +599,7 @@ function CommandPalette({ open, onClose, nav, commands }: { open: boolean; onClo
                 >
                   {Icon ? <Icon className="size-4 text-ink-muted" /> : <span className="size-4" />}
                   <span className="flex-1">{c.label}</span>
-                  {c.hint ? <span className="font-mono text-[11.5px] text-ink-muted">{c.hint}</span> : null}
+                  {c.hint ? <span className="font-mono text-[12px] text-ink-muted">{c.hint}</span> : null}
                 </button>
               </li>
             );
@@ -642,7 +642,7 @@ export function PageHeader({
       <div className="min-w-0">
         {eyebrow ? <div className="mb-2">{eyebrow}</div> : null}
         <h1 className="font-display text-[28px] font-medium leading-[1.1] tracking-[-0.035em] text-ink sm:text-[32px]">{title}</h1>
-        {description ? <p className="mt-2 max-w-[68ch] text-[14.5px] text-ink-muted">{description}</p> : null}
+        {description ? <p className="mt-2 max-w-[68ch] text-[15px] text-ink-muted">{description}</p> : null}
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
     </div>

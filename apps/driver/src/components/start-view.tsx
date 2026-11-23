@@ -67,7 +67,7 @@ export function StartView() {
           Pre-trip · {route.name} · {van.name} {van.plate}
         </p>
         <h1 className="mt-2 font-display text-[28px] font-medium leading-[1.1] tracking-[-0.035em] sm:text-[32px]">Before you roll</h1>
-        <p className="mt-2 text-[14.5px] text-ink-muted">Clock in, walk round the van, log fuel and miles. Takes about four minutes.</p>
+        <p className="mt-2 text-[15px] text-ink-muted">Clock in, walk round the van, log fuel and miles. Takes about four minutes.</p>
       </div>
 
       <ol className="flex flex-col gap-3">
@@ -78,7 +78,7 @@ export function StartView() {
               onClick={() => run.dispatch({ type: "clockIn" })}
               className="flex h-14 w-full items-center justify-between rounded-2xl bg-bus-400 px-5 text-[#1d1a2f] transition-transform active:scale-[0.99]"
             >
-              <span className="flex items-center gap-2.5 text-[16px] font-semibold">
+              <span className="flex items-center gap-2.5 text-[16px] font-medium">
                 <Clock3 className="size-5" /> Clock in
               </span>
               <span className="font-mono text-[15px] font-medium tabular">{time}</span>
@@ -144,7 +144,7 @@ export function StartView() {
             <div className="mt-3 flex gap-3 rounded-2xl border border-[color-mix(in_oklab,var(--color-bad)_30%,transparent)] bg-coral-soft p-4 text-[14px]">
               <TriangleAlert className="mt-0.5 size-4 shrink-0 text-bad" />
               <p>
-                <span className="font-semibold">Don&apos;t drive this van.</span> The office has the report and will send a spare van or a fix. Stay with the van.
+                <span className="font-medium">Don&apos;t drive this van.</span> The office has the report and will send a spare van or a fix. Stay with the van.
               </p>
             </div>
           ) : null}
@@ -169,15 +169,15 @@ export function StartView() {
               <li key={c.id} className="flex items-center gap-3">
                 <Avatar seed={c.id} name={c.first} size={34} />
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[14.5px] font-medium">
+                  <span className="block text-[15px] font-medium">
                     {c.first} {c.last}
                   </span>
                   {c.medical ? (
-                    <span className="flex items-center gap-1.5 text-[12.5px] font-medium text-bad">
+                    <span className="flex items-center gap-1.5 text-[13px] font-medium text-bad">
                       <HeartPulse className="size-3.5" /> {c.medical}
                     </span>
                   ) : (
-                    <span className="block text-[12.5px] text-ink-muted">
+                    <span className="block text-[13px] text-ink-muted">
                       {c.grade} grade · {c.teacher}
                     </span>
                   )}
@@ -207,7 +207,7 @@ export function StartView() {
             }
           />
         ) : (
-          <div className="flex h-16 items-center justify-center rounded-full border border-dashed border-line-strong bg-card/80 text-[14.5px] text-ink-muted backdrop-blur">
+          <div className="flex h-16 items-center justify-center rounded-full border border-dashed border-line-strong bg-card/80 text-[15px] text-ink-muted backdrop-blur">
             {blocking.length ? "This van can't start. The office is on it." : "Finish the steps above to start the route"}
           </div>
         )}
@@ -262,10 +262,10 @@ function Section({ n, title, sub, done, locked, action, children }: { n: number;
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-3">
-            <h2 className="text-[16px] font-semibold tracking-[-0.01em]">{title}</h2>
+            <h2 className="text-[16px] font-medium tracking-[-0.01em]">{title}</h2>
             {action}
           </div>
-          <p className="mt-0.5 text-[13.5px] text-ink-muted">{sub}</p>
+          <p className="mt-0.5 text-[14px] text-ink-muted">{sub}</p>
         </div>
       </div>
       {!locked ? <div className="mt-4 sm:pl-[46px]">{children}</div> : null}
@@ -280,11 +280,11 @@ function AlreadyStarted() {
       <Badge tone="good" dot>
         Pre-trip passed
       </Badge>
-      <h1 className="mt-4 font-display text-[30px] font-medium tracking-[-0.04em]">You&apos;re already on the road</h1>
+      <h1 className="mt-4 font-display text-[28px] font-medium tracking-[-0.04em]">You&apos;re already on the road</h1>
       <p className="mt-2 text-[15px] text-ink-muted">
         Clocked in at {run.clockIn}, route started {run.startedAt}. The next pre-trip opens Monday at 6:10 AM.
       </p>
-      <Link href="/route" className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[15px] font-semibold text-cream">
+      <Link href="/route" className="mt-6 inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 text-[15px] font-medium text-cream">
         Back to the route <ArrowRight className="size-4" />
       </Link>
     </div>

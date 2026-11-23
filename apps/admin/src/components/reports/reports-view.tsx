@@ -52,10 +52,10 @@ export function ReportsView() {
           <Stat label="Rides given" value="1,612" delta={<Delta value={11.2} />} note="vs last term" />
         </Card>
         <Card>
-          <Stat label="On-time rate" value="94.6" unit="%" delta={<Delta value={2.3} suffix=" pts" />} note="goal 95%" />
+          <Stat label="On-time rate" value="94.6" unit="%" delta={<Delta value={2.3} suffix=" pts" />} note="vs last term · goal 95%" />
         </Card>
         <Card>
-          <Stat label="Incidents" value="7" delta={<Delta value={-3} suffix="" goodWhen="down" />} note="2 open" />
+          <Stat label="Incidents" value="7" delta={<Delta value={-3} suffix="" goodWhen="down" />} note="vs last term · 2 open" />
         </Card>
 
         <Card className="col-span-2">

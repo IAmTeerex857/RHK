@@ -40,8 +40,8 @@ export function MessagesView() {
           <div className="flex items-center gap-3 border-b border-line px-4 py-3">
             <AvatarStack people={staff.map((s) => ({ seed: s.id, name: s.name }))} size={30} />
             <div className="min-w-0 flex-1">
-              <p className="text-[14.5px] font-medium">Rush Hour Kids office</p>
-              <p className="truncate text-[12.5px] text-ink-muted">Clara, Jordan and Tasha · usually reply in a few minutes</p>
+              <p className="text-[15px] font-medium">Rush Hour Kids office</p>
+              <p className="truncate text-[13px] text-ink-muted">Clara, Jordan and Tasha · usually reply in a few minutes</p>
             </div>
             <a
               href={`tel:${OFFICE.phone}`}
@@ -77,11 +77,11 @@ export function MessagesView() {
             <Card key={a.id}>
               <div className="flex items-center justify-between">
                 <Badge tone="info">{a.audience}</Badge>
-                <span className="text-[12.5px] text-ink-muted">{a.sentAt}</span>
+                <span className="text-[13px] text-ink-muted">{a.sentAt}</span>
               </div>
-              <h3 className="mt-4 font-display text-[17px] font-medium tracking-[-0.02em]">{a.title}</h3>
+              <h3 className="mt-4 font-display text-[18px] font-medium tracking-[-0.02em]">{a.title}</h3>
               <p className="mt-2 text-[14px] text-ink-soft">{a.body}</p>
-              <p className="mt-4 text-[12.5px] text-ink-muted">From {a.sentBy}</p>
+              <p className="mt-4 text-[13px] text-ink-muted">From {a.sentBy}</p>
             </Card>
           ))}
         </div>

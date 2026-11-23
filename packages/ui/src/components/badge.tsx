@@ -51,7 +51,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex h-6 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 text-[12.5px] font-medium",
+        "inline-flex h-6 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full border px-2.5 text-[13px] font-medium",
         mono && "mono-label h-6 text-[11px]",
         toneClasses[tone],
         className,
@@ -98,12 +98,12 @@ export function Delta({
   return (
     <span
       className={cn(
-        "inline-flex h-6 items-center gap-0.5 rounded-full border px-2 text-[12.5px] font-medium tabular",
-        good === null ? toneClasses.neutral : good ? toneClasses.good : toneClasses.bad,
+        "inline-flex items-center gap-0.5 text-[13px] font-medium tabular",
+        good === null ? "text-ink-muted" : good ? "text-good" : "text-bad",
         className,
       )}
     >
-      <Icon className="size-3.5 stroke-[2]" aria-hidden />
+      <Icon className="size-3.5" aria-hidden />
       {value > 0 ? "+" : value < 0 ? "−" : ""}
       {Math.abs(value)}
       {suffix}
@@ -129,7 +129,7 @@ export function CountPill({ children, tone = "neutral", className }: { children:
   return (
     <span
       className={cn(
-        "inline-grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[11.5px] font-semibold tabular",
+        "inline-grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[12px] font-medium tabular",
         tone === "alert" ? "bg-coral text-white" : "bg-raised text-ink-soft",
         className,
       )}

@@ -53,9 +53,9 @@ export function SettingsView() {
                 <Avatar seed={s.id} name={s.name} size={36} status={s.lastActive === "Now" ? "online" : undefined} />
                 <div className="min-w-0 flex-1">
                   <p className="text-[14px] font-medium">{s.name}</p>
-                  <p className="truncate text-[12.5px] text-ink-muted">{s.email}</p>
+                  <p className="truncate text-[13px] text-ink-muted">{s.email}</p>
                 </div>
-                <span className="hidden text-[12.5px] text-ink-muted sm:block">Active {s.lastActive.toLowerCase()}</span>
+                <span className="hidden text-[13px] text-ink-muted sm:block">Active {s.lastActive.toLowerCase()}</span>
                 <Badge tone={s.role === "owner" ? "brand" : "neutral"}>{s.role === "owner" ? "Owner" : "Staff"}</Badge>
               </li>
             ))}
@@ -156,7 +156,7 @@ export function SettingsView() {
                   </span>
                   <span>
                     <span className="block text-[14px] font-medium">{r.label}</span>
-                    <span className="mt-0.5 block text-[12.5px] text-ink-muted">{r.desc}</span>
+                    <span className="mt-0.5 block text-[13px] text-ink-muted">{r.desc}</span>
                   </span>
                 </button>
               ))}

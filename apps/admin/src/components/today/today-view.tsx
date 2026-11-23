@@ -60,7 +60,7 @@ export function TodayView() {
       <PageHeader
         eyebrow={
           <span className="inline-flex items-center gap-2 text-[13px] text-ink-muted">
-            <StatusDot tone="good" pulse>
+            <StatusDot tone="good">
               {NOW.dayLabel}
             </StatusDot>
             <span className="text-line-strong">/</span>
@@ -93,22 +93,25 @@ export function TodayView() {
         <Card className="flex flex-col lg:col-span-4">
           <CardHeader title="On-time drop-offs" subtitle={`This week · ${NOW.week}`} actions={<MoreButton />} />
           <Stat className="mt-6" size="xl" value="96.8" unit="%" delta={<Delta value={1.1} suffix=" pts" />} note="vs last week" />
-          <p className="mt-5 text-[13.5px] leading-relaxed text-ink-soft">
+          <p className="mt-5 text-[14px] leading-relaxed text-ink-soft">
             1.8 pts above the 95% goal. <span className="text-ink">127 of 131</span> rides arrived inside their window.
           </p>
           <HatchBar className="mt-4" value={0.968} min={0.9} max={1} target={0.95} minLabel="90%" targetLabel="Goal 95%" />
-          <dl className="mt-4 divide-y divide-line">
+          <div className="mt-5 grid grid-cols-[1fr_auto_96px] gap-3 text-[12px] text-ink-muted">
+            <span>This week</span>
+            <span />
+            <span className="text-right">vs last week</span>
+          </div>
+          <dl className="mt-1 divide-y divide-line">
             {[
               { k: "Rides given", v: `${ridesThisWeek.given} / ${ridesThisWeek.scheduled}`, d: <Delta value={4.2} /> },
               { k: "Absences", v: ridesThisWeek.absent, d: <Delta value={-2} suffix="" goodWhen="down" /> },
               { k: "Late drop-offs", v: ridesThisWeek.late, d: <Delta value={-1} suffix="" goodWhen="down" /> },
             ].map((r) => (
-              <div key={r.k} className="flex items-center justify-between py-3 text-[14px]">
+              <div key={r.k} className="grid grid-cols-[1fr_auto_96px] items-center gap-3 py-3 text-[14px]">
                 <dt className="text-ink-muted">{r.k}</dt>
-                <dd className="flex items-center gap-3 font-medium tabular">
-                  {r.v}
-                  {r.d}
-                </dd>
+                <dd className="font-medium tabular">{r.v}</dd>
+                <dd className="flex justify-end">{r.d}</dd>
               </div>
             ))}
           </dl>
@@ -140,7 +143,7 @@ export function TodayView() {
               title={slot === "pm" ? "Afternoon runs" : "Morning runs"}
               subtitle={slot === "pm" ? `${runs.filter((r) => r.status !== "not_started").length} of 4 on the road · updated ${NOW.time}` : "All 4 finished · 47 children to school"}
               actions={
-                <Link href="/live" className="inline-flex items-center gap-1 text-[13.5px] font-medium text-ink-soft hover:text-ink">
+                <Link href="/live" className="inline-flex items-center gap-1 text-[14px] font-medium text-ink-soft hover:text-ink">
                   Live map <ChevronRight className="size-4" />
                 </Link>
               }
@@ -170,7 +173,7 @@ export function TodayView() {
                             </Badge>
                           </div>
                           <SegmentBar className="mt-2.5" size="sm" value={done} total={route.stops.length} tone={run.status === "late" ? "bad" : "data"} label={`${done} of ${route.stops.length} stops`} />
-                          <p className="mt-2 flex items-center justify-between gap-3 text-[12.5px] text-ink-muted">
+                          <p className="mt-2 flex items-center justify-between gap-3 text-[13px] text-ink-muted">
                             <span className="min-w-0 truncate">
                               {next ? (
                                 <>
@@ -225,7 +228,7 @@ export function TodayView() {
                 ]
             ).map((m) => (
               <div key={m.k} className="px-5 py-4">
-                <dt className="text-[12.5px] text-ink-muted">{m.k}</dt>
+                <dt className="text-[13px] text-ink-muted">{m.k}</dt>
                 <dd className="mt-1 font-mono text-[18px] font-medium tabular">{m.v}</dd>
               </div>
             ))}
@@ -240,9 +243,9 @@ export function TodayView() {
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1d1a2f]/10 px-2.5 py-1 text-[12px] font-medium">
                   <AlertTriangle className="size-3.5" /> Running late
                 </span>
-                <span className="font-mono text-[12px] opacity-60">LIVE</span>
+                <span className="font-mono text-[12px] opacity-60">Live</span>
               </div>
-              <p className="mt-5 font-display text-[44px] font-medium leading-none tracking-[-0.04em] tabular">
+              <p className="mt-5 font-display text-[40px] font-medium leading-none tracking-[-0.04em] tabular">
                 {late.lateMinutes} min
               </p>
               <p className="mt-1 text-[13px] opacity-70">behind on {lateRoute.name.replace(" · Afternoon", "")}</p>
@@ -251,7 +254,7 @@ export function TodayView() {
               </p>
               <Link
                 href="/live"
-                className="mt-5 inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[13.5px] font-medium text-[#1d1a2f] shadow-subtle transition-transform hover:translate-x-0.5"
+                className="mt-5 inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[14px] font-medium text-[#1d1a2f] shadow-subtle transition-transform hover:translate-x-0.5"
               >
                 Open live map <ArrowRight className="size-4" />
               </Link>
@@ -320,10 +323,10 @@ export function TodayView() {
                   <li key={a.id} className="flex items-center gap-3 py-1.5">
                     <Avatar seed={c.id} name={c.first} size={30} />
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[13.5px] font-medium">
+                      <p className="truncate text-[14px] font-medium">
                         {c.first} {c.last}
                       </p>
-                      <p className="truncate text-[12.5px] text-ink-muted">
+                      <p className="truncate text-[13px] text-ink-muted">
                         {a.slot === "am" ? "Morning" : "Afternoon"} · {a.reportedBy === "driver" ? "marked by driver" : "parent told us"}
                       </p>
                     </div>
@@ -340,7 +343,7 @@ export function TodayView() {
                   <span className="min-w-0 flex-1 text-ink-soft">
                     <span className="font-medium text-ink">{e.who}</span> {e.action.toLowerCase()} {e.target}
                   </span>
-                  <span className="shrink-0 font-mono text-[11.5px] text-ink-muted">{e.at}</span>
+                  <span className="shrink-0 font-mono text-[12px] text-ink-muted">{e.at}</span>
                 </li>
               ))}
             </ul>

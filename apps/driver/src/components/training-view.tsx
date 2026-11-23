@@ -69,8 +69,8 @@ export function TrainingView() {
             </span>
           </Ring>
           <div>
-            <p className="text-[16px] font-semibold">{done === live.length ? "All required done" : "Keep going"}</p>
-            <p className="mt-0.5 text-[13.5px] text-ink-muted">Refreshers come up once a year. The office adds new ones as needed.</p>
+            <p className="text-[16px] font-medium">{done === live.length ? "All required done" : "Keep going"}</p>
+            <p className="mt-0.5 text-[14px] text-ink-muted">Refreshers come up once a year. The office adds new ones as needed.</p>
           </div>
         </Card>
         <Card flush className="lg:col-span-8">
@@ -81,7 +81,7 @@ export function TrainingView() {
                   {doneFor(i) ? <CheckCircle2 className="size-6 shrink-0 text-good" /> : <PlayCircle className="size-6 shrink-0 text-ink" />}
                   <span className="min-w-0 flex-1">
                     <span className="block text-[15px] font-medium">{c.title}</span>
-                    <span className="mt-0.5 flex items-center gap-1.5 text-[12.5px] text-ink-muted">
+                    <span className="mt-0.5 flex items-center gap-1.5 text-[13px] text-ink-muted">
                       <Clock3 className="size-3.5" /> {c.minutes} min · {c.lessons} lessons{c.required ? " · required" : ""}
                     </span>
                   </span>
@@ -161,8 +161,8 @@ export function CourseView({ id }: { id: string }) {
             })}
           </ul>
           {pick !== null ? (
-            <p className="mt-4 rounded-2xl bg-raised p-4 text-[13.5px] text-ink-soft">
-              <span className="font-semibold text-ink">{pick === l.quiz.answer ? "Right. " : "Not quite. "}</span>
+            <p className="mt-4 rounded-2xl bg-raised p-4 text-[14px] text-ink-soft">
+              <span className="font-medium text-ink">{pick === l.quiz.answer ? "Right. " : "Not quite. "}</span>
               {l.quiz.why}
             </p>
           ) : null}

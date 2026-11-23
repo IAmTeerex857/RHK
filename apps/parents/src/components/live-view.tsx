@@ -42,7 +42,7 @@ export function LiveView() {
               <span className="font-mono text-[13px] font-medium tabular">{mins}m</span>
             </Ring>
             <div className="min-w-0 flex-1">
-              <p className="text-[14.5px] font-semibold">{stopsBefore === 0 ? "You're the next stop" : `${stopsBefore} stops before yours`}</p>
+              <p className="text-[15px] font-medium">{stopsBefore === 0 ? "You're the next stop" : `${stopsBefore} stops before yours`}</p>
               <p className="text-[13px] text-ink-muted">{homeStop.address} · ETA {ETA_LABEL}</p>
             </div>
           </div>
@@ -54,8 +54,8 @@ export function LiveView() {
             <div className="mt-4 flex items-center gap-3.5">
               <Avatar seed={driver.id} name={driver.name} size={56} status="online" />
               <div className="min-w-0 flex-1">
-                <p className="text-[16px] font-semibold">{driver.name}</p>
-                <p className="text-[13.5px] text-ink-muted">
+                <p className="text-[16px] font-medium">{driver.name}</p>
+                <p className="text-[14px] text-ink-muted">
                   {van.name} · {van.plate} · driving since {driver.since}
                 </p>
               </div>
@@ -74,13 +74,13 @@ export function LiveView() {
                 <li key={k.id} className="flex items-center gap-3">
                   <Avatar seed={k.id} name={k.first} size={40} />
                   <div className="min-w-0 flex-1">
-                    <p className="text-[14.5px] font-medium">{k.first}</p>
+                    <p className="text-[15px] font-medium">{k.first}</p>
                     {k.medical ? (
-                      <p className="flex items-center gap-1.5 text-[12.5px] text-ink-muted">
+                      <p className="flex items-center gap-1.5 text-[13px] text-ink-muted">
                         <HeartPulse className="size-3.5 text-bad" /> Driver has the medical note
                       </p>
                     ) : (
-                      <p className="text-[12.5px] text-ink-muted">Since 2:42 PM</p>
+                      <p className="text-[13px] text-ink-muted">Since 2:42 PM</p>
                     )}
                   </div>
                   <Badge tone="good" dot>

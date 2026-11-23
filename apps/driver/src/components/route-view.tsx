@@ -86,7 +86,7 @@ export function RouteView() {
             <CardHeader title="Run log" subtitle="Sent to the office as it happens" />
             <ul className="mt-4 flex flex-col">
               {run.log.slice(0, 6).map((l, i) => (
-                <li key={`${l.at}-${i}`} className="flex gap-3 border-b border-line py-2.5 text-[13.5px] last:border-0">
+                <li key={`${l.at}-${i}`} className="flex gap-3 border-b border-line py-2.5 text-[14px] last:border-0">
                   <span className="w-[62px] shrink-0 font-mono text-[12px] text-ink-muted tabular">{l.at}</span>
                   <span className={cn(l.tone === "bad" ? "text-bad" : l.tone === "warn" ? "text-ink" : "text-ink-soft")}>{l.text}</span>
                 </li>
@@ -124,7 +124,7 @@ function CurrentStop({ stop }: { stop: RouteStop }) {
           </span>
           <span className={cn("font-mono text-[13px] tabular", here ? "text-ink-muted" : "text-[#1d1a2f]/70")}>{here ? "Arrived" : `ETA ${run.current === 3 ? "3:30 PM" : stop.time}`}</span>
         </div>
-        <h2 className="mt-3 font-display text-[32px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[38px]">{stopName(stop)}</h2>
+        <h2 className="mt-3 font-display text-[32px] font-medium leading-[1.02] tracking-[-0.045em] sm:text-[40px]">{stopName(stop)}</h2>
         <p className={cn("mt-1.5 flex items-center gap-1.5 text-[15px]", here ? "text-ink-muted" : "text-[#1d1a2f]/75")}>
           <MapPin className="size-4" /> {stop.address}
         </p>
@@ -134,14 +134,14 @@ function CurrentStop({ stop }: { stop: RouteStop }) {
               href={maps}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#1d1a2f]/[0.08] px-5 text-[15px] font-semibold transition-colors hover:bg-[#1d1a2f]/[0.12]"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#1d1a2f]/[0.08] px-5 text-[15px] font-medium transition-colors hover:bg-[#1d1a2f]/[0.12]"
             >
               <Navigation className="size-4" /> Directions
             </a>
             <button
               type="button"
               onClick={() => run.dispatch({ type: "arrive" })}
-              className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#1d1a2f] px-5 text-[15.5px] font-semibold text-white transition-transform active:scale-[0.98]"
+              className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#1d1a2f] px-5 text-[16px] font-medium text-white transition-transform active:scale-[0.98]"
             >
               I&apos;m here
             </button>
@@ -200,7 +200,7 @@ function WaitTimer({ left }: { left: number }) {
         <Timer className="size-4 text-ink-muted" />
       </Ring>
       <div className="min-w-0 flex-1">
-        <p className="font-mono text-[22px] font-medium leading-none tabular">{mmss(left)}</p>
+        <p className="font-mono text-[24px] font-medium leading-none tabular">{mmss(left)}</p>
         <p className="mt-1 text-[13px] text-ink-muted">
           {up ? "Five minutes are up. If no approved adult is here, alert the office." : "Wait up to five minutes for an approved adult."}
         </p>
@@ -218,14 +218,14 @@ function ChildRow({ id, rec, school, enabled, onHandOff }: { id: string; rec: Ch
     <li className="flex flex-wrap items-center gap-3 border-b border-line px-5 py-4 last:border-0 sm:px-6">
       <Avatar seed={c.id} name={c.first} size={44} />
       <div className="min-w-0 flex-1">
-        <p className="text-[15.5px] font-medium">
+        <p className="text-[16px] font-medium">
           {c.first} {c.last}
         </p>
         <p className="text-[13px] text-ink-muted">
           Age {c.age} · {c.grade} grade
         </p>
         {c.medical ? (
-          <p className="mt-1 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-bad">
+          <p className="mt-1 inline-flex items-center gap-1.5 text-[13px] font-medium text-bad">
             <HeartPulse className="size-3.5" /> {c.medical}
           </p>
         ) : null}
@@ -337,7 +337,7 @@ function HandOffDialog({ id, onClose }: { id: string | null; onClose: () => void
     >
       {confirmHold && c ? (
         <div className="rounded-2xl border border-[color-mix(in_oklab,var(--color-bad)_30%,transparent)] bg-coral-soft p-4">
-          <p className="text-[15px] font-semibold">{c.first} stays on the van.</p>
+          <p className="text-[15px] font-medium">{c.first} stays on the van.</p>
           <ul className="mt-2 flex list-disc flex-col gap-1 pl-5 text-[14px] text-ink-soft">
             <li>The office calls the parent and the approved adults now.</li>
             <li>Keep {c.first} buckled in and carry on with the route.</li>
@@ -453,7 +453,7 @@ function NotStarted() {
   return (
     <div className="mx-auto max-w-md pt-16 text-center">
       <p className="mono-label text-ink-muted">{route.name}</p>
-      <h1 className="mt-3 font-display text-[30px] font-medium tracking-[-0.04em]">Not started yet</h1>
+      <h1 className="mt-3 font-display text-[28px] font-medium tracking-[-0.04em]">Not started yet</h1>
       <p className="mt-2 text-[15px] text-ink-muted">Clock in and do the pre-trip check first. The route opens when the van passes.</p>
       <Button variant="primary" size="lg" href="/start" linkAs={Link} className="mt-6" arrow>
         Clock in and start pre-trip
@@ -467,12 +467,12 @@ function Finished() {
   return (
     <section className="rounded-[22px] bg-bus-400 p-6 text-[#1d1a2f]">
       <p className="mono-label text-[#1d1a2f]/70">{run.phase === "closed" ? `Clocked out ${run.clockOut}` : "Before you clock out"}</p>
-      <h2 className="mt-3 font-display text-[32px] font-semibold leading-[1.02] tracking-[-0.045em]">{run.phase === "closed" ? "Route closed" : "Walk the van"}</h2>
+      <h2 className="mt-3 font-display text-[32px] font-medium leading-[1.02] tracking-[-0.045em]">{run.phase === "closed" ? "Route closed" : "Walk the van"}</h2>
       <p className="mt-2 text-[15px] text-[#1d1a2f]/75">
         {run.phase === "closed" ? "Every rider is accounted for. Thanks, see you Monday." : "Check every seat and row, then clock out. The route can't close until you do."}
       </p>
       {run.phase !== "closed" ? (
-        <Link href="/route/finish" className="mt-5 inline-flex h-12 items-center gap-2 rounded-full bg-[#1d1a2f] px-6 text-[15.5px] font-semibold text-white">
+        <Link href="/route/finish" className="mt-5 inline-flex h-12 items-center gap-2 rounded-full bg-[#1d1a2f] px-6 text-[16px] font-medium text-white">
           Empty-van check <ArrowRight className="size-4" />
         </Link>
       ) : null}

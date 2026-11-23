@@ -238,13 +238,12 @@
   }
 }
 
-/* Uppercase mono meta label ("POLICY V14 · UNSAVED CHANGES"). */
+/* Mono meta line ("Stop 4 of 6 · Drop off"), sentence case, for times, counts and route context. */
 @utility mono-label {
   font-family: var(--font-mono);
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
 }
 
 @utility tabular {

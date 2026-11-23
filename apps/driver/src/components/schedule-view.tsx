@@ -58,7 +58,7 @@ export function ScheduleView() {
                 <RunCard icon={<Sunset className="size-4" />} name="Afternoon" start={pm.start} end={pm.end} stops={pm.stops.length} miles={pm.miles} live={d.today} />
               </ul>
             )}
-            {d.note ? <p className="mt-3 text-[13.5px] text-ink-muted">{d.note}</p> : null}
+            {d.note ? <p className="mt-3 text-[14px] text-ink-muted">{d.note}</p> : null}
           </div>
         </Card>
 
@@ -69,11 +69,11 @@ export function ScheduleView() {
               {mine.map((t) => (
                 <li key={t.id} className="flex items-center gap-3 rounded-xl border border-line px-3.5 py-3">
                   <div className="min-w-0 flex-1">
-                    <p className="text-[14.5px] font-medium">
+                    <p className="text-[15px] font-medium">
                       {t.from}
                       {t.to !== t.from ? ` – ${t.to}` : ""}
                     </p>
-                    <p className="truncate text-[12.5px] text-ink-muted">
+                    <p className="truncate text-[13px] text-ink-muted">
                       {t.reason}
                       {t.coverId ? ` · ${getDriver(t.coverId).name.split(" ")[0]} covers` : ""}
                     </p>
@@ -91,7 +91,7 @@ export function ScheduleView() {
               {[announcements[1], announcements[0]].map((a) => (
                 <div key={a.id} className="border-b border-line py-3 last:border-0">
                   <p className="text-[14px] font-medium">{a.title}</p>
-                  <p className="mt-0.5 text-[13.5px] text-ink-muted">{a.body}</p>
+                  <p className="mt-0.5 text-[14px] text-ink-muted">{a.body}</p>
                 </div>
               ))}
             </div>
@@ -124,7 +124,7 @@ function RunCard({ icon, name, start, end, stops, miles, done, live }: { icon: R
         </p>
       </div>
       <div className="text-right">
-        <p className="font-mono text-[13.5px] tabular">{start}</p>
+        <p className="font-mono text-[14px] tabular">{start}</p>
         <p className="font-mono text-[12px] text-ink-muted tabular">{end}</p>
       </div>
       {done ? <Badge tone="good">Done</Badge> : live ? <Badge tone="info" dot>Live</Badge> : null}

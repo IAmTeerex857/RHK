@@ -123,7 +123,7 @@ export function ScheduleView() {
                       <p className="text-[14px] font-medium">
                         {kidList(a.kids)} · {future.find((f) => f.key === a.day)?.label}
                       </p>
-                      <p className="text-[12.5px] text-ink-muted">
+                      <p className="text-[13px] text-ink-muted">
                         {a.slot === "both" ? "Both rides" : a.slot === "am" ? "Morning ride" : "Afternoon ride"}
                         {a.fee ? ` · ${money(a.fee, true)} fee on your next bill` : " · no fee"}
                       </p>
@@ -138,7 +138,7 @@ export function ScheduleView() {
                       <p className="text-[14px] font-medium">
                         {kidList([c.kid])} · {c.kind}
                       </p>
-                      <p className="text-[12.5px] text-ink-muted">
+                      <p className="text-[13px] text-ink-muted">
                         From {c.effective}
                         {c.fee ? ` · ${money(FEES.lateCancel, true)} fee unless waived` : ""}
                       </p>
@@ -150,7 +150,7 @@ export function ScheduleView() {
                 ))}
               </ul>
             ) : (
-              <p className="mt-3 text-[13.5px] text-ink-muted">Nothing sent yet this term.</p>
+              <p className="mt-3 text-[14px] text-ink-muted">Nothing sent yet this term.</p>
             )}
           </Card>
         </div>
@@ -192,8 +192,8 @@ function SlotCell({ label, time, state }: { label: string; time: string; state: 
   }[state];
   return (
     <div className={cn("rounded-xl bg-raised/60 px-3 py-2.5", state === "absent" && "opacity-80")}>
-      <p className="text-[12.5px] text-ink-muted">{label}</p>
-      <p className={cn("mt-0.5 text-[13.5px] font-medium", state === "absent" && "line-through decoration-ink-muted")}>{time}</p>
+      <p className="text-[13px] text-ink-muted">{label}</p>
+      <p className={cn("mt-0.5 text-[14px] font-medium", state === "absent" && "line-through decoration-ink-muted")}>{time}</p>
       <div className="mt-2">{badge}</div>
     </div>
   );
@@ -303,13 +303,13 @@ function Notice({ tone, title, children }: { tone: "good" | "warn" | "bad"; titl
   return (
     <div
       className={cn(
-        "mt-6 rounded-2xl border p-4 text-[13.5px]",
+        "mt-6 rounded-2xl border p-4 text-[14px]",
         tone === "bad" && "border-[color-mix(in_oklab,var(--color-bad)_30%,transparent)] bg-coral-soft",
         tone === "warn" && "border-[color-mix(in_oklab,var(--color-warn)_35%,transparent)] bg-bus-100",
         tone === "good" && "border-[color-mix(in_oklab,var(--color-good)_30%,transparent)] bg-mint-soft",
       )}
     >
-      <p className="text-[14px] font-semibold text-ink">{title}</p>
+      <p className="text-[14px] font-medium text-ink">{title}</p>
       <p className="mt-0.5 text-ink-soft">{children}</p>
     </div>
   );

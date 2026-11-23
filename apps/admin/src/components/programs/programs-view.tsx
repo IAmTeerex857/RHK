@@ -31,9 +31,9 @@ function ProgramCard({ p }: { p: Program }) {
           {status[p.status].label}
         </Badge>
       </div>
-      <p className="mt-4 text-[12.5px] font-medium text-ink-muted">{k.label}</p>
+      <p className="mt-4 text-[13px] font-medium text-ink-muted">{k.label}</p>
       <h3 className="mt-0.5 font-display text-[18px] font-medium tracking-[-0.02em]">{p.name}</h3>
-      <div className="mt-3 flex flex-col gap-1.5 text-[13.5px] text-ink-soft">
+      <div className="mt-3 flex flex-col gap-1.5 text-[14px] text-ink-soft">
         <span className="flex items-center gap-2">
           <CalendarDays className="size-4 text-ink-muted" /> {p.dates}
         </span>
@@ -41,7 +41,7 @@ function ProgramCard({ p }: { p: Program }) {
           <MapPin className="size-4 text-ink-muted" /> {p.place}
         </span>
       </div>
-      <p className="mt-3 text-[13.5px] text-ink-muted">{p.notes}</p>
+      <p className="mt-3 text-[14px] text-ink-muted">{p.notes}</p>
       <div className="mt-auto flex items-center justify-between border-t border-line pt-4">
         {p.childIds.length ? (
           <span className="flex items-center gap-2 text-[13px] text-ink-muted">

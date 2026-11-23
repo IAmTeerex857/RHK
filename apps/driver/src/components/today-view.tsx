@@ -30,7 +30,7 @@ export function TodayView() {
           <span className="text-line-strong">/</span>
           <span className="tabular">{time}</span>
         </p>
-        <h1 className="font-display text-[30px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-[34px]">
+        <h1 className="font-display text-[28px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-[32px]">
           <span className="text-ink">Good afternoon, {me.name.split(" ")[0]}.</span>{" "}
           <span className="text-ink-muted">{headline(run.phase)}</span>
         </h1>
@@ -49,13 +49,13 @@ export function TodayView() {
             {onBoard.length ? (
               <div className="mt-4 flex items-center gap-3">
                 <AvatarStack people={onBoard.map((c) => ({ seed: c.id, name: c.first }))} size={32} max={5} />
-                <p className="text-[13.5px] text-ink-soft">{onBoard.map((c) => c.first).join(", ")}</p>
+                <p className="text-[14px] text-ink-soft">{onBoard.map((c) => c.first).join(", ")}</p>
               </div>
             ) : null}
             {medical.length ? (
               <ul className="mt-4 flex flex-col gap-2">
                 {medical.map((c) => (
-                  <li key={c.id} className="flex items-start gap-2.5 rounded-xl bg-coral-soft px-3 py-2.5 text-[13.5px] text-ink">
+                  <li key={c.id} className="flex items-start gap-2.5 rounded-xl bg-coral-soft px-3 py-2.5 text-[14px] text-ink">
                     <HeartPulse className="mt-0.5 size-4 shrink-0 text-bad" />
                     <span>
                       <span className="font-medium">{c.first}</span> · {c.medical}
@@ -106,7 +106,7 @@ export function TodayView() {
             <span className="min-w-0 flex-1">
               <span className="flex items-baseline justify-between gap-3">
                 <span className="text-[14px] font-medium">{lastFromOffice.author}</span>
-                <span className="text-[12.5px] text-ink-muted">{lastFromOffice.at.replace("Today, ", "")}</span>
+                <span className="text-[13px] text-ink-muted">{lastFromOffice.at.replace("Today, ", "")}</span>
               </span>
               <span className="mt-0.5 block text-[14px] text-ink-soft">{lastFromOffice.body}</span>
             </span>
@@ -117,7 +117,7 @@ export function TodayView() {
             </span>
             <span className="min-w-0">
               <span className="block text-[14px] font-medium">{announcements[1].title}</span>
-              <span className="mt-0.5 block text-[13.5px] text-ink-muted">{announcements[1].body}</span>
+              <span className="mt-0.5 block text-[14px] text-ink-muted">{announcements[1].body}</span>
             </span>
           </div>
         </Card>
@@ -126,21 +126,21 @@ export function TodayView() {
           <CardHeader title="This week" subtitle={NOW.week} actions={<Link href="/hours" className="text-[13px] font-medium text-ink-muted hover:text-ink">Hours</Link>} />
           <dl className="mt-5 grid grid-cols-3 gap-3">
             <div>
-              <dt className="text-[12.5px] text-ink-muted">Hours</dt>
-              <dd className="mt-1 font-display text-[26px] font-medium leading-none tracking-[-0.04em] tabular">{hours.toFixed(1)}</dd>
+              <dt className="text-[13px] text-ink-muted">Hours</dt>
+              <dd className="mt-1 font-display text-[28px] font-medium leading-none tracking-[-0.04em] tabular">{hours.toFixed(1)}</dd>
             </div>
             <div>
-              <dt className="text-[12.5px] text-ink-muted">On time</dt>
-              <dd className="mt-1 font-display text-[26px] font-medium leading-none tracking-[-0.04em] tabular">{Math.round(me.onTimeRate * 100)}%</dd>
+              <dt className="text-[13px] text-ink-muted">On time</dt>
+              <dd className="mt-1 font-display text-[28px] font-medium leading-none tracking-[-0.04em] tabular">{Math.round(me.onTimeRate * 100)}%</dd>
             </div>
             <div>
-              <dt className="text-[12.5px] text-ink-muted">Runs</dt>
-              <dd className="mt-1 font-display text-[26px] font-medium leading-none tracking-[-0.04em] tabular">{week.length}</dd>
+              <dt className="text-[13px] text-ink-muted">Runs</dt>
+              <dd className="mt-1 font-display text-[28px] font-medium leading-none tracking-[-0.04em] tabular">{week.length}</dd>
             </div>
           </dl>
           <Link href="/schedule" className="mt-5 flex items-center gap-3 rounded-xl border border-line px-3.5 py-3 transition-colors hover:bg-raised/60">
             <CalendarDays className="size-4 text-ink-muted" />
-            <span className="flex-1 text-[13.5px]">
+            <span className="flex-1 text-[14px]">
               Next: <span className="font-medium">Monday, Nov 23 · 6:40 AM</span>
             </span>
             <ArrowRight className="size-4 text-ink-muted" />
@@ -162,7 +162,7 @@ function RunRow({ icon, title, sub, right, done }: { icon: React.ReactNode; titl
       </span>
       <span className="min-w-0 flex-1">
         <span className="block text-[14px] font-medium">{title}</span>
-        <span className="block truncate text-[12.5px] text-ink-muted">{sub}</span>
+        <span className="block truncate text-[13px] text-ink-muted">{sub}</span>
       </span>
       {right}
     </li>
@@ -193,7 +193,7 @@ function RunHero({ className }: { className?: string }) {
           {run.phase === "live" ? <span className="size-2 animate-pulse rounded-full bg-[#1d1a2f]" /> : null}
           {run.phase === "live" ? "Live" : run.phase === "pre" ? "Next run" : run.phase === "closing" ? "Last stop done" : "Run finished"} · {route.name}
         </span>
-        {run.phase === "live" && run.late ? <span className="font-mono text-[12.5px] font-medium">{run.late.minutes} MIN BEHIND</span> : null}
+        {run.phase === "live" && run.late ? <span className="font-mono text-[13px] font-medium">{run.late.minutes} min behind</span> : null}
       </div>
 
       <div className="mt-8 sm:mt-10">
@@ -202,7 +202,7 @@ function RunHero({ className }: { className?: string }) {
             <p className="text-[14px] font-medium opacity-70">
               Stop {run.current + 1} of {route.stops.length} · {run.arrivedAt ? "you're here" : `ETA ${etaStop}`}
             </p>
-            <p className="mt-1 font-display text-[34px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[44px]">{stopName(stop)}</p>
+            <p className="mt-1 font-display text-[32px] font-medium leading-[1.02] tracking-[-0.045em] sm:text-[40px]">{stopName(stop)}</p>
             <p className="mt-2 text-[15px] opacity-75">
               {stop.address}
               {dropping.length ? ` · drop ${dropping.join(" and ")}` : ""}
@@ -211,7 +211,7 @@ function RunHero({ className }: { className?: string }) {
         ) : run.phase === "pre" ? (
           <>
             <p className="text-[14px] font-medium opacity-70">Starts 2:30 PM at Pine Ridge Elementary</p>
-            <p className="mt-1 font-display text-[34px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[44px]">5 riders · 6 stops</p>
+            <p className="mt-1 font-display text-[32px] font-medium leading-[1.02] tracking-[-0.045em] sm:text-[40px]">5 riders · 6 stops</p>
             <p className="mt-2 text-[15px] opacity-75">
               {van.name} · {van.plate} · {route.miles} mi
             </p>
@@ -219,7 +219,7 @@ function RunHero({ className }: { className?: string }) {
         ) : (
           <>
             <p className="text-[14px] font-medium opacity-70">{run.phase === "closed" ? `Clocked out ${run.clockOut}` : "Walk the van before you clock out"}</p>
-            <p className="mt-1 font-display text-[34px] font-semibold leading-[1.02] tracking-[-0.045em] sm:text-[44px]">
+            <p className="mt-1 font-display text-[32px] font-medium leading-[1.02] tracking-[-0.045em] sm:text-[40px]">
               {run.phase === "closed" ? "All riders home" : "Check every seat"}
             </p>
           </>
@@ -227,11 +227,11 @@ function RunHero({ className }: { className?: string }) {
       </div>
 
       <div className="mt-auto pt-6">
-        <div className="flex items-center justify-between text-[12.5px] font-medium">
+        <div className="flex items-center justify-between text-[13px] font-medium">
           <span>
             {done} of {route.stops.length} stops
           </span>
-          <span className="font-mono">{run.onBoard.length} ON BOARD</span>
+          <span className="font-mono">{run.onBoard.length} on board</span>
         </div>
         <SegmentBar className="mt-2" value={done} total={route.stops.length} tone="onBrand" size="sm" label="Stops done" />
       </div>
@@ -239,13 +239,13 @@ function RunHero({ className }: { className?: string }) {
       <div className="mt-6 flex flex-wrap items-center gap-2">
         <Link
           href={cta.href}
-          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#1d1a2f] px-6 text-[15.5px] font-semibold text-white transition-transform active:scale-[0.98] sm:flex-none"
+          className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-[#1d1a2f] px-6 text-[16px] font-medium text-white transition-transform active:scale-[0.98] sm:flex-none"
         >
           {cta.label}
           <ArrowRight className="size-4" />
         </Link>
         {run.phase === "live" ? (
-          <span className="inline-flex h-12 items-center gap-2 rounded-full bg-[#1d1a2f]/[0.08] px-4 text-[13.5px] font-medium">
+          <span className="inline-flex h-12 items-center gap-2 rounded-full bg-[#1d1a2f]/[0.08] px-4 text-[14px] font-medium">
             <Fuel className="size-4" /> {Math.round((run.fuel ?? 0.5) * 100)}%
           </span>
         ) : null}

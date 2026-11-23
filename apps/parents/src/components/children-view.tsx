@@ -24,10 +24,10 @@ export function ChildrenView() {
             <div className="flex items-center gap-4">
               <Avatar seed={k.id} name={k.first} size={64} />
               <div className="min-w-0 flex-1">
-                <p className="font-display text-[22px] font-medium tracking-[-0.03em]">
+                <p className="font-display text-[24px] font-medium tracking-[-0.03em]">
                   {k.first} {k.last}
                 </p>
-                <p className="text-[13.5px] text-ink-muted">
+                <p className="text-[14px] text-ink-muted">
                   Age {k.age} · {k.grade} grade · {getSchool(k.schoolId).short}
                 </p>
               </div>
@@ -72,7 +72,7 @@ export function ChildView({ id }: { id: string }) {
       <div className="flex flex-col gap-5 pb-6 pt-4 sm:flex-row sm:items-center lg:pt-6">
         <label className="group relative w-fit cursor-pointer">
           <Avatar seed={c.id} name={c.first} photo={photo} size={88} />
-          <span className="absolute -bottom-1 -right-1 grid size-8 place-items-center rounded-full border-2 border-canvas bg-ink text-cream transition-transform group-hover:scale-105">
+          <span className="absolute -bottom-1 -right-1 grid size-8 place-items-center rounded-full border-2 border-canvas bg-ink text-cream transition-colors group-hover:bg-ink/85">
             <Camera className="size-3.5" />
           </span>
           <input
@@ -87,10 +87,10 @@ export function ChildView({ id }: { id: string }) {
           />
         </label>
         <div>
-          <h1 className="font-display text-[30px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-[34px]">
+          <h1 className="font-display text-[28px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-[32px]">
             {c.first} {c.last}
           </h1>
-          <p className="mt-1.5 text-[14.5px] text-ink-muted">
+          <p className="mt-1.5 text-[15px] text-ink-muted">
             Age {c.age} · {c.grade} grade · {c.teacher} · {getSchool(c.schoolId).name}
           </p>
         </div>
@@ -112,8 +112,8 @@ export function ChildView({ id }: { id: string }) {
               <li className="flex items-center gap-3 rounded-2xl bg-raised/60 p-3">
                 <Avatar seed={parent.id} name={parent.name} size={40} />
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[14.5px] font-medium">{parent.name}</span>
-                  <span className="block text-[12.5px] text-ink-muted">Parent · you</span>
+                  <span className="block text-[15px] font-medium">{parent.name}</span>
+                  <span className="block text-[13px] text-ink-muted">Parent · you</span>
                 </span>
                 <Badge>Guardian</Badge>
               </li>
@@ -121,8 +121,8 @@ export function ChildView({ id }: { id: string }) {
                 <li key={a.id} className="flex items-center gap-3 rounded-2xl border border-line p-3">
                   <Avatar seed={a.id} name={a.name} size={40} />
                   <span className="min-w-0 flex-1">
-                    <span className="block text-[14.5px] font-medium">{a.name}</span>
-                    <span className="block truncate text-[12.5px] text-ink-muted">
+                    <span className="block text-[15px] font-medium">{a.name}</span>
+                    <span className="block truncate text-[13px] text-ink-muted">
                       {a.relationship} · {a.phone} · added {a.addedOn}
                     </span>
                   </span>
@@ -137,7 +137,7 @@ export function ChildView({ id }: { id: string }) {
                 </li>
               ))}
             </ul>
-            {!adults.length ? <p className="mt-3 text-[13.5px] text-ink-muted">No one else yet. If you can&apos;t be home, add someone so the driver can hand {c.first} over.</p> : null}
+            {!adults.length ? <p className="mt-3 text-[14px] text-ink-muted">No one else yet. If you can&apos;t be home, add someone so the driver can hand {c.first} over.</p> : null}
           </Card>
 
           <Card>
@@ -292,7 +292,7 @@ function AddAdultDialog({ open, name, onClose, onAdd }: { open: boolean; name: s
           </span>
           <span className="text-[14px]">
             <span className="block font-medium">Add a photo</span>
-            <span className="block text-[12.5px] text-ink-muted">Helps the driver recognise them</span>
+            <span className="block text-[13px] text-ink-muted">Helps the driver recognise them</span>
           </span>
           <input
             type="file"

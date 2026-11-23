@@ -21,7 +21,7 @@ export function HomeView() {
         <p className="mb-2 text-[13px] text-ink-muted">
           {NOW.dayLabel} <span className="text-line-strong">/</span> <span className="tabular">{now}</span>
         </p>
-        <h1 className="font-display text-[30px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-[34px]">
+        <h1 className="font-display text-[28px] font-medium leading-[1.08] tracking-[-0.04em] sm:text-[32px]">
           <span className="text-ink">Hi {parent.name.split(" ")[0]},</span>{" "}
           <span className="text-ink-muted">{mins > 0 ? `${kidNames} are on the way home.` : `${kidNames} are arriving now.`}</span>
         </h1>
@@ -34,24 +34,24 @@ export function HomeView() {
             <span className="inline-flex items-center gap-2 rounded-full bg-[#1d1a2f]/[0.08] px-3 py-1 text-[13px] font-medium">
               <span className="size-2 animate-pulse rounded-full bg-[#1d1a2f]" /> On the way home
             </span>
-            <span className="font-mono text-[12.5px] font-medium">{stopsBefore === 0 ? "YOU'RE NEXT" : `${stopsBefore} STOPS BEFORE YOU`}</span>
+            <span className="font-mono text-[13px] font-medium">{stopsBefore === 0 ? "You're next" : `${stopsBefore} stops before you`}</span>
           </div>
           <div className="mt-8 sm:mt-10">
             <p className="text-[14px] font-medium opacity-70">Arriving at {homeStop.address}</p>
-            <p className="mt-1 font-display text-[44px] font-semibold leading-none tracking-[-0.05em] tabular sm:text-[56px]">{ETA_LABEL}</p>
+            <p className="mt-1 font-display text-[40px] font-medium leading-none tracking-[-0.05em] tabular sm:text-[56px]">{ETA_LABEL}</p>
             <p className="mt-2 text-[15px] opacity-75">{mins > 0 ? `About ${mins} min away` : "Pulling up now"} · be at the door to receive them</p>
           </div>
           <div className="mt-auto flex flex-wrap items-center gap-3 pt-7">
             <span className="flex w-full min-w-0 items-center gap-3 rounded-full bg-[#1d1a2f]/[0.08] py-1.5 pl-1.5 pr-4 sm:w-auto sm:flex-1">
               <Avatar seed={driver.id} name={driver.name} size={36} />
               <span className="min-w-0 leading-tight">
-                <span className="block truncate text-[14px] font-semibold">{driver.name}</span>
-                <span className="block truncate text-[12.5px] opacity-70">
+                <span className="block truncate text-[14px] font-medium">{driver.name}</span>
+                <span className="block truncate text-[13px] opacity-70">
                   {van.name} · {van.plate}
                 </span>
               </span>
             </span>
-            <Link href="/live" className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#1d1a2f] px-6 sm:w-auto text-[15px] font-semibold text-white transition-transform active:scale-[0.98]">
+            <Link href="/live" className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#1d1a2f] px-6 sm:w-auto text-[15px] font-medium text-white transition-transform active:scale-[0.98]">
               Watch live <ArrowRight className="size-4" />
             </Link>
           </div>
@@ -66,8 +66,8 @@ export function HomeView() {
                   Due today
                 </Badge>
               </div>
-              <p className="mt-3 font-display text-[34px] font-medium leading-none tracking-[-0.04em] tabular">{money(invoiceDue(openBill))}</p>
-              <p className="mt-2 flex items-center justify-between text-[13.5px] text-ink-muted">
+              <p className="mt-3 font-display text-[32px] font-medium leading-none tracking-[-0.04em] tabular">{money(invoiceDue(openBill))}</p>
+              <p className="mt-2 flex items-center justify-between text-[14px] text-ink-muted">
                 {openBill.periodLabel} · Zelle or Cash App
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </p>
@@ -100,14 +100,14 @@ export function HomeView() {
             <Link key={k.id} href={`/children/${k.id}`} className="flex items-center gap-3.5 rounded-2xl border border-line bg-card p-4 transition-colors hover:border-line-strong">
               <Avatar seed={k.id} name={k.first} size={48} />
               <span className="min-w-0 flex-1">
-                <span className="block text-[15.5px] font-medium">
+                <span className="block text-[16px] font-medium">
                   {k.first} {k.last}
                 </span>
                 <span className="block text-[13px] text-ink-muted">
                   {k.grade} grade · {k.teacher}
                 </span>
                 {k.medical ? (
-                  <span className="mt-1 flex items-center gap-1.5 text-[12.5px] font-medium text-bad">
+                  <span className="mt-1 flex items-center gap-1.5 text-[13px] font-medium text-bad">
                     <HeartPulse className="size-3.5" /> {k.medical.split(" (")[0]}
                   </span>
                 ) : null}

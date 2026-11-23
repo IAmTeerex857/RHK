@@ -25,7 +25,7 @@ export function AuthFrame({ app, children, footer, width = 400 }: { app: string;
       <header className="relative flex h-16 items-center justify-between px-5 sm:px-8">
         <span className="flex items-center gap-2.5">
           <LogoMark className="size-8" />
-          <span className="font-display text-[14.5px] font-semibold tracking-[-0.02em]">
+          <span className="font-display text-[15px] font-medium tracking-[-0.02em]">
             Rush Hour Kids <span className="font-normal text-ink-muted">{app}</span>
           </span>
         </span>
@@ -36,7 +36,7 @@ export function AuthFrame({ app, children, footer, width = 400 }: { app: string;
           {children}
         </div>
       </main>
-      {footer ? <footer className="relative px-5 pb-6 text-center text-[12.5px] text-ink-muted">{footer}</footer> : null}
+      {footer ? <footer className="relative px-5 pb-6 text-center text-[13px] text-ink-muted">{footer}</footer> : null}
     </div>
   );
 }
@@ -90,7 +90,7 @@ export function SignIn({ app, audience, home = "/" }: { app: string; audience: s
         {step === "password" ? (
           <motion.div key="pw" {...fade}>
             <h1 className="font-display text-[28px] font-medium tracking-[-0.035em]">Sign in</h1>
-            <p className="mt-2 text-[14.5px] text-ink-muted">{audience}</p>
+            <p className="mt-2 text-[15px] text-ink-muted">{audience}</p>
             <form onSubmit={submitPassword} className="mt-8 flex flex-col gap-3" noValidate>
               <Field label="Email" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} icon={<Mail className="size-[17px]" />} required />
               <div className="relative">
@@ -117,7 +117,7 @@ export function SignIn({ app, audience, home = "/" }: { app: string; audience: s
                 {busy ? "Checking…" : "Continue"}
               </Button>
             </form>
-            <div className="mt-5 flex items-center justify-between text-[13.5px]">
+            <div className="mt-5 flex items-center justify-between text-[14px]">
               <Link href="/set-password" className="text-ink-muted underline-offset-4 hover:text-ink hover:underline">
                 Forgot password?
               </Link>
@@ -128,14 +128,14 @@ export function SignIn({ app, audience, home = "/" }: { app: string; audience: s
           </motion.div>
         ) : (
           <motion.div key="code" {...fade}>
-            <button type="button" onClick={() => setStep("password")} className="mb-6 inline-flex items-center gap-1.5 text-[13.5px] text-ink-muted hover:text-ink">
+            <button type="button" onClick={() => setStep("password")} className="mb-6 inline-flex items-center gap-1.5 text-[14px] text-ink-muted hover:text-ink">
               <ArrowLeft className="size-4" /> Back
             </button>
             <span className="grid size-12 place-items-center rounded-2xl border border-line bg-card shadow-subtle">
               <Mail className="size-5" />
             </span>
             <h1 className="mt-5 font-display text-[28px] font-medium tracking-[-0.035em]">Check your email</h1>
-            <p className="mt-2 text-[14.5px] text-ink-muted">
+            <p className="mt-2 text-[15px] text-ink-muted">
               We sent a 6-digit code to <span className="font-medium text-ink">{email}</span>. It expires in 10 minutes.
             </p>
             <div className="mt-8">
@@ -151,7 +151,7 @@ export function SignIn({ app, audience, home = "/" }: { app: string; audience: s
             <Button variant="ink" className="mt-5 w-full" disabled={code.length < 6 || busy} onClick={() => submitCode()}>
               {busy ? "Signing in…" : "Verify and sign in"}
             </Button>
-            <p className="mt-5 text-center text-[13.5px] text-ink-muted">
+            <p className="mt-5 text-center text-[14px] text-ink-muted">
               Didn&apos;t get it?{" "}
               {wait > 0 ? (
                 <span className="tabular">Resend in {wait}s</span>
@@ -187,7 +187,7 @@ export function SetPassword({ app, name }: { app: string; name?: string }) {
   return (
     <AuthFrame app={app}>
       <h1 className="font-display text-[28px] font-medium tracking-[-0.035em]">{name ? `Welcome, ${name}` : "Set your password"}</h1>
-      <p className="mt-2 text-[14.5px] text-ink-muted">Choose a password for your Rush Hour Kids account. You&apos;ll also get a code by email each time you sign in.</p>
+      <p className="mt-2 text-[15px] text-ink-muted">Choose a password for your Rush Hour Kids account. You&apos;ll also get a code by email each time you sign in.</p>
       <form onSubmit={submit} className="mt-8 flex flex-col gap-3" noValidate>
         <Field label="New password" type="password" autoComplete="new-password" value={pw} onChange={(e) => setPw(e.target.value)} />
         <Field label="Type it again" type="password" autoComplete="new-password" value={again} onChange={(e) => setAgain(e.target.value)} error={error} />

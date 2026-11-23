@@ -46,7 +46,7 @@ export function ReportView() {
         <span className="mx-auto grid size-14 place-items-center rounded-full bg-good text-white">
           <Check className="size-7 stroke-[2.5]" />
         </span>
-        <h1 className="mt-5 font-display text-[30px] font-medium tracking-[-0.04em]">Sent to the office</h1>
+        <h1 className="mt-5 font-display text-[28px] font-medium tracking-[-0.04em]">Sent to the office</h1>
         <p className="mt-2 text-[15px] text-ink-muted">
           INC-105 · {time}. Clara and Jordan have it now and will call you if they need more. You can keep driving when it&apos;s safe.
         </p>
@@ -69,8 +69,8 @@ export function ReportView() {
         className="mt-4 flex items-center gap-3 rounded-2xl bg-coral px-4 py-3.5 text-white transition-transform active:scale-[0.99] lg:mt-6"
       >
         <Siren className="size-5 shrink-0" />
-        <span className="flex-1 text-[14.5px] font-medium">Anyone hurt or in danger? Call 911 first.</span>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-[13.5px] font-semibold">
+        <span className="flex-1 text-[15px] font-medium">Anyone hurt or in danger? Call 911 first.</span>
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/20 px-3 py-1.5 text-[14px] font-medium">
           <Phone className="size-3.5" /> 911
         </span>
       </a>
@@ -117,7 +117,7 @@ export function ReportView() {
                     )}
                   >
                     <x.icon className={cn("size-6", x.id === "medical" || x.id === "safety" ? "text-bad" : "text-ink")} />
-                    <span className="text-[15.5px] font-semibold leading-tight">{x.label}</span>
+                    <span className="text-[16px] font-medium leading-tight">{x.label}</span>
                   </button>
                 ))}
               </div>
@@ -144,7 +144,7 @@ export function ReportView() {
                         <span className="block text-[15px] font-medium">
                           {c.first} {c.last}
                         </span>
-                        <span className="block text-[12.5px] text-ink-muted">{run.kids[c.id]?.state === "on" || run.kids[c.id]?.state === "held" ? "On board" : "Not on board"}</span>
+                        <span className="block text-[13px] text-ink-muted">{run.kids[c.id]?.state === "on" || run.kids[c.id]?.state === "held" ? "On board" : "Not on board"}</span>
                       </span>
                       <span className={cn("grid size-5 place-items-center rounded-md border", on ? "border-ink bg-ink text-cream" : "border-line-strong")}>
                         {on ? <Check className="size-3 stroke-[3]" /> : null}
@@ -157,14 +157,14 @@ export function ReportView() {
                   aria-pressed={who.includes("none")}
                   onClick={() => setWho(["none"])}
                   className={cn(
-                    "flex h-[66px] items-center justify-center rounded-2xl border border-dashed text-[14.5px] font-medium transition-colors",
+                    "flex h-[66px] items-center justify-center rounded-2xl border border-dashed text-[15px] font-medium transition-colors",
                     who.includes("none") ? "border-ink bg-card" : "border-line-strong text-ink-muted hover:text-ink",
                   )}
                 >
                   No child involved
                 </button>
               </div>
-              <p className="mb-2.5 mt-6 text-[15px] font-semibold">Is every child safe right now?</p>
+              <p className="mb-2.5 mt-6 text-[15px] font-medium">Is every child safe right now?</p>
               <ChoiceChips
                 aria-label="Children safe"
                 size="lg"
@@ -179,7 +179,7 @@ export function ReportView() {
                 <a href="tel:911" className="mt-3 flex items-center gap-3 rounded-2xl border border-[color-mix(in_oklab,var(--color-bad)_30%,transparent)] bg-coral-soft p-4 text-[14px]">
                   <Siren className="size-5 shrink-0 text-bad" />
                   <span className="flex-1">
-                    <span className="font-semibold">Call 911 now.</span> Finish this report when everyone is safe.
+                    <span className="font-medium">Call 911 now.</span> Finish this report when everyone is safe.
                   </span>
                 </a>
               ) : null}
@@ -200,7 +200,7 @@ export function ReportView() {
                 ]}
               />
               <TextArea className="mt-5" label="What happened?" rows={4} value={note} onChange={(e) => setNote(e.target.value)} />
-              <label className="mt-3 flex h-12 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-line-strong text-[14.5px] font-medium text-ink-soft transition-colors hover:bg-raised/60">
+              <label className="mt-3 flex h-12 cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-line-strong text-[15px] font-medium text-ink-soft transition-colors hover:bg-raised/60">
                 <Camera className="size-4" />
                 {photos ? `${photos} photo${photos > 1 ? "s" : ""} added` : "Add a photo"}
                 <input type="file" accept="image/*" capture="environment" multiple className="sr-only" onChange={(e) => setPhotos((p) => p + (e.target.files?.length ?? 0))} />
@@ -235,8 +235,8 @@ export function ReportView() {
 function Title({ children, sub }: { children: React.ReactNode; sub?: string }) {
   return (
     <div className="mb-5">
-      <h1 className="font-display text-[26px] font-medium leading-[1.1] tracking-[-0.035em]">{children}</h1>
-      {sub ? <p className="mt-1.5 text-[14.5px] text-ink-muted">{sub}</p> : null}
+      <h1 className="font-display text-[28px] font-medium leading-[1.1] tracking-[-0.035em]">{children}</h1>
+      {sub ? <p className="mt-1.5 text-[15px] text-ink-muted">{sub}</p> : null}
     </div>
   );
 }
@@ -251,7 +251,7 @@ function Next({ disabled, onClick }: { disabled: boolean; onClick: () => void })
 
 function Line({ label, value }: { label: string; value?: string }) {
   return (
-    <div className="flex gap-4 border-b border-line py-3 text-[14.5px] last:border-0">
+    <div className="flex gap-4 border-b border-line py-3 text-[15px] last:border-0">
       <dt className="w-24 shrink-0 text-ink-muted">{label}</dt>
       <dd className="min-w-0 flex-1 text-ink">{value}</dd>
     </div>

@@ -64,7 +64,7 @@ export function LiveView() {
                   <Avatar seed={d.id} name={d.name} size={34} />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[14px] font-medium">{rt.name}</p>
-                    <p className="truncate text-[12.5px] text-ink-muted">
+                    <p className="truncate text-[13px] text-ink-muted">
                       {getVan(rt.vanId).name} · {d.name}
                     </p>
                   </div>
@@ -75,7 +75,7 @@ export function LiveView() {
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-raised">
                   <div className={cn("h-full rounded-full", r.status === "late" ? "bg-bad" : "bg-data-500")} style={{ width: `${Math.max(4, r.progress * 100)}%` }} />
                 </div>
-                <p className="mt-2 flex justify-between font-mono text-[11.5px] text-ink-muted tabular">
+                <p className="mt-2 flex justify-between font-mono text-[12px] text-ink-muted tabular">
                   <span>{Math.round(r.progress * 100)}% done</span>
                   <span>{r.onBoard} on board</span>
                 </p>
@@ -119,8 +119,8 @@ export function LiveView() {
                 <div className="flex items-center gap-3">
                   <Avatar seed={driver.id} name={driver.name} size={40} status="online" />
                   <div className="min-w-0 flex-1">
-                    <p className="text-[14.5px] font-medium">{driver.name}</p>
-                    <p className="text-[12.5px] text-ink-muted">
+                    <p className="text-[15px] font-medium">{driver.name}</p>
+                    <p className="text-[13px] text-ink-muted">
                       {van.name} · {van.plate} · started {run.startedAt ?? "—"}
                     </p>
                   </div>
@@ -146,7 +146,7 @@ export function LiveView() {
                   />
                 </div>
                 <div className="mt-4 flex items-center justify-between border-t border-line pt-3">
-                  <span className="flex items-center gap-2 text-[12.5px] text-ink-muted">
+                  <span className="flex items-center gap-2 text-[13px] text-ink-muted">
                     <Users className="size-4" /> On board
                     <AvatarStack size={22} people={route.stops[0].childIds.slice(0, run.onBoard).map((id) => ({ seed: id, name: getChild(id).first }))} />
                   </span>

@@ -13,7 +13,6 @@ import {
   money,
   payments,
   priceList,
-  revenueByWeek,
   type Invoice,
 } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
@@ -21,7 +20,6 @@ import { Badge, Delta } from "@rhk/ui/components/badge";
 import { Stat } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader, Row } from "@rhk/ui/components/card";
-import { Sparkline } from "@rhk/ui/components/charts";
 import { SearchField, Select } from "@rhk/ui/components/controls";
 import { Dialog, RadioCard, Sheet } from "@rhk/ui/components/dialog";
 import { Field } from "@rhk/ui/components/field";
@@ -79,10 +77,7 @@ export function BillingView() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Card>
-          <div className="flex items-start justify-between">
-            <Stat label="Collected this week" value={money(3415, true)} delta={<Delta value={-12.5} />} note="vs last week" />
-            <Sparkline values={revenueByWeek.map((r) => r.value)} width={96} height={40} />
-          </div>
+          <Stat label="Collected this week" value={money(3415)} delta={<Delta value={-12.5} />} note="vs last week" />
         </Card>
         <Card>
           <Stat label="Due today" value={money(sum(due))} note={`${due.length} bills · Fri, Nov 20`} />
@@ -160,7 +155,7 @@ export function BillingView() {
             columns={[
               { key: "family", header: "Family", cell: (p) => <span className="font-medium">{getFamily(p.familyId).name}</span> },
               { key: "method", header: "Method", cell: (p) => <Badge tone={p.method === "card" ? "info" : "neutral"}>{methodLabel[p.method]}</Badge> },
-              { key: "ref", header: "Reference", cell: (p) => <span className="font-mono text-[12.5px] text-ink-muted">{p.reference}</span>, hideBelow: "md" },
+              { key: "ref", header: "Reference", cell: (p) => <span className="font-mono text-[13px] text-ink-muted">{p.reference}</span>, hideBelow: "md" },
               { key: "by", header: "Recorded by", cell: (p) => <span className="text-ink-soft">{p.recordedBy}</span>, hideBelow: "lg" },
               { key: "at", header: "When", cell: (p) => <span className="text-ink-muted">{p.at}</span>, hideBelow: "sm" },
               { key: "amount", header: "Amount", align: "right", cell: (p) => <span className="font-mono tabular">{money(p.amount)}</span> },
@@ -186,7 +181,7 @@ export function BillingView() {
                   header: "Weekly",
                   align: "right",
                   cell: (p) => (
-                    <input aria-label={`${p.label} weekly price`} defaultValue={p.weekly.toFixed(2)} className="h-9 w-24 rounded-lg border border-line-strong bg-card px-2.5 text-right font-mono text-[13.5px] tabular outline-none focus:border-ink/40" />
+                    <input aria-label={`${p.label} weekly price`} defaultValue={p.weekly.toFixed(2)} className="h-9 w-24 rounded-lg border border-line-strong bg-card px-2.5 text-right font-mono text-[14px] tabular outline-none focus:border-ink/40" />
                   ),
                 },
                 {
@@ -194,13 +189,13 @@ export function BillingView() {
                   header: "Monthly",
                   align: "right",
                   cell: (p) => (
-                    <input aria-label={`${p.label} monthly price`} defaultValue={p.monthly.toFixed(2)} className="h-9 w-24 rounded-lg border border-line-strong bg-card px-2.5 text-right font-mono text-[13.5px] tabular outline-none focus:border-ink/40" />
+                    <input aria-label={`${p.label} monthly price`} defaultValue={p.monthly.toFixed(2)} className="h-9 w-24 rounded-lg border border-line-strong bg-card px-2.5 text-right font-mono text-[14px] tabular outline-none focus:border-ink/40" />
                   ),
                 },
                 { key: "kids", header: "Children", align: "right", cell: (p) => <span className="font-mono tabular text-ink-muted">{p.children}</span>, hideBelow: "sm" },
               ]}
             />
-            <p className="border-t border-line px-5 py-3 text-[12.5px] text-ink-muted">Changing a price applies to new bills. Existing bills and per-child overrides stay as they are.</p>
+            <p className="border-t border-line px-5 py-3 text-[13px] text-ink-muted">Changing a price applies to new bills. Existing bills and per-child overrides stay as they are.</p>
           </Card>
           <Card className="lg:col-span-4">
             <CardHeader title="Fees" />
@@ -242,7 +237,7 @@ export function BillingView() {
           <>
             <div className="flex items-center justify-between">
               <StatusBadge map={invoiceStatus} value={bill.status} />
-              <span className="font-mono text-[12.5px] text-ink-muted capitalize">{bill.cadence} · issued {bill.issued}</span>
+              <span className="font-mono text-[13px] text-ink-muted capitalize">{bill.cadence} · issued {bill.issued}</span>
             </div>
             <ul className="mt-5 divide-y divide-line rounded-2xl border border-line">
               {bill.lines.map((l) => (
@@ -263,7 +258,7 @@ export function BillingView() {
                 <span className="font-mono text-[18px] font-medium tabular">{money(invoiceDue(bill))}</span>
               </li>
             </ul>
-            <button type="button" className="mt-4 inline-flex items-center gap-2 text-[13.5px] font-medium text-ink-soft hover:text-ink">
+            <button type="button" className="mt-4 inline-flex items-center gap-2 text-[14px] font-medium text-ink-soft hover:text-ink">
               <Gift className="size-4" /> Add a credit
             </button>
             <div className="mt-6 rounded-2xl bg-raised p-4 text-[13px] text-ink-soft">

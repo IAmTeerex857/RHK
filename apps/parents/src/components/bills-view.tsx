@@ -24,7 +24,7 @@ export function BillsView() {
         {openBill ? (
           <Card className="lg:col-span-7">
             <div className="flex items-center justify-between gap-3">
-              <span className="font-mono text-[12.5px] text-ink-muted">{openBill.number}</span>
+              <span className="font-mono text-[13px] text-ink-muted">{openBill.number}</span>
               {sent ? (
                 <Badge tone="info" dot>
                   Payment sent · office confirming
@@ -37,7 +37,7 @@ export function BillsView() {
             </div>
             <p className="mt-4 text-[14px] text-ink-muted">{openBill.periodLabel}</p>
             <p className="mt-1 font-display text-[48px] font-medium leading-none tracking-[-0.05em] tabular">{money(invoiceDue(openBill))}</p>
-            <p className="mt-2 text-[13.5px] text-ink-muted">Due {openBill.due}</p>
+            <p className="mt-2 text-[14px] text-ink-muted">Due {openBill.due}</p>
             <ul className="mt-6 border-t border-line">
               {openBill.lines.map((l) => (
                 <li key={l.label} className="flex items-baseline justify-between gap-4 border-b border-line py-3 text-[14px] last:border-0">
@@ -46,22 +46,22 @@ export function BillsView() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-[12.5px] text-ink-muted">School holidays don&apos;t change the price. Thanksgiving week is billed as usual.</p>
+            <p className="mt-4 text-[13px] text-ink-muted">School holidays don&apos;t change the price. Thanksgiving week is billed as usual.</p>
           </Card>
         ) : null}
 
         <Card className="lg:col-span-5">
           <CardHeader title="How to pay" subtitle={openBill ? `Put ${openBill.number} in the memo so the office can match it.` : undefined} />
           <div className="mt-4 flex flex-col gap-2">
-            <PayRow icon={<span className="font-display text-[15px] font-semibold">Z</span>} title="Zelle" value={OFFICE.zelle} />
-            <PayRow icon={<span className="font-display text-[15px] font-semibold">$</span>} title="Cash App" value={OFFICE.cashApp} />
+            <PayRow icon={<span className="font-display text-[15px] font-medium">Z</span>} title="Zelle" value={OFFICE.zelle} />
+            <PayRow icon={<span className="font-display text-[15px] font-medium">$</span>} title="Cash App" value={OFFICE.cashApp} />
             <div className="flex items-center gap-3 rounded-2xl border border-line p-3">
               <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-raised">
                 <Banknote className="size-4" />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[14.5px] font-medium">Cash</span>
-                <span className="block truncate text-[12.5px] text-ink-muted">At the office, {OFFICE.address.split(",")[0]}</span>
+                <span className="block text-[15px] font-medium">Cash</span>
+                <span className="block truncate text-[13px] text-ink-muted">At the office, {OFFICE.address.split(",")[0]}</span>
               </span>
             </div>
             <div className="flex items-center gap-3 rounded-2xl border border-dashed border-line-strong p-3 opacity-70">
@@ -69,8 +69,8 @@ export function BillsView() {
                 <CreditCard className="size-4" />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[14.5px] font-medium">Card and auto-pay</span>
-                <span className="block text-[12.5px] text-ink-muted">Coming soon in the app</span>
+                <span className="block text-[15px] font-medium">Card and auto-pay</span>
+                <span className="block text-[13px] text-ink-muted">Coming soon in the app</span>
               </span>
             </div>
           </div>
@@ -97,8 +97,8 @@ export function BillsView() {
                     <Check className="size-4 stroke-[2.5]" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="block text-[14.5px] font-medium">{b.periodLabel}</span>
-                    <span className="block truncate text-[12.5px] text-ink-muted">
+                    <span className="block text-[15px] font-medium">{b.periodLabel}</span>
+                    <span className="block truncate text-[13px] text-ink-muted">
                       {b.number} · {pay ? `${methodLabel[pay.method]} · ${pay.at}` : `Paid · due ${b.due}`}
                       {fee ? " · includes a $35 fee" : ""}
                     </span>
@@ -133,7 +133,7 @@ export function BillsView() {
       >
         {receipt ? (
           <div className="text-[14px]">
-            <p className="font-semibold">{OFFICE.name}</p>
+            <p className="font-medium">{OFFICE.name}</p>
             <p className="text-ink-muted">{OFFICE.address}</p>
             <div className="mt-4 grid grid-cols-2 gap-3 rounded-xl bg-raised p-3 text-[13px]">
               <div>
@@ -151,12 +151,12 @@ export function BillsView() {
             </div>
             <ul className="mt-4">
               {receipt.lines.map((l) => (
-                <li key={l.label} className="flex justify-between gap-4 border-b border-line py-2.5 text-[13.5px]">
+                <li key={l.label} className="flex justify-between gap-4 border-b border-line py-2.5 text-[14px]">
                   <span className="text-ink-soft">{l.label}</span>
                   <span className="font-mono tabular">{money(l.amount)}</span>
                 </li>
               ))}
-              <li className="flex justify-between pt-3 font-semibold">
+              <li className="flex justify-between pt-3 font-medium">
                 <span>Paid</span>
                 <span className="font-mono tabular">{money(invoiceTotal(receipt))}</span>
               </li>
@@ -174,8 +174,8 @@ function PayRow({ icon, title, value }: { icon: React.ReactNode; title: string; 
     <div className="flex items-center gap-3 rounded-2xl border border-line p-3">
       <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-raised">{icon}</span>
       <span className="min-w-0 flex-1">
-        <span className="block text-[14.5px] font-medium">{title}</span>
-        <span className="block truncate font-mono text-[12.5px] text-ink-muted">{value}</span>
+        <span className="block text-[15px] font-medium">{title}</span>
+        <span className="block truncate font-mono text-[13px] text-ink-muted">{value}</span>
       </span>
       <button
         type="button"

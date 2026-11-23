@@ -69,7 +69,7 @@ export function WelcomeView() {
                       </span>
                     </span>
                     <span className="text-[15px] font-medium">{k.first}</span>
-                    <span className="text-[12.5px] text-ink-muted">{photos[k.id] ? "Change photo" : "Add photo"}</span>
+                    <span className="text-[13px] text-ink-muted">{photos[k.id] ? "Change photo" : "Add photo"}</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -91,7 +91,7 @@ export function WelcomeView() {
               <div className="flex flex-col gap-3">
                 {kids.map((k) => (
                   <div key={k.id} className="rounded-[20px] border border-line bg-card p-4">
-                    <p className="flex items-center gap-2.5 text-[14.5px] font-medium">
+                    <p className="flex items-center gap-2.5 text-[15px] font-medium">
                       <Avatar seed={k.id} name={k.first} photo={photos[k.id]} size={28} /> {k.first}
                     </p>
                     <ul className="mt-3 flex flex-col gap-1.5">
@@ -123,8 +123,8 @@ export function WelcomeView() {
               >
                 <MapPin className="mt-0.5 size-5 shrink-0" />
                 <span className="flex-1">
-                  <span className="block text-[15.5px] font-medium">{family.address}</span>
-                  <span className="block text-[13.5px] text-ink-muted">
+                  <span className="block text-[16px] font-medium">{family.address}</span>
+                  <span className="block text-[14px] text-ink-muted">
                     {family.city}, GA · {family.area}
                   </span>
                 </span>
@@ -149,7 +149,7 @@ export function WelcomeView() {
                     <span className="grid size-9 place-items-center rounded-xl bg-raised">
                       <s.icon className="size-4" />
                     </span>
-                    <span className="text-[14.5px]">{s.text}</span>
+                    <span className="text-[15px]">{s.text}</span>
                   </li>
                 ))}
               </ol>
@@ -164,7 +164,7 @@ export function WelcomeView() {
                     <BellRing className="size-5" />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="flex justify-between text-[14px] font-semibold">
+                    <p className="flex justify-between text-[14px] font-medium">
                       Rush Hour Kids <span className="font-normal text-ink-muted">now</span>
                     </p>
                     <p className="text-[14px] text-ink-soft">Van 2 is about 5 minutes away. Maya and Eli are on board.</p>
@@ -177,7 +177,7 @@ export function WelcomeView() {
                 {alerts === "on" ? "Continue" : "Allow alerts"}
               </Button>
               {alerts !== "on" ? (
-                <button type="button" onClick={() => setStep(5)} className="mt-3 w-full text-center text-[13.5px] text-ink-muted hover:text-ink">
+                <button type="button" onClick={() => setStep(5)} className="mt-3 w-full text-center text-[14px] text-ink-muted hover:text-ink">
                   Not now
                 </button>
               ) : null}
@@ -187,7 +187,7 @@ export function WelcomeView() {
               <span className="mx-auto grid size-14 place-items-center rounded-full bg-good text-white">
                 <Check className="size-7 stroke-[2.5]" />
               </span>
-              <h1 className="mt-5 font-display text-[30px] font-medium tracking-[-0.04em]">You&apos;re all set</h1>
+              <h1 className="mt-5 font-display text-[28px] font-medium tracking-[-0.04em]">You&apos;re all set</h1>
               <p className="mt-2 text-[15px] text-ink-muted">You&apos;ll see the van live on school days, your bills on Fridays, and messages from the office.</p>
               <Button variant="primary" size="lg" className="mt-6 w-full" href="/" linkAs={Link} arrow>
                 Go to the app
@@ -204,7 +204,7 @@ function H({ title, sub }: { title: string; sub: string }) {
   return (
     <div className="mb-6">
       <h1 className="font-display text-[28px] font-medium leading-[1.1] tracking-[-0.035em]">{title}</h1>
-      <p className="mt-2 text-[14.5px] text-ink-muted">{sub}</p>
+      <p className="mt-2 text-[15px] text-ink-muted">{sub}</p>
     </div>
   );
 }

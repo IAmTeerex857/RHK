@@ -76,7 +76,7 @@ export function ApplicationsView() {
                   <Avatar seed={a.parent.id} name={a.parent.name} size={30} />
                   <span className="min-w-0">
                     <span className="block truncate font-medium">{a.parent.name}</span>
-                    <span className="block truncate text-[12.5px] text-ink-muted">
+                    <span className="block truncate text-[13px] text-ink-muted">
                       {a.address}, {a.city}
                     </span>
                   </span>
@@ -89,7 +89,7 @@ export function ApplicationsView() {
               cell: (a) => (
                 <span className="min-w-0">
                   <span className="block truncate">{a.children.map((c) => c.name.split(" ")[0]).join(", ")}</span>
-                  <span className="block truncate text-[12.5px] text-ink-muted">{getSchool(a.children[0].schoolId).short}</span>
+                  <span className="block truncate text-[13px] text-ink-muted">{getSchool(a.children[0].schoolId).short}</span>
                 </span>
               ),
               hideBelow: "sm",
@@ -100,7 +100,7 @@ export function ApplicationsView() {
             { key: "status", header: "Status", align: "right", sort: (a) => applicationStatus[a.status].step, cell: (a) => <StatusBadge map={applicationStatus} value={a.status} /> },
           ]}
         />
-        <div className="flex items-center gap-2 border-t border-line px-5 py-3 text-[12.5px] text-ink-muted">
+        <div className="flex items-center gap-2 border-t border-line px-5 py-3 text-[13px] text-ink-muted">
           <FileText className="size-4" /> {rows.length} shown · new applications arrive from the website form
         </div>
       </Card>

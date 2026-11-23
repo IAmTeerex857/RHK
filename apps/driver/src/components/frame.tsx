@@ -125,7 +125,7 @@ function SosRow({ href, onClick, icon, title, sub, tone }: { href?: string; onCl
     <>
       <span className={cn("grid size-11 shrink-0 place-items-center rounded-xl", tone === "bad" ? "bg-coral text-white" : "bg-raised text-ink")}>{icon}</span>
       <span className="min-w-0 flex-1">
-        <span className={cn("block text-[15.5px] font-semibold", tone === "bad" && "text-bad")}>{title}</span>
+        <span className={cn("block text-[16px] font-medium", tone === "bad" && "text-bad")}>{title}</span>
         <span className="block text-[13px] text-ink-muted">{sub}</span>
       </span>
       <ChevronRight className="size-4 text-ink-muted" />

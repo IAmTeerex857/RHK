@@ -72,14 +72,14 @@ export function MessagesView() {
                       <Avatar seed={c.with.seed} name={c.with.name} size={38} />
                       <span className="min-w-0 flex-1">
                         <span className="flex items-center justify-between gap-2">
-                          <span className={cn("truncate text-[14px]", unread ? "font-semibold" : "font-medium")}>{c.with.name}</span>
+                          <span className={cn("truncate text-[14px]", unread ? "font-medium" : "font-medium")}>{c.with.name}</span>
                           <span className="shrink-0 text-[12px] text-ink-muted">{c.updated}</span>
                         </span>
                         <span className="mt-0.5 flex items-center gap-2">
                           <Badge tone={c.with.kind === "driver" ? "lilac" : "neutral"} className="h-5 px-1.5 text-[11px]">
                             {c.with.kind === "driver" ? "Driver" : "Parent"}
                           </Badge>
-                          <span className="truncate text-[12.5px] text-ink-muted">{c.subject}</span>
+                          <span className="truncate text-[13px] text-ink-muted">{c.subject}</span>
                         </span>
                         <span className="mt-1 flex items-center justify-between gap-2">
                           <span className={cn("line-clamp-1 text-[13px]", unread ? "text-ink" : "text-ink-muted")}>{last.body}</span>
@@ -100,7 +100,7 @@ export function MessagesView() {
               <Avatar seed={conv.with.seed} name={conv.with.name} size={34} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[14px] font-medium">{conv.with.name}</p>
-                <p className="truncate text-[12.5px] text-ink-muted">{conv.subject}</p>
+                <p className="truncate text-[13px] text-ink-muted">{conv.subject}</p>
               </div>
               <Button
                 variant="outline"
@@ -133,12 +133,12 @@ export function MessagesView() {
             <Card key={a.id} className="flex flex-col">
               <div className="flex items-center justify-between">
                 <Badge tone="info">{a.audience}</Badge>
-                <span className="text-[12.5px] text-ink-muted">{a.sentAt}</span>
+                <span className="text-[13px] text-ink-muted">{a.sentAt}</span>
               </div>
-              <h3 className="mt-4 font-display text-[17px] font-medium tracking-[-0.02em]">{a.title}</h3>
+              <h3 className="mt-4 font-display text-[18px] font-medium tracking-[-0.02em]">{a.title}</h3>
               <p className="mt-2 text-[14px] text-ink-soft">{a.body}</p>
               <div className="mt-auto pt-5">
-                <div className="mb-2 flex justify-between text-[12.5px] text-ink-muted">
+                <div className="mb-2 flex justify-between text-[13px] text-ink-muted">
                   <span>Opened</span>
                   <span className="font-mono tabular">
                     {a.opened}/{a.reach}
@@ -147,7 +147,7 @@ export function MessagesView() {
                 <div className="h-1.5 rounded-full bg-raised">
                   <div className="h-full rounded-full bg-data-500" style={{ width: `${(a.opened / a.reach) * 100}%` }} />
                 </div>
-                <p className="mt-3 text-[12.5px] text-ink-muted">Sent by {a.sentBy} · push and email</p>
+                <p className="mt-3 text-[13px] text-ink-muted">Sent by {a.sentBy} · push and email</p>
               </div>
             </Card>
           ))}

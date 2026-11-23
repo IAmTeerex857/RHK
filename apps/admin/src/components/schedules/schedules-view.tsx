@@ -29,7 +29,7 @@ function RequestCard({ r }: { r: ChangeRequest }) {
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="text-[14.5px] font-medium">
+            <p className="text-[15px] font-medium">
               {c.first} {c.last}
             </p>
             {state === "approved" ? <Badge tone="good" dot>Approved</Badge> : state === "declined" ? <Badge dot>Declined</Badge> : null}
@@ -46,7 +46,7 @@ function RequestCard({ r }: { r: ChangeRequest }) {
       </div>
       {r.feeApplies && state === "pending" ? (
         <div className="mt-4 flex items-center justify-between gap-4 rounded-xl border border-[color-mix(in_oklab,var(--color-warn)_35%,transparent)] bg-bus-50 px-4 py-3">
-          <p className="text-[13.5px]">
+          <p className="text-[14px]">
             <span className="font-medium">${FEES.lateCancel} fee applies.</span> <span className="text-ink-soft">Less than a week&apos;s notice. Added to the next bill.</span>
           </p>
           <Switch checked={waive} onChange={setWaive} label={<span className="text-[13px]">Waive</span>} className="shrink-0 gap-2" />
@@ -113,7 +113,7 @@ export function SchedulesView() {
                         <span className="block font-medium">
                           {c.first} {c.last}
                         </span>
-                        <span className="block text-[12.5px] text-ink-muted">{getSchool(c.schoolId).short}</span>
+                        <span className="block text-[13px] text-ink-muted">{getSchool(c.schoolId).short}</span>
                       </span>
                     </span>
                   );
@@ -148,7 +148,7 @@ export function SchedulesView() {
               },
             ]}
           />
-          <p className="flex items-center gap-2 border-t border-line px-5 py-3 text-[12.5px] text-ink-muted">
+          <p className="flex items-center gap-2 border-t border-line px-5 py-3 text-[13px] text-ink-muted">
             <Clock3 className="size-4" /> Parents can report a same-day absence until the van leaves for that run. After that they call the office.
           </p>
         </Card>
@@ -158,9 +158,9 @@ export function SchedulesView() {
             <CardHeader title="2026–27 school year" subtitle={`${active.length} children · each square is a ride (morning / afternoon)`} />
           </div>
           <div className="overflow-x-auto px-5 pb-5">
-            <table className="w-full min-w-[640px] border-separate border-spacing-y-1.5 text-[13.5px]">
+            <table className="w-full min-w-[640px] border-separate border-spacing-y-1.5 text-[14px]">
               <thead>
-                <tr className="text-[12.5px] text-ink-muted">
+                <tr className="text-[13px] text-ink-muted">
                   <th className="text-left font-medium">Child</th>
                   {days.map((d) => (
                     <th key={d} className="font-medium capitalize">

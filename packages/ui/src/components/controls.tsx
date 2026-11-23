@@ -94,7 +94,7 @@ export function Switch({
     <div className={cn("flex items-center justify-between gap-4", className)}>
       <label htmlFor={id} className="min-w-0 cursor-pointer">
         <span className="block text-[15px] font-medium text-ink">{label}</span>
-        {description ? <span className="mt-0.5 block text-[13.5px] text-ink-muted">{description}</span> : null}
+        {description ? <span className="mt-0.5 block text-[14px] text-ink-muted">{description}</span> : null}
       </label>
       {control}
     </div>

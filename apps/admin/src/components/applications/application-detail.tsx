@@ -62,7 +62,7 @@ export function ApplicationDetail({ id }: { id: string }) {
       <PageHeader
         eyebrow={
           <span className="flex items-center gap-2">
-            <span className="font-mono text-[12.5px] text-ink-muted">{app.ref}</span>
+            <span className="font-mono text-[13px] text-ink-muted">{app.ref}</span>
             <StatusBadge map={applicationStatus} value={status} />
           </span>
         }
@@ -92,7 +92,7 @@ export function ApplicationDetail({ id }: { id: string }) {
               <Avatar seed={app.parent.id} name={app.parent.name} size={48} />
               <div className="min-w-0 flex-1">
                 <p className="text-[15px] font-medium">{app.parent.name}</p>
-                <p className="mt-0.5 flex flex-wrap gap-x-4 gap-y-1 text-[13.5px] text-ink-muted">
+                <p className="mt-0.5 flex flex-wrap gap-x-4 gap-y-1 text-[14px] text-ink-muted">
                   <span className="inline-flex items-center gap-1.5">
                     <Phone className="size-3.5" /> {app.parent.phone}
                   </span>
@@ -118,7 +118,7 @@ export function ApplicationDetail({ id }: { id: string }) {
                   <div className="flex items-center gap-3">
                     <Avatar seed={c.name} name={c.name} size={38} />
                     <div>
-                      <p className="text-[14.5px] font-medium">{c.name}</p>
+                      <p className="text-[15px] font-medium">{c.name}</p>
                       <p className="text-[13px] text-ink-muted">
                         Age {c.age} · {c.grade} grade
                       </p>
@@ -184,15 +184,15 @@ export function ApplicationDetail({ id }: { id: string }) {
               <Avatar seed={route.driverId} name={getDriver(route.driverId).name} size={36} />
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[14px] font-medium">{route.name}</p>
-                <p className="text-[12.5px] text-ink-muted">
+                <p className="text-[13px] text-ink-muted">
                   {van.name} · {getDriver(route.driverId).name}
                 </p>
               </div>
               <Badge tone={van.capacity - used >= app.children.length ? "good" : "bad"}>{van.capacity - used} seats left</Badge>
             </div>
             <SegmentBar className="mt-4" value={used} total={van.capacity} tone="ink" size="sm" label="Seats used" />
-            <p className="mt-2 font-mono text-[11.5px] text-ink-muted">
-              {used} / {van.capacity} SEATS · {route.start} – {route.end}
+            <p className="mt-2 font-mono text-[12px] text-ink-muted">
+              {used} / {van.capacity} seats · {route.start} – {route.end}
             </p>
           </Card>
         </div>

@@ -101,7 +101,7 @@ export function Panel({
         <header className="flex items-center justify-between gap-3 px-4 pb-2.5 pt-3">
           <div className="flex min-w-0 items-baseline gap-2.5">
             {title ? <h3 className="truncate font-display text-[15px] font-medium tracking-[-0.015em]">{title}</h3> : null}
-            {meta ? <span className="truncate text-[13.5px] text-ink-muted">{meta}</span> : null}
+            {meta ? <span className="truncate text-[14px] text-ink-muted">{meta}</span> : null}
           </div>
           {actions ? <div className="flex shrink-0 items-center gap-1.5">{actions}</div> : null}
         </header>
