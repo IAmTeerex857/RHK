@@ -34,6 +34,7 @@ export function ParentFrame({ children }: { children: ReactNode }) {
   return (
     <AppShell
       app="Parents"
+      accountHref="/account"
       narrow
       nav={nav}
       user={{ name: parent.name, role: `${family.name} family`, seed: parent.id, email: parent.email }}

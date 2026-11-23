@@ -3,15 +3,20 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Clock3, Gauge, MapPin, Plus, School as SchoolIcon } from "lucide-react";
-import { getDriver, getSchool, getVan, routes, runFor, satelliteStops, schools } from "@rhk/fixtures";
+import { drivers, getDriver, getSchool, getVan, routes, runFor, satelliteStops, schools, vans, type SatelliteStop, type School } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
+import { EmptyState } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader } from "@rhk/ui/components/card";
 import { FlowRouter } from "@rhk/ui/components/flow";
 import { routeColor } from "@rhk/ui/lib/route-color";
 import { SegmentBar } from "@rhk/ui/components/charts";
-import { Switch } from "@rhk/ui/components/controls";
+import { ChoiceChips, Select, Switch } from "@rhk/ui/components/controls";
+import { Dialog } from "@rhk/ui/components/dialog";
+import { Field } from "@rhk/ui/components/field";
+import { toast } from "@rhk/ui/components/toast";
+import { cn } from "@rhk/ui/lib/cn";
 import { Segmented, Tabs } from "@rhk/ui/components/segmented";
 import { DataTable } from "@rhk/ui/components/table";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
@@ -20,6 +25,55 @@ export function RoutesView() {
   const [tab, setTab] = useState<"routes" | "schools" | "stops">("routes");
   const [slot, setSlot] = useState<"am" | "pm">("pm");
   const [active, setActive] = useState<Record<string, boolean>>(Object.fromEntries(satelliteStops.map((s) => [s.id, s.active])));
+  const [schoolList, setSchoolList] = useState<School[]>(schools);
+  const [stopList, setStopList] = useState<SatelliteStop[]>(satelliteStops);
+  const [drafts, setDrafts] = useState<{ id: string; name: string; slot: "am" | "pm"; vanId: string; driverId: string; schoolIds: string[] }[]>([]);
+  const [dialog, setDialog] = useState<null | "route" | "school" | "stop">(null);
+  const [turningOff, setTurningOff] = useState<SatelliteStop | null>(null);
+  const [moveTo, setMoveTo] = useState("");
+  const [err, setErr] = useState<string | undefined>();
+  const nextRouteNo = new Set(routes.map((r) => r.name.split(" · ")[0])).size + drafts.length + 1;
+  const [nr, setNr] = useState({ slot: "pm" as "am" | "pm", vanId: vans[0].id, driverId: drivers[0].id, schoolIds: [] as string[] });
+  const [ns, setNs] = useState({ name: "", short: "", address: "", city: "", bellAm: "", bellPm: "" });
+  const [nst, setNst] = useState({ name: "", address: "", windowAm: "", windowPm: "" });
+  const close = () => {
+    setDialog(null);
+    setErr(undefined);
+  };
+
+  const createRoute = () => {
+    if (!nr.schoolIds.length) return setErr("Pick at least one school.");
+    const name = `Route ${nextRouteNo}`;
+    setDrafts((d) => [...d, { id: `draft-${Date.now()}`, name, ...nr }]);
+    toast(`${name} created`, { body: "Add children to it from their schedules to build its stops." });
+    setNr((x) => ({ ...x, schoolIds: [] }));
+    setSlot(nr.slot);
+    close();
+  };
+  const addSchool = () => {
+    if (!ns.name.trim() || !ns.address.trim() || !ns.city.trim()) return setErr("Name, address and city are needed.");
+    setSchoolList((l) => [...l, { id: `s-${Date.now()}`, name: ns.name.trim(), short: ns.short.trim() || ns.name.trim().split(" ")[0], address: ns.address.trim(), city: ns.city.trim(), bellAm: ns.bellAm || "Not set", bellPm: ns.bellPm || "Not set", children: 0 }]);
+    toast(`${ns.name.trim()} added`);
+    setNs({ name: "", short: "", address: "", city: "", bellAm: "", bellPm: "" });
+    close();
+  };
+  const addStop = () => {
+    if (!nst.name.trim() || !nst.address.trim()) return setErr("A name and an address are needed.");
+    const id = `sat-${Date.now()}`;
+    setStopList((l) => [...l, { id, name: nst.name.trim(), address: nst.address.trim(), windowAm: nst.windowAm || "Not used", windowPm: nst.windowPm || "Not used", active: true, children: 0 }]);
+    setActive((a) => ({ ...a, [id]: true }));
+    toast(`${nst.name.trim()} added`, { body: "Families can be moved to it from their schedule." });
+    setNst({ name: "", address: "", windowAm: "", windowPm: "" });
+    close();
+  };
+  const toggleStop = (st: SatelliteStop, on: boolean) => {
+    if (!on && st.children > 0) {
+      setMoveTo(stopList.find((x) => x.id !== st.id && active[x.id])?.id ?? "");
+      return setTurningOff(st);
+    }
+    setActive((a) => ({ ...a, [st.id]: on }));
+    toast(on ? `${st.name} is in use again` : `${st.name} turned off`);
+  };
 
   return (
     <>
@@ -27,7 +81,7 @@ export function RoutesView() {
         title="Routes"
         description="Each van runs a morning and an afternoon route. Stops, order and riders come from each child's year schedule."
         actions={
-          <Button variant="ink" size="sm" icon={<Plus className="size-4" />}>
+          <Button variant="ink" size="sm" icon={<Plus className="size-4" />} onClick={() => setDialog(tab === "routes" ? "route" : tab === "schools" ? "school" : "stop")}>
             {tab === "routes" ? "New route" : tab === "schools" ? "Add school" : "Add satellite stop"}
           </Button>
         }
@@ -38,8 +92,8 @@ export function RoutesView() {
           onChange={setTab}
           options={[
             { value: "routes", label: "Routes", count: routes.length },
-            { value: "schools", label: "Schools", count: schools.length },
-            { value: "stops", label: "Satellite stops", count: satelliteStops.length },
+            { value: "schools", label: "Schools", count: schoolList.length },
+            { value: "stops", label: "Satellite stops", count: stopList.length },
           ]}
         />
         {tab === "routes" ? (
@@ -113,12 +167,31 @@ export function RoutesView() {
                 </Link>
               );
             })}
+          {drafts
+            .filter((r) => r.slot === slot)
+            .map((r) => (
+              <Card key={r.id} className="h-full border-dashed">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-display text-[18px] font-medium tracking-[-0.02em]">{r.name}</p>
+                    <p className="mt-0.5 text-[13px] text-ink-muted">{r.schoolIds.map((s) => schoolList.find((x) => x.id === s)?.short).join(", ")}</p>
+                  </div>
+                  <Badge>New</Badge>
+                </div>
+                <div className="mt-5 flex items-center gap-2.5">
+                  <Avatar seed={r.driverId} name={getDriver(r.driverId).name} size={28} />
+                  <span className="text-[14px]">{getDriver(r.driverId).name}</span>
+                </div>
+                <p className="mt-5 border-t border-line pt-4 text-[13px] text-ink-muted">{getVan(r.vanId).name} · no stops yet</p>
+              </Card>
+            ))}
           <Dispatch slot={slot} />
         </div>
       ) : tab === "schools" ? (
         <Card flush>
           <DataTable
-            rows={schools}
+            rows={schoolList}
+            empty={<EmptyState icon={<SchoolIcon />} title="No schools yet" body="Add the schools your routes serve, with their bell times." />}
             rowKey={(s) => s.id}
             columns={[
               {
@@ -148,7 +221,8 @@ export function RoutesView() {
       ) : (
         <Card flush>
           <DataTable
-            rows={satelliteStops}
+            rows={stopList}
+            empty={<EmptyState icon={<MapPin />} title="No satellite stops" body="Add a meeting point families can use instead of home." />}
             rowKey={(s) => s.id}
             columns={[
               {
@@ -168,13 +242,184 @@ export function RoutesView() {
                 key: "on",
                 header: "In use",
                 align: "right",
-                cell: (s) => <Switch checked={active[s.id]} onChange={(v) => setActive((a) => ({ ...a, [s.id]: v }))} />,
+                cell: (s) => <Switch checked={active[s.id]} onChange={(v) => toggleStop(s, v)} />,
               },
             ]}
           />
           <p className="border-t border-line px-5 py-3 text-[13px] text-ink-muted">Turning a stop off asks you to move its children to another stop first. Parents are told by email and push.</p>
         </Card>
       )}
+
+      <Dialog
+        open={dialog === "route"}
+        onClose={close}
+        icon={<Plus className="size-5" />}
+        title={`New route: Route ${nextRouteNo}`}
+        description="Pick the run, van, driver and schools. Stops come from the children you add to it."
+        footer={
+          <>
+            <Button variant="soft" size="sm" onClick={close}>
+              Cancel
+            </Button>
+            <Button variant="ink" size="sm" onClick={createRoute}>
+              Create route
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-4">
+          <div>
+            <p className="mb-2 text-[13px] font-medium text-ink-soft">Run</p>
+            <ChoiceChips
+              size="sm"
+              value={nr.slot}
+              onChange={(v) => setNr((x) => ({ ...x, slot: v }))}
+              options={[
+                { value: "am", label: "Morning" },
+                { value: "pm", label: "Afternoon" },
+              ]}
+            />
+          </div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Select label="Van" value={nr.vanId} onChange={(e) => setNr((x) => ({ ...x, vanId: e.target.value }))}>
+              {vans.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.name} · {v.capacity} seats
+                </option>
+              ))}
+            </Select>
+            <Select label="Driver" value={nr.driverId} onChange={(e) => setNr((x) => ({ ...x, driverId: e.target.value }))}>
+              {drivers.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <div>
+            <p className="mb-2 text-[13px] font-medium text-ink-soft">Schools</p>
+            <div className="flex flex-wrap gap-2">
+              {schoolList.map((sc) => {
+                const on = nr.schoolIds.includes(sc.id);
+                return (
+                  <button
+                    key={sc.id}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => setNr((x) => ({ ...x, schoolIds: on ? x.schoolIds.filter((i) => i !== sc.id) : [...x.schoolIds, sc.id] }))}
+                    className={cn(
+                      "inline-flex h-8 items-center rounded-full border px-3 text-[13px] font-medium transition-colors",
+                      on ? "border-ink bg-ink text-cream" : "border-line-strong bg-card text-ink hover:bg-raised",
+                    )}
+                  >
+                    {sc.short}
+                  </button>
+                );
+              })}
+            </div>
+            {err ? <p className="mt-2 text-[13px] font-medium text-bad">{err}</p> : null}
+          </div>
+        </div>
+      </Dialog>
+
+      <Dialog
+        open={dialog === "school"}
+        onClose={close}
+        icon={<SchoolIcon className="size-5" />}
+        title="Add a school"
+        description="Bell times set when vans need to arrive and leave."
+        footer={
+          <>
+            <Button variant="soft" size="sm" onClick={close}>
+              Cancel
+            </Button>
+            <Button variant="ink" size="sm" onClick={addSchool}>
+              Add school
+            </Button>
+          </>
+        }
+      >
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Field label="School name" className="sm:col-span-2" value={ns.name} onChange={(e) => setNs((x) => ({ ...x, name: e.target.value }))} />
+          <Field label="Short name" hint="Shown on route cards" value={ns.short} onChange={(e) => setNs((x) => ({ ...x, short: e.target.value }))} />
+          <Field label="City" value={ns.city} onChange={(e) => setNs((x) => ({ ...x, city: e.target.value }))} />
+          <Field label="Street address" className="sm:col-span-2" value={ns.address} onChange={(e) => setNs((x) => ({ ...x, address: e.target.value }))} />
+          <Field label="Morning bell" type="time" value={ns.bellAm} onChange={(e) => setNs((x) => ({ ...x, bellAm: e.target.value }))} />
+          <Field label="Release" type="time" value={ns.bellPm} onChange={(e) => setNs((x) => ({ ...x, bellPm: e.target.value }))} />
+        </div>
+        {err ? <p className="mt-3 text-[13px] font-medium text-bad">{err}</p> : null}
+      </Dialog>
+
+      <Dialog
+        open={dialog === "stop"}
+        onClose={close}
+        icon={<MapPin className="size-5" />}
+        title="Add a satellite stop"
+        description="A meeting point families can use instead of home pickup or drop-off."
+        footer={
+          <>
+            <Button variant="soft" size="sm" onClick={close}>
+              Cancel
+            </Button>
+            <Button variant="ink" size="sm" onClick={addStop}>
+              Add stop
+            </Button>
+          </>
+        }
+      >
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Field label="Name" className="sm:col-span-2" value={nst.name} onChange={(e) => setNst((x) => ({ ...x, name: e.target.value }))} />
+          <Field label="Address" className="sm:col-span-2" value={nst.address} onChange={(e) => setNst((x) => ({ ...x, address: e.target.value }))} />
+          <Field label="Morning window" hint="For example 6:50 to 7:00 AM" value={nst.windowAm} onChange={(e) => setNst((x) => ({ ...x, windowAm: e.target.value }))} />
+          <Field label="Afternoon window" hint="Leave empty if not used" value={nst.windowPm} onChange={(e) => setNst((x) => ({ ...x, windowPm: e.target.value }))} />
+        </div>
+        {err ? <p className="mt-3 text-[13px] font-medium text-bad">{err}</p> : null}
+      </Dialog>
+
+      <Dialog
+        open={Boolean(turningOff)}
+        onClose={() => setTurningOff(null)}
+        size="sm"
+        icon={<MapPin className="size-5" />}
+        title={turningOff ? `Turn off ${turningOff.name}?` : ""}
+        description={turningOff ? `${turningOff.children} ${turningOff.children === 1 ? "child uses" : "children use"} this stop. Move them first. Their parents are told by email and push.` : undefined}
+        footer={
+          <>
+            <Button variant="soft" size="sm" onClick={() => setTurningOff(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant="ink"
+              size="sm"
+              disabled={!moveTo}
+              onClick={() => {
+                if (!turningOff) return;
+                const to = stopList.find((x) => x.id === moveTo)!;
+                setStopList((l) => l.map((x) => (x.id === turningOff.id ? { ...x, children: 0 } : x.id === to.id ? { ...x, children: x.children + turningOff.children } : x)));
+                setActive((a) => ({ ...a, [turningOff.id]: false }));
+                toast(`${turningOff.name} turned off`, { body: `${turningOff.children} moved to ${to.name}. Parents notified.` });
+                setTurningOff(null);
+              }}
+            >
+              Move and turn off
+            </Button>
+          </>
+        }
+      >
+        {stopList.some((x) => turningOff && x.id !== turningOff.id && active[x.id]) ? (
+          <Select label="Move them to" value={moveTo} onChange={(e) => setMoveTo(e.target.value)}>
+            {stopList
+              .filter((x) => turningOff && x.id !== turningOff.id && active[x.id])
+              .map((x) => (
+                <option key={x.id} value={x.id}>
+                  {x.name}
+                </option>
+              ))}
+          </Select>
+        ) : (
+          <p className="text-[14px] text-ink-muted">There&apos;s no other satellite stop in use. Add one first, or move these children to home stops from their schedules.</p>
+        )}
+      </Dialog>
     </>
   );
 }

@@ -90,11 +90,11 @@ export const invoices: Invoice[] = [
 export const payments: Payment[] = [
   { id: "pay-1", invoiceId: "inv-2289", familyId: "f-martinez", method: "cash_app", amount: 90, at: "Today, 9:12 AM", reference: "$SofiaM · #8F21", recordedBy: "Jordan Lee" },
   { id: "pay-2", invoiceId: "inv-2287", familyId: "f-davis", method: "zelle", amount: 95, at: "Today, 8:40 AM", reference: "Zelle 4471", recordedBy: "Clara" },
-  { id: "pay-3", invoiceId: "inv-2286", familyId: "f-carter", method: "card", amount: 95, at: "Yesterday, 7:58 PM", reference: "Visa ·· 4242", recordedBy: "Auto-pay" },
-  { id: "pay-4", invoiceId: "inv-2285", familyId: "f-reed", method: "cash", amount: 95, at: "Yesterday, 4:02 PM", reference: "Cash at office", recordedBy: "Clara" },
+  { id: "pay-3", invoiceId: "inv-2286", familyId: "f-carter", method: "cash_app", amount: 95, at: "Yesterday, 7:58 PM", reference: "Cash App 7781", recordedBy: "Jordan Lee" },
+  { id: "pay-4", invoiceId: "inv-2285", familyId: "f-reed", method: "zelle", amount: 95, at: "Yesterday, 4:02 PM", reference: "Zelle 4502", recordedBy: "Clara" },
   { id: "pay-5", invoiceId: "inv-2264", familyId: "f-johnson", method: "zelle", amount: 142.5, at: "Nov 13, 6:15 PM", reference: "Zelle 3390", recordedBy: "Clara" },
   { id: "pay-6", invoiceId: "inv-2243", familyId: "f-thompson", method: "cash_app", amount: 135, at: "Nov 12, 12:30 PM", reference: "$MoniqueT · #22A0", recordedBy: "Jordan Lee" },
-  { id: "pay-7", invoiceId: "inv-2241", familyId: "f-patel", method: "card", amount: 540, at: "Nov 6, 9:00 AM", reference: "Mastercard ·· 8810", recordedBy: "Auto-pay" },
+  { id: "pay-7", invoiceId: "inv-2241", familyId: "f-patel", method: "zelle", amount: 540, at: "Nov 6, 9:00 AM", reference: "Zelle 2954", recordedBy: "Jordan Lee" },
   { id: "pay-8", invoiceId: "inv-2237", familyId: "f-johnson", method: "zelle", amount: 177.5, at: "Nov 6, 5:41 PM", reference: "Zelle 3121", recordedBy: "Clara" },
 ];
 

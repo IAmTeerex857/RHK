@@ -9,6 +9,7 @@ import { ArrowDown, ArrowUp, ChevronsUpDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 import { cn } from "../lib/cn";
+import { EmptyState } from "./blocks";
 
 export type Column<T> = {
   key: string;
@@ -129,7 +130,7 @@ export function DataTable<T>({
           ))}
         </tbody>
       </table>
-      {rows.length === 0 && empty ? <div className="border-t border-line">{empty}</div> : null}
+      {rows.length === 0 ? <div className="border-t border-line">{empty ?? <EmptyState title="Nothing here yet" body="New records show up here as soon as they're added." />}</div> : null}
     </div>
   );
 }

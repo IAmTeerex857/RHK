@@ -29,7 +29,10 @@ import { ActionRow, Stat } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader, MoreButton } from "@rhk/ui/components/card";
 import { BarChart, HatchBar, Heatmap, SegmentBar } from "@rhk/ui/components/charts";
-import { FilterPill } from "@rhk/ui/components/controls";
+import { FilterPill, Menu } from "@rhk/ui/components/controls";
+import { downloadCsv } from "@rhk/ui/lib/download";
+import { routeNumber } from "@rhk/ui/lib/route-color";
+import { toast } from "@rhk/ui/components/toast";
 import { Segmented } from "@rhk/ui/components/segmented";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
 
@@ -53,8 +56,25 @@ export function TodayView() {
   const overdueTotal = overdue.reduce((s, i) => s + invoiceDue(i), 0);
   const lateFee = absences.find((a) => a.late && !a.feeWaived);
 
-  const shown = slot === "pm" ? runs : [];
-  const amRoutes = routes.filter((r) => r.slot === "am");
+  const [routeNo, setRouteNo] = useState<number | null>(null);
+  const pick = (id: string) => routeNo === null || routeNumber(getRoute(id).name) === routeNo;
+  const shown = slot === "pm" ? runs.filter((r) => pick(r.routeId)) : [];
+  const amRoutes = routes.filter((r) => r.slot === "am" && pick(r.id));
+
+  const exportRuns = () => {
+    const header = ["Date", "Run", "Route", "Van", "Driver", "Status", "Stops done", "Stops", "On board", "Next stop", "ETA"];
+    const rows =
+      slot === "pm"
+        ? shown.map((run) => {
+            const route = getRoute(run.routeId);
+            const nextState = run.stops.find((x) => x.state === "next");
+            const next = route.stops.find((s) => s.id === nextState?.stopId);
+            return [NOW.dayLabel, "Afternoon", route.name.split(" · ")[0], getVan(route.vanId).name, getDriver(run.driverId).name, runTone(run).label, run.stops.filter((x) => x.state === "done").length, route.stops.length, run.onBoard, next?.label ?? "", nextState?.eta ?? ""];
+          })
+        : amRoutes.map((route) => [NOW.dayLabel, "Morning", route.name.split(" · ")[0], getVan(route.vanId).name, getDriver(route.driverId).name, "Done", route.stops.length, route.stops.length, 0, "", ""]);
+    downloadCsv(`rush-hour-kids-${slot === "pm" ? "afternoon" : "morning"}-runs.csv`, [header, ...rows]);
+    toast("Export downloaded", { body: `${rows.length} ${slot === "pm" ? "afternoon" : "morning"} runs` });
+  };
 
   return (
     <>
@@ -81,8 +101,24 @@ export function TodayView() {
                 { value: "pm", label: "Afternoon", count: 4 },
               ]}
             />
-            <FilterPill icon={<RouteIcon />}>All routes</FilterPill>
-            <Button variant="outline" size="sm" icon={<Download className="size-4" />}>
+            <Menu
+              trigger={({ toggle }) => (
+                <FilterPill icon={<RouteIcon />} onClick={toggle} active={routeNo !== null}>
+                  {routeNo === null ? "All routes" : `Route ${routeNo}`}
+                </FilterPill>
+              )}
+              items={[
+                { label: "All routes", onSelect: () => setRouteNo(null), hint: routeNo === null ? "Showing" : undefined },
+                "divider",
+                ...[1, 2, 3, 4].map((n) => ({
+                  label: `Route ${n}`,
+                  icon: <span className="block size-2.5 rounded-[3px]" style={{ background: `var(--color-route-${n})` }} />,
+                  onSelect: () => setRouteNo(n),
+                  hint: routeNo === n ? "Showing" : undefined,
+                })),
+              ]}
+            />
+            <Button variant="outline" size="sm" icon={<Download className="size-4" />} onClick={exportRuns}>
               Export
             </Button>
           </>
@@ -92,7 +128,15 @@ export function TodayView() {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
         {/* on-time */}
         <Card className="flex flex-col lg:col-span-4">
-          <CardHeader title="On-time drop-offs" subtitle={`This week · ${NOW.week}`} actions={<MoreButton />} />
+          <CardHeader title="On-time drop-offs" subtitle={`This week · ${NOW.week}`} actions={
+              <Menu
+                trigger={({ toggle }) => <MoreButton onClick={toggle} />}
+                items={[
+                  { label: "Open reports", icon: <FileText />, onSelect: () => (window.location.href = "/reports") },
+                  { label: "Watch the live map", icon: <RouteIcon />, onSelect: () => (window.location.href = "/live") },
+                ]}
+              />
+            } />
           <Stat className="mt-6" size="xl" value="96.8" unit="%" delta={<Delta value={1.1} suffix=" pts" />} note="vs last week" />
           <p className="mt-5 text-[14px] leading-relaxed text-ink-soft">
             1.8 pts above the 95% goal. <span className="text-ink">127 of 131</span> rides arrived inside their window.

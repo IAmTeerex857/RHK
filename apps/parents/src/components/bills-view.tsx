@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Banknote, Check, Copy, CreditCard, FileText, Printer, Send } from "lucide-react";
+import { Check, Copy, FileText, Printer, Send } from "lucide-react";
 import { invoiceDue, invoiceTotal, methodLabel, money, OFFICE, payments, type Invoice } from "@rhk/fixtures";
 import { Badge } from "@rhk/ui/components/badge";
+import { EmptyState } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader } from "@rhk/ui/components/card";
 import { Dialog } from "@rhk/ui/components/dialog";
@@ -51,35 +52,17 @@ export function BillsView() {
         ) : null}
 
         <Card className="lg:col-span-5">
-          <CardHeader title="How to pay" subtitle={openBill ? `Put ${openBill.number} in the memo so the office can match it.` : undefined} />
+          <CardHeader title="How to pay" subtitle={openBill ? `Zelle or Cash App. Put ${openBill.number} in the memo so the office can match it.` : "Zelle or Cash App"} />
           <div className="mt-4 flex flex-col gap-2">
             <PayRow icon={<span className="font-display text-[15px] font-medium">Z</span>} title="Zelle" value={OFFICE.zelle} />
             <PayRow icon={<span className="font-display text-[15px] font-medium">$</span>} title="Cash App" value={OFFICE.cashApp} />
-            <div className="flex items-center gap-3 rounded-2xl border border-line p-3">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-raised">
-                <Banknote className="size-4" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-[15px] font-medium">Cash</span>
-                <span className="block truncate text-[13px] text-ink-muted">At the office, {OFFICE.address.split(",")[0]}</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-3 rounded-2xl border border-dashed border-line-strong p-3 opacity-70">
-              <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-raised">
-                <CreditCard className="size-4" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-[15px] font-medium">Card and auto-pay</span>
-                <span className="block text-[13px] text-ink-muted">Coming soon in the app</span>
-              </span>
-            </div>
           </div>
           {openBill && !sent ? (
             <Button variant="ink" size="md" className="mt-4 w-full" icon={<Send className="size-4" />} onClick={() => setSent(true)}>
               I&apos;ve sent {money(invoiceDue(openBill))}
             </Button>
           ) : openBill ? (
-            <p className="mt-4 rounded-xl bg-raised p-3 text-[13px] text-ink-soft">Thanks. The office marks it paid when it arrives, usually the same day, and you&apos;ll get a receipt.</p>
+            <p className="mt-4 rounded-xl bg-raised p-3 text-[13px] text-ink-soft">Thanks. The office marks it paid once it arrives, and you&apos;ll get a receipt by email.</p>
           ) : null}
         </Card>
 
@@ -87,6 +70,7 @@ export function BillsView() {
           <div className="p-5 pb-2">
             <CardHeader title="Past bills" subtitle="Receipts for every payment" />
           </div>
+          {!past.length ? <EmptyState icon={<FileText />} title="No past bills yet" body="Receipts for paid bills show up here." /> : null}
           <ul>
             {past.map((b) => {
               const pay = payments.find((p) => p.invoiceId === b.id);
@@ -168,7 +152,7 @@ export function BillsView() {
   );
 }
 
-function PayRow({ icon, title, value }: { icon: React.ReactNode; title: string; value: string }) {
+export function PayRow({ icon, title, value }: { icon: React.ReactNode; title: string; value: string }) {
   const [copied, setCopied] = useState(false);
   return (
     <div className="flex items-center gap-3 rounded-2xl border border-line p-3">

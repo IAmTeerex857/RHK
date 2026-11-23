@@ -9,7 +9,7 @@ import { PageHero } from "@/components/site/page-hero";
 
 export const metadata: Metadata = {
   title: "Our app",
-  description: "Follow the van live, get an alert when your child boards and arrives, plan rides and pay, all in the Rush Hour Kids app.",
+  description: "Follow the van live, get an alert when your child boards and arrives, see your bills and message the office, all in the Rush Hour Kids app.",
 };
 
 
@@ -21,9 +21,9 @@ const rideDay = [
 ];
 
 const getIt = [
-  { icon: KeyRound, title: "Get your access code", body: "Once your application is approved, we text and email you a download link and your personal access code." },
-  { icon: Smartphone, title: "Install and sign in", body: "Install the app from the private link, enter your code and set a password." },
-  { icon: CalendarCheck, title: "Plan your first week", body: "Pick a plan, confirm pick-up and drop-off addresses, and choose your days." },
+  { icon: KeyRound, title: "Set your password", body: "Once the office approves your application, we email you a link to set your password." },
+  { icon: Smartphone, title: "Add it to your home screen", body: "Open the app on your phone and add it to your home screen. Each sign-in also asks for a code we email you." },
+  { icon: CalendarCheck, title: "Set up your family", body: "Add your children's photos and the adults allowed to receive them, and check your addresses." },
 ];
 
 export default function OurAppPage() {
@@ -36,7 +36,7 @@ export default function OurAppPage() {
             Know where the van is. Every minute
           </>
         }
-        body="Plan rides, follow the van live, get alerts and pay, all in one place. Only approved families and staff can get in, with a personal access code."
+        body="Follow the van live, get alerts, see your bills and message the office, all in one place. Only families the office approves can sign in, with a password and a code we email each time."
         art={<AppHero />}
       >
         <LinkButton href="/application" size="lg" arrow>

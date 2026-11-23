@@ -4,6 +4,37 @@
 
 @source "../../../../packages/ui/src";
 
+/* Calmer tints than the marketing site: pills, wells and notes stay pale so the content leads. */
+:root {
+  --color-mint-soft: #e3f3ea;
+  --color-coral-soft: #fbe5df;
+  --color-sky-soft: #e2edf9;
+  --color-lilac-soft: #ebe7f9;
+  --color-bus-100: #fbf0d0;
+}
+
 body {
   background: var(--color-canvas);
+}
+
+/*
+ * Phones should feel like an app: the page never drifts sideways or rubber-bands,
+ * a double tap doesn't zoom, and fields are 16px so iOS doesn't zoom in on focus.
+ */
+html,
+body {
+  overflow-x: clip;
+  overscroll-behavior: none;
+}
+html {
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+@media (pointer: coarse) {
+  input:not([type="checkbox"], [type="radio"], [type="range"], [maxlength="1"]),
+  textarea,
+  select {
+    font-size: 16px;
+  }
 }

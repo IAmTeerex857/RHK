@@ -8,7 +8,8 @@ import { Stat } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader } from "@rhk/ui/components/card";
 import { BarChart, ShareBar } from "@rhk/ui/components/charts";
-import { FilterPill } from "@rhk/ui/components/controls";
+import { downloadCsv } from "@rhk/ui/lib/download";
+import { toast } from "@rhk/ui/components/toast";
 import { Segmented } from "@rhk/ui/components/segmented";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
 
@@ -37,8 +38,25 @@ export function ReportsView() {
                 { value: "term", label: "This term" },
               ]}
             />
-            <FilterPill icon={<CalendarDays />}>Aug 31 – Nov 20</FilterPill>
-            <Button variant="outline" size="sm" icon={<Download className="size-4" />}>
+            <span className="inline-flex h-10 items-center gap-2 px-1 font-mono text-[13px] text-ink-muted tabular">
+              <CalendarDays className="size-4" />
+              {range === "term" ? "Aug 31 – Nov 20" : "Nov 1 – Nov 20"}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              icon={<Download className="size-4" />}
+              onClick={() => {
+                downloadCsv(`rush-hour-kids-report-${range === "term" ? "term" : "month"}.csv`, [
+                  ["Week of", "On time (%)", "Revenue collected ($)"],
+                  ...onTimeByWeek.map((w, i) => [w.label, w.value, revenueByWeek[i]?.value ?? ""]),
+                  [],
+                  ["Van", "Miles"],
+                  ...miles.map((m) => [m.van, m.v]),
+                ]);
+                toast("Report downloaded", { body: "Weekly on-time rate, revenue and miles" });
+              }}
+            >
               Export
             </Button>
           </>
@@ -84,10 +102,8 @@ export function ReportsView() {
           <ShareBar
             className="mt-6"
             parts={[
-              { label: "Zelle", value: 52, note: money(total * 0.52, true), className: "bg-data-700" },
-              { label: "Cash App", value: 27, note: money(total * 0.27, true), className: "bg-data-500" },
-              { label: "Card", value: 13, note: money(total * 0.13, true), className: "bg-data-300" },
-              { label: "Cash", value: 8, note: money(total * 0.08, true), className: "bg-data-200" },
+              { label: "Zelle", value: 63, note: money(total * 0.63, true), className: "bg-data-700" },
+              { label: "Cash App", value: 37, note: money(total * 0.37, true), className: "bg-data-400" },
             ]}
           />
         </Card>

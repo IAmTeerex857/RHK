@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
-import { themeScript } from "@rhk/ui/components/theme-toggle";
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
@@ -16,20 +15,18 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f3f3f1" },
-    { media: "(prefers-color-scheme: dark)", color: "#0b0a11" },
-  ],
-  colorScheme: "light dark",
+  themeColor: "#f3f3f1",
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
+  // Phones: no zoom when a field gets focus and no drifting page; this is an app, not a document.
+  maximumScale: 1,
   viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${geist.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
+    <html lang="en" className={`${inter.variable} ${geist.variable} ${geistMono.variable} antialiased`}>
       <body className="min-h-dvh">{children}</body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { AlertTriangle, HeartPulse, Mail, MessageSquare, Pause, Pencil, Phone, ShieldCheck, Upload, UserCheck } from "lucide-react";
+import { AlertTriangle, HeartPulse, KeyRound, Mail, MessageSquare, Pause, Pencil, Phone, Play, ShieldCheck, Upload, UserCheck } from "lucide-react";
 import {
   audit,
   childrenOf,
@@ -27,13 +27,17 @@ import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader, MoreButton, Row } from "@rhk/ui/components/card";
 import { Tree } from "@rhk/ui/components/flow";
 import { routeColor } from "@rhk/ui/lib/route-color";
-import { Menu } from "@rhk/ui/components/controls";
+import { Menu, Select } from "@rhk/ui/components/controls";
+import { Dialog, Sheet } from "@rhk/ui/components/dialog";
+import { Field } from "@rhk/ui/components/field";
+import { toast } from "@rhk/ui/components/toast";
 import { Tabs } from "@rhk/ui/components/segmented";
 import { DataTable } from "@rhk/ui/components/table";
 import { Crumb, PageHeader } from "@rhk/ui/shell/app-shell";
 import { childStatus, invoiceStatus, StatusBadge } from "../status";
 
 function ChildCard({ c }: { c: Child }) {
+  const [photo, setPhoto] = useState<string | undefined>(c.photo);
   const school = getSchool(c.schoolId);
   const am = c.amRouteId ? getRoute(c.amRouteId) : null;
   const pm = c.pmRouteId ? getRoute(c.pmRouteId) : null;
@@ -41,10 +45,26 @@ function ChildCard({ c }: { c: Child }) {
     <Card>
       <div className="flex items-start gap-4">
         <div className="relative">
-          <Avatar seed={c.id} name={c.first} size={64} />
-          <button type="button" aria-label={`Replace ${c.first}'s photo`} className="absolute -bottom-1 -right-1 grid size-7 place-items-center rounded-full border border-line bg-card text-ink-muted shadow-subtle hover:text-ink">
+          <Avatar seed={c.id} name={c.first} photo={photo} size={64} />
+          <label
+            title={`Replace ${c.first}'s photo`}
+            className="absolute -bottom-1 -right-1 grid size-7 cursor-pointer place-items-center rounded-full border border-line bg-card text-ink-muted shadow-subtle hover:text-ink"
+          >
             <Upload className="size-3.5" />
-          </button>
+            <input
+              type="file"
+              accept="image/*"
+              className="sr-only"
+              aria-label={`Replace ${c.first}'s photo`}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                setPhoto(URL.createObjectURL(file));
+                toast(`${c.first}'s photo replaced`, { body: "The parent and the driver see the new one." });
+                e.target.value = "";
+              }}
+            />
+          </label>
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-3">
@@ -129,6 +149,11 @@ export function FamilyDetail({ id }: { id: string }) {
   const bills = invoicesOf(id);
   const [tab, setTab] = useState<"children" | "billing" | "activity">("children");
   const g = f.guardians[0];
+  const [status, setStatus] = useState<typeof f.status | "ended">(f.status);
+  const [confirm, setConfirm] = useState<null | "pause" | "end">(null);
+  const [edit, setEdit] = useState(false);
+  const [info, setInfo] = useState({ address: f.address, city: f.city, area: f.area, cadence: f.cadence, phone: g.phone, email: g.email, emName: f.emergency.name, emRel: f.emergency.relationship, emPhone: f.emergency.phone });
+  const [saved, setSaved] = useState(info);
   const activity = audit.filter((a) => kids.some((k) => a.target.includes(k.first)) || f.guardians.some((x) => a.who === x.name || a.target === x.name));
 
   return (
@@ -137,29 +162,32 @@ export function FamilyDetail({ id }: { id: string }) {
       <PageHeader
         eyebrow={
           <span className="flex items-center gap-2 text-[13px] text-ink-muted">
-            {f.status === "paused" ? <Badge dot>Paused</Badge> : <Badge tone="good" dot>Active</Badge>}
+            {status === "paused" ? <Badge dot>Paused</Badge> : status === "ended" ? <Badge tone="bad" dot>Service ended</Badge> : <Badge tone="good" dot>Active</Badge>}
             <span>Since {f.joined}</span>
             <span>·</span>
-            <span className="capitalize">{f.cadence} plan</span>
+            <span className="capitalize">{saved.cadence} plan</span>
           </span>
         }
         title={`The ${f.name} family`}
-        description={`${f.address}, ${f.city} · ${f.area}`}
+        description={`${saved.address}, ${saved.city} · ${saved.area}`}
         actions={
           <>
-            <Button variant="outline" size="sm" href="/messages" linkAs={Link} icon={<MessageSquare className="size-4" />}>
+            <Button variant="outline" size="sm" href={`/messages?with=${f.id}`} linkAs={Link} icon={<MessageSquare className="size-4" />}>
               Message
             </Button>
-            <Button variant="outline" size="sm" icon={<Pencil className="size-4" />}>
+            <Button variant="outline" size="sm" icon={<Pencil className="size-4" />} onClick={() => setEdit(true)}>
               Edit
             </Button>
             <Menu
               trigger={({ toggle }) => <MoreButton onClick={toggle} />}
               items={[
-                { label: "Pause service", icon: <Pause /> },
-                { label: "Resend set-password email", icon: <Mail /> },
+                status === "paused"
+                  ? { label: "Resume service", icon: <Play />, onSelect: () => (setStatus("active"), toast(`${f.name} service resumed`, { body: "The children are back on their routes from the next run." })) }
+                  : { label: "Pause service", icon: <Pause />, onSelect: () => setConfirm("pause") },
+                { label: "Send password reset", icon: <KeyRound />, onSelect: () => toast("Reset link sent", { body: `Emailed to ${saved.email}` }) },
+                { label: "Resend set-password email", icon: <Mail />, onSelect: () => toast("Set-password email sent", { body: `Emailed to ${saved.email}` }) },
                 "divider",
-                { label: "End service", icon: <AlertTriangle />, tone: "danger" },
+                { label: "End service", icon: <AlertTriangle />, tone: "danger", onSelect: () => setConfirm("end") },
               ]}
             />
           </>
@@ -189,17 +217,17 @@ export function FamilyDetail({ id }: { id: string }) {
             <CardHeader title="Account" />
             <div className="mt-2">
               <Row label="Balance" value={<span className={f.balance > 0 ? "text-bad" : undefined}>{money(f.balance)}</span>} />
-              <Row label="Plan" value={<span className="capitalize">{f.cadence} · {f.cadence === "weekly" ? "due Fridays" : "due 2nd Friday"}</span>} />
+              <Row label="Plan" value={<span className="capitalize">{saved.cadence} · {saved.cadence === "weekly" ? "due Fridays" : "due 2nd Friday"}</span>} />
               <Row label="Usually pays by" value={methodLabel[f.preferredPayment]} />
-              <Row label="Phone" value={g.phone} />
+              <Row label="Phone" value={saved.phone} />
               <Row label="Sign-in" value={<span className="inline-flex items-center gap-1.5"><ShieldCheck className="size-4 text-good" /> Password + email code</span>} />
             </div>
           </Card>
           <Card>
             <CardHeader title="Emergency contact" icon={<UserCheck className="size-4" />} />
-            <p className="mt-3 text-[14px] font-medium">{f.emergency.name}</p>
+            <p className="mt-3 text-[14px] font-medium">{saved.emName}</p>
             <p className="text-[13px] text-ink-muted">
-              {f.emergency.relationship} · {f.emergency.phone}
+              {saved.emRel} · {saved.emPhone}
             </p>
           </Card>
           <Card>
@@ -253,7 +281,7 @@ export function FamilyDetail({ id }: { id: string }) {
                   { key: "period", header: "Period", cell: (i) => i.periodLabel },
                   { key: "due", header: "Due", cell: (i) => <span className="text-ink-soft">{i.due}</span>, hideBelow: "sm" },
                   { key: "total", header: "Total", align: "right", cell: (i) => <span className="font-mono tabular">{money(invoiceTotal(i))}</span> },
-                  { key: "owed", header: "Owed", align: "right", cell: (i) => <span className="font-mono tabular text-ink-muted">{invoiceDue(i) ? money(invoiceDue(i)) : "—"}</span>, hideBelow: "md" },
+                  { key: "owed", header: "Owed", align: "right", cell: (i) => <span className="font-mono tabular text-ink-muted">{invoiceDue(i) ? money(invoiceDue(i)) : "Paid"}</span>, hideBelow: "md" },
                   { key: "status", header: "Status", align: "right", cell: (i) => <StatusBadge map={invoiceStatus} value={i.status} /> },
                 ]}
               />
@@ -300,6 +328,102 @@ export function FamilyDetail({ id }: { id: string }) {
           )}
         </div>
       </div>
+
+      <Dialog
+        open={confirm !== null}
+        onClose={() => setConfirm(null)}
+        size="sm"
+        icon={confirm === "end" ? <AlertTriangle className="size-5" /> : <Pause className="size-5" />}
+        title={confirm === "end" ? `End service for the ${f.name} family?` : `Pause service for the ${f.name} family?`}
+        description={
+          confirm === "end"
+            ? "The children come off their routes, no new bills are made, and the parents can no longer sign in. Past bills and history stay."
+            : "The children come off their routes and no new bills are made until you resume. The parents can still sign in."
+        }
+        footer={
+          <>
+            <Button variant="soft" size="sm" onClick={() => setConfirm(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant={confirm === "end" ? "danger" : "ink"}
+              size="sm"
+              onClick={() => {
+                setStatus(confirm === "end" ? "ended" : "paused");
+                toast(confirm === "end" ? `${f.name} service ended` : `${f.name} service paused`, { body: "The parents are told by email." });
+                setConfirm(null);
+              }}
+            >
+              {confirm === "end" ? "End service" : "Pause service"}
+            </Button>
+          </>
+        }
+      >
+        <p className="text-[14px] text-ink-soft">
+          {kids.map((k) => k.first).join(" and ")} {kids.length === 1 ? "is" : "are"} on {f.cadence === "weekly" ? "a weekly" : "a monthly"} plan. Any open balance of {money(f.balance)} stays on the account.
+        </p>
+      </Dialog>
+
+      <Sheet
+        open={edit}
+        onClose={() => {
+          setInfo(saved);
+          setEdit(false);
+        }}
+        icon={<Pencil className="size-5" />}
+        title={`Edit the ${f.name} family`}
+        description="Address changes can move the children to a different route. Check Routes after saving."
+        footer={
+          <>
+            <Button
+              variant="soft"
+              size="sm"
+              onClick={() => {
+                setInfo(saved);
+                setEdit(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="ink"
+              size="sm"
+              onClick={() => {
+                setSaved(info);
+                setEdit(false);
+                toast("Family details saved", { body: "Logged in the change history." });
+              }}
+            >
+              Save changes
+            </Button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-3">
+          <p className="text-[13px] font-medium text-ink-muted">{g.name}</p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Field label="Email" type="email" value={info.email} onChange={(e) => setInfo((x) => ({ ...x, email: e.target.value }))} />
+            <Field label="Phone" type="tel" value={info.phone} onChange={(e) => setInfo((x) => ({ ...x, phone: e.target.value }))} />
+          </div>
+          <p className="mt-3 text-[13px] font-medium text-ink-muted">Home</p>
+          <Field label="Street address" value={info.address} onChange={(e) => setInfo((x) => ({ ...x, address: e.target.value }))} />
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Field label="City" value={info.city} onChange={(e) => setInfo((x) => ({ ...x, city: e.target.value }))} />
+            <Field label="Area" value={info.area} onChange={(e) => setInfo((x) => ({ ...x, area: e.target.value }))} />
+          </div>
+          <p className="mt-3 text-[13px] font-medium text-ink-muted">Billing</p>
+          <Select label="Plan" value={info.cadence} onChange={(e) => setInfo((x) => ({ ...x, cadence: e.target.value as typeof x.cadence }))}>
+            <option value="weekly">Weekly, due Fridays for the next week</option>
+            <option value="monthly">Monthly, due by the 2nd Friday</option>
+          </Select>
+          <p className="mt-3 text-[13px] font-medium text-ink-muted">Emergency contact</p>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <Field label="Name" value={info.emName} onChange={(e) => setInfo((x) => ({ ...x, emName: e.target.value }))} />
+            <Field label="Relationship" value={info.emRel} onChange={(e) => setInfo((x) => ({ ...x, emRel: e.target.value }))} />
+          </div>
+          <Field label="Phone" type="tel" value={info.emPhone} onChange={(e) => setInfo((x) => ({ ...x, emPhone: e.target.value }))} />
+        </div>
+      </Sheet>
     </>
   );
 }

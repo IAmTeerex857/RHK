@@ -30,8 +30,8 @@ export function AppTeaser() {
                 Know where the van is. Every minute
               </h2>
               <p className="mt-4 max-w-lg text-[17px] leading-relaxed text-cream/70">
-                Plan rides, follow the van live, get alerts and pay, all in one place. Approved families get a
-                personal access code, so only our families and staff can get in.
+                Follow the van live, get alerts, see your bills and message the office, all in one place. Only
+                families the office approves can sign in, with a password and a code we email each time.
               </p>
               <ul className="mt-8 grid gap-x-6 gap-y-4 sm:grid-cols-2">
                 {appFeatures.map((f) => (

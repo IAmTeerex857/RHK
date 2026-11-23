@@ -260,7 +260,7 @@ export function Menu({
             exit={{ opacity: 0, y: -4, scale: 0.98 }}
             transition={{ duration: 0.14 }}
             className={cn(
-              "absolute top-full z-50 mt-2 min-w-[220px] rounded-2xl border border-line bg-card p-1.5 shadow-float",
+              "absolute top-full z-50 mt-2 min-w-[220px] max-w-[calc(100vw-2rem)] rounded-2xl border border-line bg-card p-1.5 shadow-float",
               align === "end" ? "right-0 origin-top-right" : "left-0 origin-top-left",
             )}
           >
@@ -281,9 +281,9 @@ export function Menu({
                     it.tone === "danger" ? "text-bad" : "text-ink",
                   )}
                 >
-                  {it.icon ? <span className="text-ink-muted [&_svg]:size-4">{it.icon}</span> : null}
-                  <span className="flex-1">{it.label}</span>
-                  {it.hint ? <span className="text-[12px] text-ink-muted">{it.hint}</span> : null}
+                  {it.icon ? <span className="shrink-0 text-ink-muted [&_svg]:size-4">{it.icon}</span> : null}
+                  <span className="min-w-0 flex-1 truncate" title={it.label}>{it.label}</span>
+                  {it.hint ? <span className="shrink-0 text-[12px] text-ink-muted">{it.hint}</span> : null}
                 </button>
               ),
             )}
@@ -330,7 +330,7 @@ export function CodeInput({
             inputMode="numeric"
             autoComplete={i === 0 ? "one-time-code" : "off"}
             aria-label={`Digit ${i + 1}`}
-            maxLength={1}
+            maxLength={i === 0 ? length : 1}
             value={ch}
             onChange={(e) => {
               const v = e.target.value.replace(/\D/g, "");

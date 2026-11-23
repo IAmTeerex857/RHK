@@ -430,7 +430,7 @@ function QuickAction({ icon: glyph, label, href, onClick, color }: { icon: React
   const cls =
     "flex h-[84px] flex-col items-center justify-center gap-2 rounded-2xl border border-line bg-card text-[13px] font-medium text-ink transition-colors hover:bg-raised/60 active:scale-[0.98]";
   const icon = (
-    <span className="grid size-8 place-items-center rounded-[10px] text-white [&_svg]:size-4" style={{ background: color }}>
+    <span className="grid size-8 place-items-center rounded-[10px] [&_svg]:size-4" style={{ background: `color-mix(in oklab, ${color} 12%, var(--color-card))`, color: `color-mix(in oklab, ${color} 80%, var(--color-ink))` }}>
       {glyph}
     </span>
   );

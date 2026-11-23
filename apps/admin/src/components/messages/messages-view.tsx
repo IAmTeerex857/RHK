@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useQuery } from "@rhk/ui/lib/use-query";
 import { ArrowLeft, Megaphone, Send } from "lucide-react";
 import { announcements, conversations, ME, type Conversation } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
@@ -21,7 +22,9 @@ const toChat = (c: Conversation): ChatMessage[] =>
 
 export function MessagesView() {
   const [tab, setTab] = useState<"inbox" | "announcements">("inbox");
-  const [sel, setSel] = useState<string | null>(conversations[0].id);
+  const wanted = useQuery().get("with");
+  const [picked, setSel] = useState<string | null>(null);
+  const sel = picked ?? conversations.find((c) => c.with.id === wanted)?.id ?? conversations[0].id;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [threads, setThreads] = useState<Record<string, ChatMessage[]>>(Object.fromEntries(conversations.map((c) => [c.id, toChat(c)])));
   const [read, setRead] = useState<Record<string, boolean>>({});
@@ -117,10 +120,10 @@ export function MessagesView() {
             <div className="border-t border-line p-3">
               <Composer
                 placeholder={`Reply to ${conv.with.name.split(" ")[0]}…`}
-                onSend={(body) =>
+                onSend={(body, images) =>
                   setThreads((t) => ({
                     ...t,
-                    [conv.id]: [...t[conv.id], { id: `new-${Date.now()}`, mine: true, author: ME.admin.name, seed: ME.admin.id, body, at: "Now" }],
+                    [conv.id]: [...t[conv.id], { id: `new-${Date.now()}`, mine: true, author: ME.admin.name, seed: ME.admin.id, body, images, at: "Now" }],
                   }))
                 }
               />

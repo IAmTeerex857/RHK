@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
 import {
   CalendarDays,
+  CircleUserRound,
   ChevronRight,
   Clock3,
   GraduationCap,
@@ -44,6 +45,7 @@ const nav: NavGroup[] = [
       { href: "/report", label: "Report an incident", icon: ShieldAlert, key: "i" },
     ],
   },
+  { label: "You", items: [{ href: "/account", label: "Account", icon: CircleUserRound, key: "a" }] },
 ];
 
 export function DriverFrame({ children }: { children: ReactNode }) {
@@ -64,6 +66,7 @@ function Shell({ children }: { children: ReactNode }) {
     <>
       <AppShell
         app="Driver"
+      accountHref="/account"
         narrow
         nav={nav}
         user={{ name: me.name, role: `Driver · ${van.name}`, seed: me.id, email: me.email }}

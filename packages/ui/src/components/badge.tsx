@@ -11,12 +11,12 @@ export type Tone = "neutral" | "good" | "warn" | "bad" | "info" | "brand" | "lil
 
 const toneClasses: Record<Tone, string> = {
   neutral: "bg-raised text-ink-soft border-line",
-  good: "bg-mint-soft text-[color-mix(in_oklab,var(--color-good)_80%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-good)_25%,transparent)]",
-  warn: "bg-bus-100 text-[color-mix(in_oklab,var(--color-warn)_60%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-warn)_30%,transparent)]",
-  bad: "bg-coral-soft text-[color-mix(in_oklab,var(--color-bad)_80%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-bad)_25%,transparent)]",
-  info: "bg-sky-soft text-[color-mix(in_oklab,var(--color-data-500)_75%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-data-500)_22%,transparent)]",
-  brand: "bg-bus-400 text-[#1d1a2f] border-bus-500",
-  lilac: "bg-lilac-soft text-[color-mix(in_oklab,var(--color-lilac)_70%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-lilac)_25%,transparent)]",
+  good: "bg-mint-soft text-[color-mix(in_oklab,var(--color-good)_62%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-good)_14%,transparent)]",
+  warn: "bg-bus-100 text-[color-mix(in_oklab,var(--color-warn)_48%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-warn)_18%,transparent)]",
+  bad: "bg-coral-soft text-[color-mix(in_oklab,var(--color-bad)_66%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-bad)_14%,transparent)]",
+  info: "bg-sky-soft text-[color-mix(in_oklab,var(--color-data-500)_62%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-data-500)_14%,transparent)]",
+  brand: "bg-bus-100 text-ink border-[color-mix(in_oklab,var(--color-bus-500)_30%,transparent)]",
+  lilac: "bg-lilac-soft text-[color-mix(in_oklab,var(--color-lilac)_60%,var(--color-ink))] border-[color-mix(in_oklab,var(--color-lilac)_16%,transparent)]",
   ink: "bg-ink text-cream border-ink",
 };
 
@@ -124,13 +124,13 @@ export function Kbd({ children, className }: { children: ReactNode; className?: 
   );
 }
 
-/** Small count pill for nav items (orange like the reference "Notifications 3"). */
+/** Small count pill for nav items; alerts get a soft coral fill. */
 export function CountPill({ children, tone = "neutral", className }: { children: ReactNode; tone?: "neutral" | "alert"; className?: string }) {
   return (
     <span
       className={cn(
         "inline-grid h-5 min-w-5 place-items-center rounded-full px-1.5 text-[12px] font-medium tabular",
-        tone === "alert" ? "bg-coral text-white" : "bg-raised text-ink-soft",
+        tone === "alert" ? "bg-coral-soft text-[color-mix(in_oklab,var(--color-bad)_75%,var(--color-ink))]" : "bg-raised text-ink-soft",
         className,
       )}
     >

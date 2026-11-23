@@ -5,6 +5,7 @@ import { Check, Download, Plus, X } from "lucide-react";
 import { drivers, getDriver, getVan, shifts, timeOff, type TimeOff } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
+import { EmptyState } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader } from "@rhk/ui/components/card";
 import { SegmentBar } from "@rhk/ui/components/charts";
@@ -98,6 +99,7 @@ export function DriversView() {
         <Card flush>
           <DataTable
             rows={drivers}
+            empty={<EmptyState title="No drivers yet" body="Invite a driver and they get an email to set a password." />}
             rowKey={(d) => d.id}
             href={(d) => `/drivers/${d.id}`}
             columns={[
@@ -167,6 +169,7 @@ export function DriversView() {
           <DataTable
             dense
             rows={shifts}
+            empty={<EmptyState title="No shifts in this period" body="Shifts appear when drivers clock in and out of each run." />}
             rowKey={(s) => s.id}
             columns={[
               { key: "date", header: "Day", cell: (s) => s.date },

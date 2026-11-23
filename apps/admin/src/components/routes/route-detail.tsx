@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Check, GripVertical, HeartPulse, Pencil, Printer } from "lucide-react";
+import { ArrowDown, ArrowUp, Check, GripVertical, HeartPulse, Pencil, Printer } from "lucide-react";
+import { Reorder } from "motion/react";
 import { audit, getChild, getDriver, getFamily, getRoute, getSchool, getVan, runFor, type Route, type Run } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
@@ -11,6 +12,7 @@ import { Card, CardHeader, Row } from "@rhk/ui/components/card";
 import { SegmentBar } from "@rhk/ui/components/charts";
 import { Tree, type TreeNode } from "@rhk/ui/components/flow";
 import { routeColor } from "@rhk/ui/lib/route-color";
+import { toast } from "@rhk/ui/components/toast";
 import { Crumb, PageHeader } from "@rhk/ui/shell/app-shell";
 import { cn } from "@rhk/ui/lib/cn";
 import { runTone } from "../today/today-view";
@@ -21,32 +23,70 @@ export function RouteDetail({ id }: { id: string }) {
   const d = getDriver(r.driverId);
   const run = runFor(r.id);
   const [hover, setHover] = useState<string | null>(null);
+  const [order, setOrder] = useState(r.stops.map((s) => s.id));
+  const [draft, setDraft] = useState<string[] | null>(null);
+  const editing = draft !== null;
+  const ids = draft ?? order;
+  const stops = ids.map((sid) => r.stops.find((s) => s.id === sid)!);
   const riders = [...new Set(r.stops.flatMap((s) => s.childIds))];
+  const move = (i: number, by: number) =>
+    setDraft((d) => {
+      if (!d) return d;
+      const j = i + by;
+      if (j < 0 || j >= d.length) return d;
+      const next = [...d];
+      [next[i], next[j]] = [next[j], next[i]];
+      return next;
+    });
+  const save = () => {
+    if (draft && draft.join() !== order.join()) {
+      setOrder(draft);
+      toast("Stop order saved", { body: `The driver app shows the new order for ${r.name.split(" · ")[0]}.` });
+    }
+    setDraft(null);
+  };
   const t = run ? runTone(run) : null;
 
   return (
     <>
       <Crumb>{r.name}</Crumb>
       <PageHeader
+        className="print:hidden"
         eyebrow={t ? <Badge tone={t.tone} dot>{t.label}</Badge> : <Badge tone="good" dot>Finished today</Badge>}
         title={r.name}
         description={`${van.name} · ${van.plate} · ${d.name} · ${r.start} – ${r.end} · ${r.miles} mi`}
         actions={
           <>
-            <Button variant="outline" size="sm" icon={<Printer className="size-4" />}>
-              Print roster
-            </Button>
-            <Button variant="ink" size="sm" icon={<Pencil className="size-4" />}>
-              Edit stops
-            </Button>
+            {editing ? (
+              <>
+                <Button variant="soft" size="sm" onClick={() => setDraft(null)}>
+                  Cancel
+                </Button>
+                <Button variant="ink" size="sm" icon={<Check className="size-4" />} onClick={save}>
+                  Save order
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" size="sm" icon={<Printer className="size-4" />} onClick={() => window.print()}>
+                  Print roster
+                </Button>
+                <Button variant="ink" size="sm" icon={<Pencil className="size-4" />} onClick={() => setDraft(order)}>
+                  Edit stops
+                </Button>
+              </>
+            )}
           </>
         }
       />
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+      <PrintRoster r={r} stops={stops} driver={d.name} van={`${van.name} · ${van.plate}`} />
+      <div className="grid grid-cols-1 gap-4 print:hidden lg:grid-cols-12">
         <Card flush className="overflow-hidden lg:col-span-7">
           <RouteMap
             className="h-[420px] lg:h-full lg:min-h-[560px]"
-            stops={r.stops.map((s) => ({
+            path={stops}
+            labels={editing}
+            stops={stops.map((s) => ({
               id: s.id,
               x: s.x,
               y: s.y,
@@ -59,19 +99,29 @@ export function RouteDetail({ id }: { id: string }) {
         </Card>
         <Card flush className="lg:col-span-5">
           <div className="p-5 pb-2">
-            <CardHeader title="Stops in order" subtitle={`${r.stops.length} stops · ${riders.length} riders`} />
+            <CardHeader
+              title="Stops in order"
+              subtitle={editing ? "Drag a stop, or use the arrows, then save" : `${r.stops.length} stops · ${riders.length} riders`}
+            />
           </div>
-          <ol className="px-3 pb-3">
-            {r.stops.map((s, i) => {
+          <Reorder.Group as="ol" axis="y" values={ids} onReorder={(v) => editing && setDraft(v)} className="px-3 pb-3">
+            {stops.map((s, i) => {
               const st = run?.stops.find((x) => x.stopId === s.id);
               return (
-                <li
+                <Reorder.Item
+                  as="li"
                   key={s.id}
+                  value={s.id}
+                  drag={editing ? "y" : false}
                   onPointerEnter={() => setHover(s.id)}
                   onPointerLeave={() => setHover(null)}
-                  className={cn("group flex items-start gap-3 rounded-xl px-2 py-3 transition-colors", hover === s.id && "bg-raised")}
+                  className={cn(
+                    "group relative flex items-start gap-3 rounded-xl px-2 py-3 transition-colors",
+                    hover === s.id && "bg-raised",
+                    editing && "cursor-grab border border-dashed border-line-strong bg-card active:cursor-grabbing [&+&]:mt-1.5",
+                  )}
                 >
-                  <GripVertical className="mt-1 size-4 shrink-0 cursor-grab text-ink-muted opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
+                  <GripVertical className={cn("mt-1 size-4 shrink-0 text-ink-muted transition-opacity", editing ? "opacity-100" : "opacity-0")} aria-hidden />
                   <span
                     className={cn(
                       "grid size-7 shrink-0 place-items-center rounded-full font-mono text-[12px] font-medium",
@@ -104,10 +154,20 @@ export function RouteDetail({ id }: { id: string }) {
                       </div>
                     ) : null}
                   </div>
-                </li>
+                  {editing ? (
+                    <span className="flex shrink-0 flex-col gap-1">
+                      <button type="button" aria-label={`Move ${s.label} up`} disabled={i === 0} onClick={() => move(i, -1)} className="grid size-7 place-items-center rounded-lg text-ink-muted hover:bg-raised hover:text-ink disabled:opacity-30">
+                        <ArrowUp className="size-4" />
+                      </button>
+                      <button type="button" aria-label={`Move ${s.label} down`} disabled={i === stops.length - 1} onClick={() => move(i, 1)} className="grid size-7 place-items-center rounded-lg text-ink-muted hover:bg-raised hover:text-ink disabled:opacity-30">
+                        <ArrowDown className="size-4" />
+                      </button>
+                    </span>
+                  ) : null}
+                </Reorder.Item>
               );
             })}
-          </ol>
+          </Reorder.Group>
         </Card>
 
         <Card className="lg:col-span-4">
@@ -170,6 +230,47 @@ export function RouteDetail({ id }: { id: string }) {
         </Card>
       </div>
     </>
+  );
+}
+
+/** Paper roster for the van: stops in order with riders and medical notes. No family phone numbers. */
+function PrintRoster({ r, stops, driver, van }: { r: Route; stops: Route["stops"]; driver: string; van: string }) {
+  return (
+    <section className="hidden text-[12px] text-black print:block">
+      <h2 className="text-[18px] font-semibold">{r.name} roster</h2>
+      <p className="mt-1">
+        {van} · {driver} · {r.start} – {r.end} · {r.miles} mi
+      </p>
+      <table className="mt-4 w-full border-collapse">
+        <thead>
+          <tr className="border-b border-black text-left">
+            <th className="py-1.5 pr-2">#</th>
+            <th className="py-1.5 pr-2">Time</th>
+            <th className="py-1.5 pr-2">Stop</th>
+            <th className="py-1.5 pr-2">Children</th>
+            <th className="py-1.5">Medical and notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {stops.map((s, i) => {
+            const kids = s.childIds.map((c) => getChild(c));
+            return (
+              <tr key={s.id} className="border-b border-black/30 align-top">
+                <td className="py-1.5 pr-2">{s.kind === "school" ? "S" : i}</td>
+                <td className="py-1.5 pr-2">{s.time}</td>
+                <td className="py-1.5 pr-2">
+                  {s.kind === "home" ? `${s.label} home` : s.label}
+                  <br />
+                  {s.address}
+                </td>
+                <td className="py-1.5 pr-2">{kids.length ? kids.map((k) => `${k.first} ${k.last}`).join(", ") : "None"}</td>
+                <td className="py-1.5">{kids.filter((k) => k.medical || k.notes).map((k) => `${k.first}: ${[k.medical, k.notes].filter(Boolean).join(". ")}`).join(" / ") || "None"}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </section>
   );
 }
 

@@ -110,7 +110,7 @@ function ConfirmPicture() {
       >
         {state >= 2 ? (
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="block">
-            You&rsquo;re in. Welcome to Rush Hour Kids. Your app access code is on its way.
+            Your route is confirmed. Here&rsquo;s the link to pay the $25 fee and hold your seat.
           </motion.span>
         ) : (
           <span className="flex gap-1 py-1.5">
@@ -124,7 +124,7 @@ function ConfirmPicture() {
   );
 }
 
-/* ---- 3 · Plan your week: "Repeat last week" switches on and the days fill ---- */
+/* ---- 3 · Set your schedule: "Same days all school year" switches on and the days fill ---- */
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 const LAST_WEEK = [true, true, false, true, true];
@@ -139,7 +139,7 @@ function PlanPicture() {
   return (
     <Frame innerRef={ref} className="p-5">
       <div className="flex items-center justify-between rounded-xl border border-line bg-card px-4 py-3 shadow-card">
-        <span className="text-[14px] font-medium">Repeat last week</span>
+        <span className="text-[14px] font-medium">Same days all school year</span>
         <span className={cn("relative h-6 w-10 rounded-full transition-colors duration-300", on ? "bg-mint" : "bg-[#d9d7e0]")}>
           <motion.span
             initial={false}

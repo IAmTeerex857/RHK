@@ -4,7 +4,7 @@
  * The portal shell shared by admin, driver and parent apps.
  *
  * Desktop: sidebar on the grey canvas (collapsible to an icon rail), slim top bar with the
- * breadcrumb on the left and search / notifications / theme / account on the right.
+ * breadcrumb on the left and search / notifications / account on the right.
  * Phone: header with round buttons and a centred title, a drawer for the full nav, and a
  * floating pill tab bar whose active tab widens to show its label, plus a round action button.
  * Keyboard: ⌘K opens the command menu; "G" then a letter jumps to a section.
@@ -21,7 +21,7 @@ import { Avatar } from "../components/avatar";
 import { CountPill, Kbd } from "../components/badge";
 import { IconButton, Menu } from "../components/controls";
 import { LogoMark } from "../components/logo-mark";
-import { ThemeToggle } from "../components/theme-toggle";
+import { Toaster } from "../components/toast";
 
 export type NavItem = {
   href: string;
@@ -63,6 +63,8 @@ type ShellProps = {
   children: ReactNode;
   /** Narrow content column (phone-first apps). */
   narrow?: boolean;
+  /** Where the account menu's profile and settings items go. */
+  accountHref?: string;
 };
 
 const ShellCtx = createContext<{ openPalette: () => void; setCrumb: (c: string | null) => void } | null>(null);
@@ -75,7 +77,7 @@ function isActive(pathname: string, item: NavItem) {
 
 const COLLAPSE_KEY = "rhk-sidebar-collapsed";
 
-export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFooter, commands = [], children, narrow }: ShellProps) {
+export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFooter, commands = [], children, narrow, accountHref = "/settings" }: ShellProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
@@ -138,11 +140,11 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
 
   return (
     <ShellCtx.Provider value={ctx}>
-      <div className="min-h-dvh bg-canvas text-ink lg:flex">
+      <div className="min-h-dvh bg-canvas text-ink print:bg-white lg:flex">
         {/* ---------------- desktop sidebar */}
         <aside
           className={cn(
-            "sticky top-0 hidden h-dvh shrink-0 flex-col py-3 transition-[width] duration-200 ease-out lg:flex",
+            "sticky top-0 hidden h-dvh shrink-0 flex-col py-3 transition-[width] duration-200 ease-out print:!hidden lg:flex",
             collapsed ? "w-[68px] px-2.5" : "w-[248px] px-3",
           )}
         >
@@ -222,7 +224,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
                 <Avatar seed={user.seed} name={user.name} photo={user.photo} size={32} />
               </div>
             ) : (
-              <UserMenu user={user} />
+              <UserMenu user={user} href={accountHref} />
             )}
           </div>
         </aside>
@@ -230,7 +232,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
         {/* ---------------- content column */}
         <div className="flex min-w-0 flex-1 flex-col">
           {/* desktop top bar */}
-          <header className="sticky top-0 z-30 hidden h-14 items-center justify-between gap-4 bg-canvas/85 px-8 backdrop-blur-md lg:flex">
+          <header className="sticky top-0 z-30 hidden h-14 items-center justify-between gap-4 bg-canvas/85 px-8 backdrop-blur-md print:!hidden lg:flex">
             <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1.5 text-[14px]">
               {current ? (
                 <>
@@ -258,20 +260,16 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
                 <Kbd>⌘K</Kbd>
               </button>
               <Notifications notices={notices} unread={unread} />
-              <ThemeToggle className="size-9" />
             </div>
           </header>
 
           {/* phone header */}
-          <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-2 bg-canvas/85 px-4 backdrop-blur-md lg:hidden">
+          <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-2 bg-canvas/85 px-4 backdrop-blur-md print:hidden lg:hidden">
             <IconButton label="Open menu" onClick={() => setDrawer(true)}>
               <MenuIcon className="size-[18px]" />
             </IconButton>
             <p className="min-w-0 truncate font-display text-[16px] font-medium tracking-[-0.02em]">{current?.label ?? app}</p>
-            <div className="flex items-center gap-2">
-              <Notifications notices={notices} unread={unread} compact />
-              <ThemeToggle />
-            </div>
+            <Notifications notices={notices} unread={unread} compact />
           </header>
 
           <main
@@ -286,7 +284,11 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
         </div>
 
         {/* phone tab bar */}
-        {tabs?.length ? <TabBar tabs={tabs} fab={fab} pathname={pathname} /> : null}
+        {tabs?.length ? (
+          <div className="print:hidden">
+            <TabBar tabs={tabs} fab={fab} pathname={pathname} />
+          </div>
+        ) : null}
 
         {/* phone drawer */}
         <AnimatePresence>
@@ -343,13 +345,14 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
                   ))}
                 </nav>
                 <div className="border-t border-line pt-3">
-                  <UserMenu user={user} up />
+                  <UserMenu user={user} href={accountHref} />
                 </div>
               </motion.aside>
             </>
           ) : null}
         </AnimatePresence>
 
+        <Toaster />
         <CommandPalette open={palette} onClose={() => setPalette(false)} nav={flat} commands={commands} />
       </div>
     </ShellCtx.Provider>
@@ -394,11 +397,11 @@ function SideLink({ item, active, collapsed, large, sub }: { item: NavItem; acti
   );
 }
 
-function UserMenu({ user, up }: { user: ShellUser; up?: boolean }) {
+function UserMenu({ user, href }: { user: ShellUser; href: string }) {
   return (
     <Menu
       align="start"
-      className={up ? "[&>[role=menu]]:bottom-full [&>[role=menu]]:top-auto [&>[role=menu]]:mb-2" : "[&>[role=menu]]:bottom-full [&>[role=menu]]:top-auto [&>[role=menu]]:mb-2"}
+      className="[&>[role=menu]]:bottom-full [&>[role=menu]]:right-0 [&>[role=menu]]:top-auto [&>[role=menu]]:mb-2 [&>[role=menu]]:min-w-0"
       trigger={({ toggle }) => (
         <button
           type="button"
@@ -414,10 +417,10 @@ function UserMenu({ user, up }: { user: ShellUser; up?: boolean }) {
         </button>
       )}
       items={[
-        { label: user.email, icon: <User />, onSelect: () => (window.location.href = "/settings") },
-        { label: "Settings", icon: <Settings />, onSelect: () => (window.location.href = "/settings") },
+        { label: user.email, icon: <User />, onSelect: () => (window.location.href = href) },
+        { label: href === "/settings" ? "Settings" : "Account", icon: <Settings />, onSelect: () => (window.location.href = href) },
         "divider",
-        { label: "Sign out", icon: <LogOut />, onSelect: () => (window.location.href = "/sign-in") },
+        { label: "Sign out", icon: <LogOut />, onSelect: () => (window.location.href = "/sign-in?reason=signed-out") },
       ]}
     />
   );

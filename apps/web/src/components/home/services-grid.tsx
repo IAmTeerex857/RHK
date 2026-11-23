@@ -35,8 +35,8 @@ function WeekPlanner() {
   return (
     <div className="flex h-full w-full flex-col rounded-2xl border border-line bg-card p-5 shadow-card md:p-6">
       <div className="flex items-baseline justify-between gap-3">
-        <span className="font-display text-[16px] font-semibold">This week</span>
-        <span className="text-[14px] tabular-nums text-ink-muted">{rides} rides</span>
+        <span className="font-display text-[16px] font-semibold">Your schedule</span>
+        <span className="text-[14px] tabular-nums text-ink-muted">{rides} rides a week</span>
       </div>
       <div className="mt-auto grid grid-cols-[auto_repeat(5,minmax(0,1fr))] items-center gap-x-2 gap-y-3 pt-6">
         <span />

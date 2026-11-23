@@ -135,7 +135,7 @@ export function HomeView() {
 function Quick({ href, icon, label, color }: { href: string; icon: React.ReactNode; label: string; color: string }) {
   return (
     <Link href={href} className={cn("flex min-h-[92px] flex-col justify-between rounded-2xl border border-line bg-card p-4 transition-colors hover:border-line-strong active:scale-[0.99]")}>
-      <span className="grid size-8 place-items-center rounded-[10px] text-white [&_svg]:size-4" style={{ background: color }}>
+      <span className="grid size-8 place-items-center rounded-[10px] [&_svg]:size-4" style={{ background: `color-mix(in oklab, ${color} 12%, var(--color-card))`, color: `color-mix(in oklab, ${color} 80%, var(--color-ink))` }}>
         {icon}
       </span>
       <span className="text-[14px] font-medium leading-tight">{label}</span>

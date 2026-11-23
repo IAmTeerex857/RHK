@@ -11,6 +11,8 @@ import { Card } from "@rhk/ui/components/card";
 import { SearchField } from "@rhk/ui/components/controls";
 import { Segmented } from "@rhk/ui/components/segmented";
 import { DataTable, TableToolbar } from "@rhk/ui/components/table";
+import { downloadCsv } from "@rhk/ui/lib/download";
+import { toast } from "@rhk/ui/components/toast";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
 
 const group = (a: string) =>
@@ -29,7 +31,15 @@ export function HistoryView() {
         title="Change history"
         description="Every change to every record: who, what, when, and the value before and after. Kept from day one."
         actions={
-          <Button variant="outline" size="sm" icon={<Download className="size-4" />}>
+          <Button
+            variant="outline"
+            size="sm"
+            icon={<Download className="size-4" />}
+            onClick={() => {
+              downloadCsv("rush-hour-kids-change-history.csv", [["When", "Who", "Action", "Record", "Detail"], ...rows.map((e) => [e.at, e.who, e.action, e.target, e.detail])]);
+              toast("Change history downloaded", { body: `${rows.length} changes` });
+            }}
+          >
             Export
           </Button>
         }

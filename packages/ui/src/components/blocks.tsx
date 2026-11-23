@@ -328,8 +328,17 @@ export function RouteMap({
   path,
   vans,
   color = "var(--color-data-500)",
+  zoom = 1,
+  focus,
+  labels,
 }: {
   stops: MapStop[];
+  /** 1 = whole route. Pins keep their size while the map scales. */
+  zoom?: number;
+  /** The point (0 to 100) the zoom is centred on. */
+  focus?: { x: number; y: number };
+  /** Show stop names next to the pins. */
+  labels?: boolean;
   /** Route colour for the line and the next stop (see routeColor). */
   color?: string;
   van?: { x: number; y: number; label?: string };
@@ -344,6 +353,10 @@ export function RouteMap({
   const tone = { good: "var(--color-good)", warn: "var(--color-warn)", bad: "var(--color-bad)", data: "var(--color-data-500)" };
   return (
     <div className={cn("relative overflow-hidden bg-[#eef0ec] dark:bg-[#15171c]", className)}>
+      <div
+        className="absolute inset-0 transition-transform duration-300 ease-out"
+        style={{ transform: `scale(${zoom})`, transformOrigin: focus ? `${focus.x}% ${focus.y}%` : "50% 50%", ["--pin" as string]: 1 / zoom }}
+      >
       <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 size-full" aria-hidden>
         <defs>
           <pattern id="rhk-blocks" width="12" height="12" patternUnits="userSpaceOnUse">
@@ -361,10 +374,13 @@ export function RouteMap({
       {stops.map((s) => (
         <span
           key={s.id}
-          className="absolute -translate-x-1/2 -translate-y-1/2"
+          className="absolute -translate-x-1/2 -translate-y-1/2 transition-[scale] duration-300 [scale:var(--pin)]"
           style={{ left: `${s.x}%`, top: `${s.y}%` }}
           title={s.label}
         >
+          {labels && s.label ? (
+            <span className="absolute left-full top-1/2 ml-1.5 -translate-y-1/2 whitespace-nowrap rounded-md bg-card/95 px-1.5 py-0.5 text-[11px] font-medium text-ink shadow-subtle">{s.label}</span>
+          ) : null}
           {s.state === "school" ? (
             <span className="grid size-7 place-items-center rounded-lg border-2 border-white bg-ink text-[11px] font-bold text-cream shadow-md dark:border-[#2c3038]">S</span>
           ) : (
@@ -379,7 +395,7 @@ export function RouteMap({
         </span>
       ))}
       {vans?.map((v) => (
-        <span key={v.id} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${v.x}%`, top: `${v.y}%` }}>
+        <span key={v.id} className="absolute -translate-x-1/2 -translate-y-1/2 transition-[scale] duration-300 [scale:var(--pin)]" style={{ left: `${v.x}%`, top: `${v.y}%` }}>
           <span className="flex items-center gap-1.5 rounded-full border border-line bg-card py-1 pl-1 pr-2.5 text-[12px] font-medium text-ink shadow-float">
             <span className="grid size-5 place-items-center rounded-full text-[11px] text-white" style={{ background: v.color ?? tone[v.tone] }}>
               ▲
@@ -390,7 +406,7 @@ export function RouteMap({
         </span>
       ))}
       {van ? (
-        <span className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${van.x}%`, top: `${van.y}%` }}>
+        <span className="absolute -translate-x-1/2 -translate-y-1/2 transition-[scale] duration-300 [scale:var(--pin)]" style={{ left: `${van.x}%`, top: `${van.y}%` }}>
           <span className="absolute inset-0 -m-3 animate-ping rounded-full bg-bus-400/40" />
           <span className="relative grid size-9 place-items-center rounded-full border-[3px] border-white bg-bus-400 shadow-float dark:border-[#2c3038]">
             <svg viewBox="0 0 24 24" className="size-4" aria-hidden>
@@ -402,6 +418,7 @@ export function RouteMap({
           ) : null}
         </span>
       ) : null}
+      </div>
     </div>
   );
 }

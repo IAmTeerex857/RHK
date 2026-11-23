@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Camera, CheckCircle2, HeartPulse, ImageIcon, MapPin, ShieldAlert, Truck, UserX } from "lucide-react";
+import { Camera, CheckCircle2, HeartPulse, ImageIcon, MapPin, ShieldAlert, Truck, UserX, X } from "lucide-react";
 import { getChild, getDriver, getRoute, incidents, type Incident } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
-import { Steps } from "@rhk/ui/components/blocks";
+import { EmptyState, Steps } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader, Row } from "@rhk/ui/components/card";
 import { TextArea } from "@rhk/ui/components/field";
 import { Segmented } from "@rhk/ui/components/segmented";
+import { toast } from "@rhk/ui/components/toast";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
 import { cn } from "@rhk/ui/lib/cn";
 import { incidentStatus, StatusBadge } from "../status";
@@ -23,6 +24,8 @@ export function IncidentsView() {
   const [sel, setSel] = useState<string>(list[0]?.id ?? incidents[0].id);
   const [closed, setClosed] = useState<Record<string, boolean>>({});
   const [note, setNote] = useState("");
+  const [notes, setNotes] = useState<Record<string, { text: string; photos: number }[]>>({});
+  const [photos, setPhotos] = useState<{ name: string; url: string }[]>([]);
   const inc = incidents.find((i) => i.id === sel) as Incident;
   const status = closed[inc.id] ? "closed" : inc.status;
 
@@ -44,6 +47,11 @@ export function IncidentsView() {
       />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,380px)_1fr]">
         <div className="flex flex-col gap-2">
+          {!list.length ? (
+            <Card>
+              <EmptyState icon={<CheckCircle2 />} title="No open incidents" body="When a driver reports something, it shows up here straight away." />
+            </Card>
+          ) : null}
           {list.map((i) => {
             const Icon = kindIcon[i.kind];
             return (
@@ -93,8 +101,8 @@ export function IncidentsView() {
           <div className="mt-5 grid grid-cols-1 gap-x-8 md:grid-cols-2">
             <div>
               <Row label="When" value={inc.at} />
-              <Row label="Route" value={inc.routeId ? getRoute(inc.routeId).name : "—"} />
-              <Row label="Driver" value={inc.driverId ? getDriver(inc.driverId).name : "—"} />
+              <Row label="Route" value={inc.routeId ? getRoute(inc.routeId).name : "Not on a route"} />
+              <Row label="Driver" value={inc.driverId ? getDriver(inc.driverId).name : "Not a driver report"} />
             </div>
             <div>
               <Row
@@ -133,6 +141,7 @@ export function IncidentsView() {
               dense
               steps={[
                 ...inc.timeline.map((t) => ({ title: t.text, detail: t.who, meta: t.at, state: "done" as const })),
+                ...(notes[inc.id] ?? []).map((n) => ({ title: n.text, detail: `Clara${n.photos ? ` · ${n.photos} photo${n.photos === 1 ? "" : "s"}` : ""}`, meta: "Just now", state: "done" as const })),
                 ...(status === "closed" ? [{ title: "Closed", detail: "Clara", meta: "Now", state: "done" as const }] : []),
               ]}
             />
@@ -140,11 +149,51 @@ export function IncidentsView() {
           {status !== "closed" ? (
             <div className="mt-6">
               <TextArea label="Add a follow-up note" value={note} onChange={(e) => setNote(e.target.value)} />
+              {photos.length ? (
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {photos.map((p, i) => (
+                    <li key={p.url} className="relative">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={p.url} alt={p.name} className="size-16 rounded-xl border border-line object-cover" />
+                      <button
+                        type="button"
+                        aria-label={`Remove ${p.name}`}
+                        onClick={() => setPhotos((l) => l.filter((_, k) => k !== i))}
+                        className="absolute -right-1.5 -top-1.5 grid size-5 place-items-center rounded-full bg-ink text-cream"
+                      >
+                        <X className="size-3" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
               <div className="mt-3 flex justify-between">
-                <Button variant="ghost" size="xs" icon={<Camera />}>
+                <label className="inline-flex h-8 cursor-pointer items-center gap-1.5 rounded-lg px-3 text-[13px] font-medium text-ink transition-colors hover:bg-raised [&_svg]:size-4">
+                  <Camera />
                   Attach photo
-                </Button>
-                <Button variant="outline" size="xs" disabled={!note.trim()} onClick={() => setNote("")}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="sr-only"
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files ?? []);
+                      setPhotos((l) => [...l, ...files.map((f) => ({ name: f.name, url: URL.createObjectURL(f) }))]);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+                <Button
+                  variant="outline"
+                  size="xs"
+                  disabled={!note.trim()}
+                  onClick={() => {
+                    setNotes((n) => ({ ...n, [inc.id]: [...(n[inc.id] ?? []), { text: note.trim(), photos: photos.length }] }));
+                    setNote("");
+                    setPhotos([]);
+                    toast("Note added", { body: "Saved to the incident and the change history." });
+                  }}
+                >
                   Add note
                 </Button>
               </div>

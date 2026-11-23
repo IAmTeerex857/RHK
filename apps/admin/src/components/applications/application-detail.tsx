@@ -11,6 +11,8 @@ import { Card, CardHeader, Panel, PanelCard, Row } from "@rhk/ui/components/card
 import { SegmentBar } from "@rhk/ui/components/charts";
 import { Dialog, RadioCard } from "@rhk/ui/components/dialog";
 import { TextArea } from "@rhk/ui/components/field";
+import { toast } from "@rhk/ui/components/toast";
+import { APP_URLS } from "@rhk/ui/lib/apps";
 import { Crumb, PageHeader } from "@rhk/ui/shell/app-shell";
 import { applicationStatus, StatusBadge } from "../status";
 
@@ -41,7 +43,7 @@ export function ApplicationDetail({ id }: { id: string }) {
           { title: "Application received", detail: "From the website form, signed by the parent", meta: app.submitted.replace("Today, ", ""), state: "done" },
           { title: "Call and confirm a route", detail: status !== "submitted" ? `${route.name} · ${van.name}` : "Check there's a seat on the route", state: status !== "submitted" ? "done" : "current" },
           { title: `Send the $${FEES.application} fee link`, detail: feeSent ? `Sent ${app.feeRequestedOn ?? "today"} by email` : "Non-refundable once paid", meta: app.feeRequestedOn, state: feeSent ? "done" : status === "route_confirmed" ? "current" : "todo" },
-          { title: "Fee paid", detail: s >= 3 ? `Paid ${app.feePaidOn ?? "today"}` : "Card once Stripe is live; Zelle or Cash App until then", meta: app.feePaidOn, state: s >= 3 ? "done" : feeSent ? "current" : "todo" },
+          { title: "Fee paid", detail: s >= 3 ? `Paid ${app.feePaidOn ?? "today"}` : "By Zelle or Cash App", meta: app.feePaidOn, state: s >= 3 ? "done" : feeSent ? "current" : "todo" },
           { title: "Approve and create the account", detail: s >= 4 ? "Invite sent to set a password" : "Adds the children to the route", state: s >= 4 ? "done" : s === 3 ? "current" : "todo" },
         ];
 
@@ -261,6 +263,7 @@ export function ApplicationDetail({ id }: { id: string }) {
               onClick={() => {
                 setFeeSent(true);
                 setDialog(null);
+                toast("Fee link sent", { body: `Emailed to ${app.parent.email}` });
               }}
             >
               Send email
@@ -269,7 +272,7 @@ export function ApplicationDetail({ id }: { id: string }) {
         }
       >
         <div className="rounded-2xl border border-line bg-raised p-5 text-[14px] leading-relaxed text-ink-soft">
-          <p className="font-medium text-ink">Your route is confirmed 🎉</p>
+          <p className="font-medium text-ink">Your route is confirmed</p>
           <p className="mt-2">
             Hi {app.parent.name.split(" ")[0]}, there&apos;s a seat for {app.children.map((c) => c.name.split(" ")[0]).join(" and ")} on {route.name}. To hold it, pay the ${FEES.application} application fee per child. It&apos;s non-refundable once paid.
           </p>
@@ -280,7 +283,7 @@ export function ApplicationDetail({ id }: { id: string }) {
         <button
           type="button"
           onClick={() => {
-            navigator.clipboard?.writeText(`https://app.rushhourkidstransportation.com/pay/${app.ref}`);
+            navigator.clipboard?.writeText(`${APP_URLS.Parents}/fee/${app.ref}`);
             setCopied(true);
           }}
           className="mt-3 inline-flex items-center gap-2 text-[13px] text-ink-muted hover:text-ink"
@@ -316,7 +319,7 @@ export function ApplicationDetail({ id }: { id: string }) {
         {[
           ["zelle", "Zelle", "Check the Zelle app for the reference"],
           ["cash_app", "Cash App", OFFICE.cashApp],
-          ["cash", "Cash", "Paid at the office"],
+          ["cash", "Cash", "Only if a family pays this way"],
         ].map(([v, t, d]) => (
           <RadioCard key={v} name="method" checked={method === v} onChange={() => setMethod(v)} title={t} description={d} />
         ))}

@@ -20,7 +20,7 @@ export function MessagesView() {
   const [thread, setThread] = useState<ChatMessage[]>(
     conv.messages.map((m) => ({ id: m.id, mine: m.from === "driver", author: m.author, seed: m.from === "driver" ? me.id : seedFor(m.author), body: m.body, at: m.at.replace("Today, ", "") })),
   );
-  const send = (body: string) => setThread((t) => [...t, { id: `n-${Date.now()}`, mine: true, author: me.name, seed: me.id, body, at: nowLabel() }]);
+  const send = (body: string, images?: string[]) => setThread((t) => [...t, { id: `n-${Date.now()}`, mine: true, author: me.name, seed: me.id, body, images, at: nowLabel() }]);
   const driverNews = announcements.filter((a) => a.audience === "Everyone" || a.audience.startsWith("Pine Ridge"));
 
   return (

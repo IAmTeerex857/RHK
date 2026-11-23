@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Crosshair, Layers, MessageSquare, Minus, Phone, Plus, Users } from "lucide-react";
 import { NOW, getChild, getDriver, getRoute, getVan, runs } from "@rhk/fixtures";
@@ -9,7 +10,7 @@ import { Badge, StatusDot } from "@rhk/ui/components/badge";
 import { RouteMap, Steps } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card } from "@rhk/ui/components/card";
-import { IconButton } from "@rhk/ui/components/controls";
+import { IconButton, Menu } from "@rhk/ui/components/controls";
 import { Segmented } from "@rhk/ui/components/segmented";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
 import { cn } from "@rhk/ui/lib/cn";
@@ -19,7 +20,10 @@ import { runTone } from "../today/today-view";
 const vanTone = { running: "data", late: "bad", not_started: "warn", done: "good" } as const;
 
 export function LiveView() {
+  const router = useRouter();
   const [sel, setSel] = useState("run-pm-2");
+  const [zoom, setZoom] = useState(1);
+  const [layers, setLayers] = useState({ vans: true, names: false });
   const [filter, setFilter] = useState<"all" | "late">("all");
   const run = runs.find((r) => r.id === sel)!;
   const route = getRoute(run.routeId);
@@ -97,24 +101,35 @@ export function LiveView() {
                 state: s.kind === "school" ? "school" : run.stops.find((x) => x.stopId === s.id)?.state === "done" ? "done" : run.stops.find((x) => x.stopId === s.id)?.state === "next" ? "next" : "todo",
               }))}
               vans={runs
-                .filter((r) => r.id !== sel)
+                .filter((r) => r.id !== sel && layers.vans)
                 .map((r) => ({ id: r.id, x: r.van.x, y: r.van.y, label: getVan(getRoute(r.routeId).vanId).name, tone: vanTone[r.status], color: routeColor(r.routeId) }))}
               van={{ ...run.van, label: van.name }}
               color={routeColor(run.routeId)}
+              zoom={zoom}
+              focus={run.van}
+              labels={layers.names}
             />
             <div className="absolute right-3 top-3 flex flex-col gap-1.5">
-              <IconButton label="Zoom in" size="sm">
+              <IconButton label="Zoom in" size="sm" disabled={zoom >= 3} onClick={() => setZoom((z) => Math.min(3, z + 0.5))}>
                 <Plus className="size-4" />
               </IconButton>
-              <IconButton label="Zoom out" size="sm">
+              <IconButton label="Zoom out" size="sm" disabled={zoom <= 1} onClick={() => setZoom((z) => Math.max(1, z - 0.5))}>
                 <Minus className="size-4" />
               </IconButton>
-              <IconButton label="Centre on van" size="sm">
+              <IconButton label="Centre on van" size="sm" onClick={() => setZoom(2)}>
                 <Crosshair className="size-4" />
               </IconButton>
-              <IconButton label="Map layers" size="sm">
-                <Layers className="size-4" />
-              </IconButton>
+              <Menu
+                trigger={({ toggle }) => (
+                  <IconButton label="Map layers" size="sm" onClick={toggle}>
+                    <Layers className="size-4" />
+                  </IconButton>
+                )}
+                items={[
+                  { label: "Other vans", hint: layers.vans ? "On" : "Off", onSelect: () => setLayers((l) => ({ ...l, vans: !l.vans })) },
+                  { label: "Stop names", hint: layers.names ? "On" : "Off", onSelect: () => setLayers((l) => ({ ...l, names: !l.names })) },
+                ]}
+              />
             </div>
             <div className="relative border-t border-line sm:absolute sm:bottom-3 sm:left-3 sm:w-[380px] sm:border-0">
               <div className="bg-card p-4 sm:rounded-2xl sm:border sm:border-line sm:bg-card/95 sm:shadow-float sm:backdrop-blur-md">
@@ -123,13 +138,13 @@ export function LiveView() {
                   <div className="min-w-0 flex-1">
                     <p className="text-[15px] font-medium">{driver.name}</p>
                     <p className="text-[13px] text-ink-muted">
-                      {van.name} · {van.plate} · started {run.startedAt ?? "—"}
+                      {van.name} · {van.plate} · {run.startedAt ? `started ${run.startedAt}` : "not started yet"}
                     </p>
                   </div>
-                  <IconButton label={`Call ${driver.name}`} size="sm">
+                  <IconButton label={`Call ${driver.name}`} size="sm" onClick={() => (window.location.href = `tel:${driver.phone}`)}>
                     <Phone className="size-4" />
                   </IconButton>
-                  <IconButton label={`Message ${driver.name}`} size="sm" variant="ink">
+                  <IconButton label={`Message ${driver.name}`} size="sm" variant="ink" onClick={() => router.push(`/messages?with=${driver.id}`)}>
                     <MessageSquare className="size-4" />
                   </IconButton>
                 </div>

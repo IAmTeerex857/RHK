@@ -119,15 +119,15 @@ export const services: {
 export const steps = [
   {
     title: "Apply online",
-    body: `Fill in one application per child and pay the $${applicationFee} application fee to hold their spot.`,
+    body: "Fill in one application per child. It's free to apply.",
   },
   {
     title: "We confirm your spot",
-    body: "Our office checks your address is in a service area with room on a van, then sends your welcome and your app access code.",
+    body: `Our office finds a seat on a van and calls to confirm your route. Then you pay the $${applicationFee} fee by Zelle or Cash App to hold it.`,
   },
   {
-    title: "Plan your week",
-    body: "Choose before school, after school or both for each weekday. Last week's plan is filled in for you.",
+    title: "Set your schedule",
+    body: "Before school, after school or both, on the weekdays you need. It's your schedule for the school year, and the office approves any changes.",
   },
   {
     title: "Ride and relax",
@@ -160,9 +160,9 @@ export const areas = [
 export const appFeatures = [
   { title: "Live ride tracking", body: "See where the van is on a map and when it will arrive." },
   { title: "Ride alerts", body: "“Driver is 8 min away”, “Ava boarded safely”, “Arrived at drop-off”." },
-  { title: "Ride planner", body: "Choose before school, after school or both for each weekday, and book one-off trips." },
-  { title: "Report an absence", body: "Tap “Not riding today” and the driver skips your stop." },
-  { title: "Pay in the app", body: "Pay by card or turn on auto-pay. Every invoice and receipt in one place." },
+  { title: "Your schedule", body: "Your before and after school days for the year. Ask for a change and the office approves it." },
+  { title: "Report an absence", body: "Tap “Not riding today” before the van leaves and the driver skips your stop." },
+  { title: "Bills and receipts", body: "One bill for the family each week or month. Pay by Zelle or Cash App, and every receipt is in the app." },
   { title: "Message the office", body: "A private chat with our office. Announcements arrive here too." },
 ];
 
@@ -170,11 +170,11 @@ export const appFeatures = [
 export const faqs = [
   {
     q: "How do I sign my child up?",
-    a: `Fill in the online application, one per child, and pay the $${applicationFee} application fee. Our office reviews it, checks your address is in a service area with space on a van, and sends you a welcome message with your app access code.`,
+    a: `Fill in the online application, one per child. It's free to apply. Our office checks your address, finds a seat on a van and calls you. Then we email a link to pay the $${applicationFee} application fee by Zelle or Cash App, which holds the seat and is non-refundable once paid. Once you're approved, you get an email to set your password for the parent app.`,
   },
   {
     q: "How much does a ride cost?",
-    a: "Prices depend on the days and trips you need, so please call us for a quote. Families pay weekly, and there is a one-time $25 application fee per child.",
+    a: `Prices depend on the service you need, so please call us for a quote. Families pay weekly or monthly, in advance, by Zelle or Cash App. School holidays don't change the price. There's also a one-time $${applicationFee} application fee per child once we confirm a route.`,
   },
   {
     q: "Which areas do you serve?",
@@ -194,7 +194,7 @@ export const faqs = [
   },
   {
     q: "What if my child isn't riding today?",
-    a: "Tap “Not riding today” in the app, or pick a future day. The driver's list updates so the van skips your stop.",
+    a: "Tap “Not riding today” in the app before the van leaves, or pick a future day. The driver's list updates so the van skips your stop. Cancelling a ride with less than one week's notice adds a $35 fee to your next bill.",
   },
   {
     q: "What about my child's medical needs?",

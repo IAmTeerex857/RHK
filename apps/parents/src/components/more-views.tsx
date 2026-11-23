@@ -13,6 +13,7 @@ import { Composer, Thread, type ChatMessage } from "@rhk/ui/components/chat";
 import { Switch } from "@rhk/ui/components/controls";
 import { Tabs } from "@rhk/ui/components/segmented";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
+import { ChangePasswordDialog } from "@rhk/ui/shell/auth";
 import { amHome, family, kids, parent, school, useNow } from "./family";
 
 /* ------------------------------------------------------------------ messages */
@@ -45,14 +46,14 @@ export function MessagesView() {
             <AvatarStack people={staff.map((s) => ({ seed: s.id, name: s.name }))} size={30} />
             <div className="min-w-0 flex-1">
               <p className="text-[15px] font-medium">Rush Hour Kids office</p>
-              <p className="truncate text-[13px] text-ink-muted">Weekdays 6 AM – 6 PM · {OFFICE.phone}</p>
+              <p className="truncate text-[13px] text-ink-muted">{staff.map((s) => s.name.split(" ")[0]).join(", ")} · {OFFICE.phone}</p>
             </div>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto bg-canvas/50 px-4 py-5">
             <Thread messages={thread} />
           </div>
           <div className="border-t border-line p-3">
-            <Composer placeholder="Message the office…" onSend={(body) => setThread((t) => [...t, { id: `n-${Date.now()}`, mine: true, author: parent.name, seed: parent.id, body, at: now }])} />
+            <Composer placeholder="Message the office…" onSend={(body, images) => setThread((t) => [...t, { id: `n-${Date.now()}`, mine: true, author: parent.name, seed: parent.id, body, images, at: now }])} />
           </div>
         </Card>
       ) : (
@@ -169,6 +170,7 @@ export function HistoryView() {
   return (
     <>
       <PageHeader title="Ride history" description="Every pickup and drop-off, with times and who received them at home." />
+      {!history.length ? <EmptyState icon={<Clock3 />} title="No rides yet" body="After the first ride, every pickup and drop-off shows up here." /> : null}
       <div className="flex flex-col gap-6">
         {history.map((h) => (
           <section key={h.day}>
@@ -208,6 +210,7 @@ export function HistoryView() {
 /* ------------------------------------------------------------------ account */
 
 export function AccountView() {
+  const [pwOpen, setPwOpen] = useState(false);
   const [n, setN] = useState({ ten: true, near: true, onoff: true, bills: true, news: true });
   return (
     <>
@@ -272,18 +275,19 @@ export function AccountView() {
             <Row label="Stay signed in" value="30 days" />
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" icon={<KeyRound className="size-4" />} href="/set-password" linkAs={Link}>
+            <Button variant="outline" size="sm" icon={<KeyRound className="size-4" />} onClick={() => setPwOpen(true)}>
               Change password
             </Button>
             <Button variant="outline" size="sm" icon={<UserCheck className="size-4" />} href="/welcome" linkAs={Link}>
               Run setup again
             </Button>
-            <Button variant="ghost" size="sm" icon={<LogOut className="size-4" />} href="/sign-in" linkAs={Link}>
+            <Button variant="ghost" size="sm" icon={<LogOut className="size-4" />} href="/sign-in?reason=signed-out" linkAs={Link}>
               Sign out
             </Button>
           </div>
         </Card>
       </div>
+      <ChangePasswordDialog open={pwOpen} onClose={() => setPwOpen(false)} />
     </>
   );
 }

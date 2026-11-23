@@ -6,7 +6,7 @@ import { BadgeCheck, Bus, Clock3, Gauge, IdCard, LogOut, Phone, Timer } from "lu
 import { NOW, OFFICE, shifts } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
-import { Stat } from "@rhk/ui/components/blocks";
+import { EmptyState, Stat } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader, Row } from "@rhk/ui/components/card";
 import { BarChart } from "@rhk/ui/components/charts";
@@ -30,7 +30,7 @@ export function HoursView() {
     .filter((s) => s.driverId === me.id)
     .map((s) => {
       if (s.date !== NOW.short || s.slot !== "pm") return s;
-      if (!run.clockIn) return { ...s, in: "—", out: undefined, hours: 0, miles: 0 };
+      if (!run.clockIn) return { ...s, in: "Not yet", out: undefined, hours: 0, miles: 0 };
       if (run.clockOut) return { ...s, in: run.clockIn, out: run.clockOut, hours: (toMinutes(run.clockOut) - toMinutes(run.clockIn)) / 60, miles: run.odoEnd && run.odoStart ? run.odoEnd - run.odoStart : s.miles };
       return { ...s, in: run.clockIn };
     })
@@ -73,19 +73,20 @@ export function HoursView() {
           <DataTable
             dense
             rows={rows}
+            empty={<EmptyState title="No shifts this week" body="Clock in for a run and it shows up here." />}
             rowKey={(s) => s.id}
             columns={[
               { key: "date", header: "Day", cell: (s) => <span className="whitespace-nowrap">{s.date.replace(", ", " · ")}</span> },
               { key: "slot", header: "Run", cell: (s) => (s.slot === "am" ? "Morning" : "Afternoon") },
-              { key: "in", header: "In", cell: (s) => <span className="font-mono text-[13px] tabular">{s.in}</span>, hideBelow: "sm" },
+              { key: "in", header: "In", cell: (s) => <span className={s.in === "Not yet" ? "text-ink-muted" : "font-mono text-[13px] tabular"}>{s.in}</span>, hideBelow: "sm" },
               {
                 key: "out",
                 header: "Out",
                 cell: (s) =>
                   s.out ? (
                     <span className="font-mono text-[13px] tabular">{s.out}</span>
-                  ) : s.in === "—" ? (
-                    <span className="text-ink-muted">—</span>
+                  ) : s.in === "Not yet" ? (
+                    <span className="text-ink-muted">Not yet</span>
                   ) : (
                     <Badge tone="info" dot>
                       On the clock
@@ -93,8 +94,8 @@ export function HoursView() {
                   ),
                 hideBelow: "sm",
               },
-              { key: "miles", header: "Miles", align: "right", cell: (s) => <span className="font-mono text-[13px] tabular">{s.miles ? s.miles.toFixed(1) : "—"}</span>, hideBelow: "md" },
-              { key: "hours", header: "Hours", align: "right", cell: (s) => <span className="font-mono text-[13px] font-medium tabular">{s.out ? s.hours.toFixed(2) : "—"}</span> },
+              { key: "miles", header: "Miles", align: "right", cell: (s) => <span className="font-mono text-[13px] tabular">{s.miles ? s.miles.toFixed(1) : "0.0"}</span>, hideBelow: "md" },
+              { key: "hours", header: "Hours", align: "right", cell: (s) => <span className="font-mono text-[13px] font-medium tabular">{s.out ? s.hours.toFixed(2) : <span className="text-ink-muted">Open</span>}</span> },
             ]}
           />
         </Card>

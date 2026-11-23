@@ -8,13 +8,13 @@ import { applicationFee, contact } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Before & after school application",
-  description: `Apply online for Rush Hour Kids before and after school transportation. One application per child, $${applicationFee} application fee.`,
+  description: `Apply online for Rush Hour Kids before and after school transportation. One application per child, free to apply. A $${applicationFee} fee holds the seat once we confirm a route.`,
 };
 
 const facts = [
   { icon: Clock, text: "About 5 minutes" },
   { icon: Users, text: "One application per child" },
-  { icon: FileCheck2, text: `$${applicationFee} application fee` },
+  { icon: FileCheck2, text: "Free to apply" },
 ];
 
 export default function ApplicationPage() {
@@ -29,7 +29,7 @@ export default function ApplicationPage() {
             Save your child&rsquo;s seat on the bus
           </>
         }
-        body="Tell us about your child and the days you need, sign, and pay the application fee. Our office reviews every application and gets back to you."
+        body={`Tell us about your child and the days you need, then sign. It's free to apply. Our office calls to confirm a route, then sends a link to pay the $${applicationFee} fee.`}
       >
         <ul className="flex flex-wrap gap-2.5">
           {facts.map(({ icon: Icon, text }) => (
@@ -50,9 +50,9 @@ export default function ApplicationPage() {
             <div className="rounded-2xl bg-raised p-5">
               <h2 className="font-display text-[18px] font-semibold">What happens next</h2>
               <ol className="mt-3 space-y-3 text-[15px] leading-relaxed text-ink-soft">
-                <li><strong className="text-ink">1.</strong> Our office reviews your application and checks there&rsquo;s space on a van in your area.</li>
-                <li><strong className="text-ink">2.</strong> If approved, you get a welcome text and email with the app link and your access code.</li>
-                <li><strong className="text-ink">3.</strong> You plan your first week in the app.</li>
+                <li><strong className="text-ink">1.</strong> Our office checks your address and calls to confirm a seat on a van.</li>
+                <li><strong className="text-ink">2.</strong> We email a link to pay the ${applicationFee} fee by Zelle or Cash App. It&rsquo;s non-refundable once paid.</li>
+                <li><strong className="text-ink">3.</strong> Once you&rsquo;re approved, you get an email to set your password for the parent app.</li>
               </ol>
             </div>
             <div className="rounded-2xl border border-line bg-card p-5 shadow-card">

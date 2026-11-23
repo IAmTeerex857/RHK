@@ -5,6 +5,7 @@ import { CalendarMinus, CalendarPlus, Check, Clock3, MapPin, PauseCircle, X } fr
 import { FEES, absences, changeRequests, children, getChild, getSchool, type ChangeRequest } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
+import { EmptyState } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader } from "@rhk/ui/components/card";
 import { Switch } from "@rhk/ui/components/controls";
@@ -99,6 +100,7 @@ export function SchedulesView() {
         <Card flush>
           <DataTable
             rows={absences}
+            empty={<EmptyState title="No absences" body="Absences reported by parents or marked by drivers show up here." />}
             rowKey={(a) => a.id}
             columns={[
               {

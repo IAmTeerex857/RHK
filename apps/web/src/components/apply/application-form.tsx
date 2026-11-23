@@ -1,18 +1,18 @@
 "use client";
 
 /*
- * Before & After School Application — the paper form, online. One application per child.
- * FRONT-END ONLY for now: nothing is stored on a server and no card is charged. The payment step
- * shows a "test mode" label until real payments are connected (NEXT_PUBLIC_PAYMENTS_LIVE=1).
- * A draft is kept in this browser (never card details) so parents don't lose progress.
+ * Before & After School Application: the paper form, online. One application per child.
+ * Submitting is free (docs/PLAN.md §6). The office calls to confirm a route, then emails a link
+ * to pay the $25 fee by Zelle or Cash App. No card details are ever collected here.
+ * FRONT-END ONLY for now: nothing is stored on a server yet. A draft is kept in this browser so
+ * parents don't lose progress.
  */
 
 import { LinkButton } from "@/components/site/link-button";
 import { AnimatePresence, motion } from "motion/react";
 import { useReducedMotion } from "@/lib/use-reduced-motion";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ArrowLeft, CalendarDays, CreditCard, Lock, Mail, MapPin, Pencil, Phone, ShieldCheck, User } from "lucide-react";
-import { BorderBeam } from "border-beam";
+import { ArrowLeft, CalendarDays, Mail, MapPin, Pencil, Phone, Send, User } from "lucide-react";
 import { Button } from "@rhk/ui/components/button";
 import { Checkbox, Field, TextArea, ToggleChip } from "@rhk/ui/components/field";
 import { InlineLoader } from "@rhk/ui/loaders";
@@ -47,11 +47,9 @@ const STEPS = [
   { key: "child", label: "Child" },
   { key: "emergency", label: "Emergency" },
   { key: "sign", label: "Sign" },
-  { key: "pay", label: "Pay" },
 ] as const;
 
 const DRAFT_KEY = "rhk-application-draft-v1";
-const PAYMENTS_LIVE = process.env.NEXT_PUBLIC_PAYMENTS_LIVE === "1";
 
 type Errors = Record<string, string>;
 
@@ -191,7 +189,7 @@ function ReviewBlock({ title, onEdit, rows }: { title: string; onEdit: () => voi
         {rows.map(([k, v]) => (
           <div key={k} className="min-w-0">
             <dt className="text-[13px] font-semibold text-ink-muted">{k}</dt>
-            <dd className="break-words font-medium">{v || "—"}</dd>
+            <dd className={cn("break-words font-medium", !v && "text-ink-muted")}>{v || "Not given"}</dd>
           </div>
         ))}
       </dl>
@@ -217,14 +215,12 @@ export function ApplicationForm() {
   const [maxReached, setMaxReached] = useState(draft ? Math.min(draft.maxReached, 4) : 0);
   const [dir, setDir] = useState(1);
   const [errors, setErrors] = useState<Errors>({});
-  const [paying, setPaying] = useState(false);
+  const [sending, setSending] = useState(false);
   const [done, setDone] = useState<null | { childName: string; ref: string }>(null);
-  const [card, setCard] = useState({ number: "", expiry: "", cvc: "", zip: "" });
-  const [cardErrors, setCardErrors] = useState<Errors>({});
   const [restored, setRestored] = useState(Boolean(draft));
   const topRef = useRef<HTMLDivElement>(null);
 
-  // persist the draft (never card details)
+  // persist the draft in this browser
   useEffect(() => {
     if (done) return;
     const t = setTimeout(() => {
@@ -270,18 +266,17 @@ export function ApplicationForm() {
     go(step + 1);
   };
 
-  const pay = async () => {
-    const e: Errors = {};
-    if (card.number.replace(/\D/g, "").length < 15) e.number = "Please check the card number.";
-    if (!/^\d{2}\s?\/\s?\d{2}$/.test(card.expiry)) e.expiry = "MM / YY";
-    if (!/^\d{3,4}$/.test(card.cvc)) e.cvc = "3–4 digits";
-    if (!/^\d{5}$/.test(card.zip)) e.zip = "5-digit ZIP";
-    setCardErrors(e);
-    if (Object.keys(e).length) return;
-    setPaying(true);
-    // TODO: connect real payments and submit the application to the office (admin portal).
-    await new Promise((r) => setTimeout(r, 2200));
-    setPaying(false);
+  const submit = async () => {
+    const e = validate(step, data);
+    setErrors(e);
+    if (Object.keys(e).length) {
+      document.querySelector<HTMLElement>("[aria-invalid='true'], [data-error='true']")?.focus?.();
+      return;
+    }
+    setSending(true);
+    // TODO: send the application to the office (Supabase) once the backend exists.
+    await new Promise((r) => setTimeout(r, 1200));
+    setSending(false);
     const ref = `RHK-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
     setDone({ childName: data.child.name.split(" ")[0] || "your child", ref });
     try {
@@ -292,7 +287,6 @@ export function ApplicationForm() {
 
   const anotherChild = () => {
     setData((d) => ({ ...empty, parent: d.parent, emergency: { ...d.emergency, medical: "" }, service: d.service }));
-    setCard({ number: "", expiry: "", cvc: "", zip: "" });
     setDone(null);
     setStep(2);
     setMaxReached(2);
@@ -334,14 +328,14 @@ export function ApplicationForm() {
           </div>
           <h2 className="relative mt-6 font-display text-[32px] font-semibold tracking-[-0.025em] md:text-[40px]">Application received</h2>
           <p className="relative mx-auto mt-3 max-w-md text-[17px] leading-relaxed text-ink-soft">
-            Thank you. We&rsquo;ve got {done.childName}&rsquo;s application. Your reference is{" "}
+            Thank you. We&rsquo;ve got {done.childName}&rsquo;s application, and it&rsquo;s free to apply. Your reference is{" "}
             <span className="rounded-md bg-bus-100 px-1.5 py-0.5 font-mono text-[15px] font-semibold text-ink">{done.ref}</span>.
           </p>
           <ol className="relative mx-auto mt-8 grid max-w-2xl gap-3 text-left sm:grid-cols-3">
             {[
-              ["We review it", "Our office checks your address is in a service area with space on a van."],
-              ["You hear from us", "If approved, you get a welcome text and email with the app link and your access code."],
-              ["Plan your first week", "Set up the app, confirm addresses and pick your days."],
+              ["We call you", "The office checks your address and finds a seat on a van, then calls to confirm the route."],
+              [`Pay the $${applicationFee} fee`, "We email you a link. Pay by Zelle or Cash App to hold the seat. It's non-refundable once paid."],
+              ["Set up the parent app", "Once you're approved, you get an email to set your password, add photos and approved adults."],
             ].map(([t, b], i) => (
               <li key={t} className="rounded-2xl border border-line bg-cream p-4">
                 <span className="grid size-7 place-items-center rounded-full bg-bus-400 font-display text-[13px] font-semibold">{i + 1}</span>
@@ -407,7 +401,7 @@ export function ApplicationForm() {
             >
               {step === 0 ? (
                 <section>
-                  <StepTitle n={1} title="Which rides do you need?" body="Tap the days for before school, after school, or both. You can change this later in the app." />
+                  <StepTitle n={1} title="Which rides do you need?" body="Tap the days for before school, after school, or both. This is your schedule for the school year. Changes later go to the office to approve." />
                   <div data-error={errors.service ? "true" : undefined} tabIndex={-1} className="flex flex-col gap-6 outline-none">
                     {(["before", "after"] as Slot[]).map((slot) => (
                       <fieldset key={slot}>
@@ -496,7 +490,7 @@ export function ApplicationForm() {
 
               {step === 4 ? (
                 <section>
-                  <StepTitle n={5} title="Check and sign" body="Make sure everything looks right, then sign below." />
+                  <StepTitle n={5} title="Check and sign" body={`Make sure everything looks right, then sign below. Applying is free. The $${applicationFee} fee comes later, once we've confirmed a route.`} />
                   <div className="flex flex-col gap-3">
                     <ReviewBlock title="Rides" onEdit={() => go(0)} rows={[["Before school", daysLabel(data.service.before)], ["After school", daysLabel(data.service.after)]]} />
                     <ReviewBlock title="You" onEdit={() => go(1)} rows={[["Name", data.parent.name], ["Phone", data.parent.phone], ["Email", data.parent.email], ["Address", data.parent.address]]} />
@@ -505,7 +499,7 @@ export function ApplicationForm() {
                       onEdit={() => go(2)}
                       rows={[
                         ["Name", data.child.name],
-                        ["Age · Grade", `${data.child.age || "—"} · ${data.child.grade || "—"}`],
+                        ["Age · Grade", data.child.age || data.child.grade ? `${data.child.age || "Age not given"} · ${data.child.grade || "grade not given"}` : ""],
                         ["School", data.child.school],
                         ["School address", data.child.schoolAddress],
                         ["Teacher", data.child.teacher],
@@ -539,51 +533,6 @@ export function ApplicationForm() {
                 </section>
               ) : null}
 
-              {step === 5 ? (
-                <section>
-                  <StepTitle n={6} title="Pay the application fee" body={`The $${applicationFee} fee holds ${data.child.name.split(" ")[0] || "your child"}'s spot while we review the application.`} />
-                  <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
-                    <div className="flex flex-col gap-4">
-                      {!PAYMENTS_LIVE ? (
-                        <p className="inline-flex items-center gap-2 self-start rounded-lg border border-dashed border-line-strong px-3 py-1 text-[13px] font-semibold text-ink-soft">
-                          Test mode · no card is charged
-                        </p>
-                      ) : null}
-                      <Field label="Card number" inputMode="numeric" autoComplete="cc-number" icon={<CreditCard className="size-4" />} value={card.number} onChange={(e) => setCard((c) => ({ ...c, number: e.target.value.replace(/\D/g, "").slice(0, 19).replace(/(.{4})/g, "$1 ").trim() }))} error={cardErrors.number} />
-                      <div className="grid grid-cols-3 gap-3">
-                        <Field label="MM / YY" inputMode="numeric" autoComplete="cc-exp" value={card.expiry} onChange={(e) => {
-                          const d = e.target.value.replace(/\D/g, "").slice(0, 4);
-                          setCard((c) => ({ ...c, expiry: d.length > 2 ? `${d.slice(0, 2)} / ${d.slice(2)}` : d }));
-                        }} error={cardErrors.expiry} />
-                        <Field label="CVC" inputMode="numeric" autoComplete="cc-csc" value={card.cvc} onChange={(e) => setCard((c) => ({ ...c, cvc: e.target.value.replace(/\D/g, "").slice(0, 4) }))} error={cardErrors.cvc} />
-                        <Field label="ZIP" inputMode="numeric" autoComplete="postal-code" value={card.zip} onChange={(e) => setCard((c) => ({ ...c, zip: e.target.value.replace(/\D/g, "").slice(0, 5) }))} error={cardErrors.zip} />
-                      </div>
-                      
-                    </div>
-                    <BorderBeam size="md" colorVariant="sunset" theme="light" strength={0.7} borderRadius={24}>
-                      <div className="rounded-2xl border border-line bg-bus-50 p-5">
-                        <p className="font-display text-[13px] font-semibold text-ink-muted">Summary</p>
-                        <div className="mt-4 flex items-start justify-between gap-4">
-                          <div>
-                            <p className="font-display text-[16px] font-semibold">Application fee</p>
-                            <p className="text-[14px] text-ink-muted">{data.child.name || "1 child"}</p>
-                          </div>
-                          <p className="font-display text-[16px] font-semibold tabular-nums">${applicationFee.toFixed(2)}</p>
-                        </div>
-                        <div className="my-4 border-t border-dashed border-line" />
-                        <div className="flex items-center justify-between">
-                          <p className="font-display text-[16px] font-semibold">Due today</p>
-                          <p className="font-display text-[26px] font-semibold tabular-nums tracking-[-0.03em]">${applicationFee.toFixed(2)}</p>
-                        </div>
-                        <p className="mt-3 flex items-start gap-2 text-[13px] leading-relaxed text-ink-soft">
-                          <ShieldCheck className="mt-0.5 size-4 shrink-0 text-mint" />
-                          Weekly ride payments start once your child is on a route. We&rsquo;ll send you a quote first.
-                        </p>
-                      </div>
-                    </BorderBeam>
-                  </div>
-                </section>
-              ) : null}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -597,13 +546,13 @@ export function ApplicationForm() {
           ) : (
             <span className="text-[13px] text-ink-muted">1 application per child</span>
           )}
-          {step < 5 ? (
+          {step < 4 ? (
             <Button onClick={next} arrow>
-              {step === 4 ? "Continue to payment" : "Continue"}
+              Continue
             </Button>
           ) : (
-            <Button onClick={pay} disabled={paying} variant="ink" icon={paying ? <InlineLoader variant="orbit" color="var(--color-bus-400)" label="Processing payment" /> : <Lock className="size-4" />}>
-              {paying ? "Processing…" : `Pay $${applicationFee} & submit`}
+            <Button onClick={submit} disabled={sending} variant="ink" icon={sending ? <InlineLoader variant="orbit" color="var(--color-bus-400)" label="Sending application" /> : <Send className="size-4" />}>
+              {sending ? "Sending…" : "Submit application"}
             </Button>
           )}
         </div>
