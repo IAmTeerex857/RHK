@@ -41,7 +41,7 @@ export function MessagesView() {
             <AvatarStack people={staff.map((s) => ({ seed: s.id, name: s.name }))} size={30} />
             <div className="min-w-0 flex-1">
               <p className="text-[15px] font-medium">Rush Hour Kids office</p>
-              <p className="truncate text-[13px] text-ink-muted">Clara, Jordan and Tasha · usually reply in a few minutes</p>
+              <p className="truncate text-[13px] text-ink-muted">{staff.map((s) => s.name.split(" ")[0]).join(", ")} · the office team</p>
             </div>
             <a
               href={`tel:${OFFICE.phone}`}

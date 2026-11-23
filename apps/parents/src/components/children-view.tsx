@@ -292,7 +292,7 @@ function AddAdultDialog({ open, name, onClose, onAdd }: { open: boolean; name: s
           </span>
           <span className="text-[14px]">
             <span className="block font-medium">Add a photo</span>
-            <span className="block text-[13px] text-ink-muted">Helps the driver recognise them</span>
+            <span className="block text-[13px] text-ink-muted">Helps the driver recognize them</span>
           </span>
           <input
             type="file"

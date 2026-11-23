@@ -15,7 +15,7 @@ import { route, useMockTime, useRun } from "./run-store";
 
 const kinds = [
   { id: "medical", label: "Child hurt or unwell", icon: HeartPulse },
-  { id: "behavior", label: "Behaviour", icon: MessageCircleWarning },
+  { id: "behavior", label: "Behavior", icon: MessageCircleWarning },
   { id: "vehicle", label: "Van problem", icon: Bus },
   { id: "safety", label: "Crash or near miss", icon: Car },
   { id: "no_adult", label: "No approved adult", icon: UserRoundX },

@@ -332,7 +332,7 @@ function ChangeDialog({ open, onClose, onSend }: { open: boolean; onClose: () =>
       onClose={onClose}
       icon={<Repeat className="size-5" />}
       title="Request a schedule change"
-      description="The office reviews it, usually the same day, and lets you know."
+      description="The office reviews it and lets you know."
       footer={
         <>
           <Button variant="soft" size="sm" onClick={onClose}>

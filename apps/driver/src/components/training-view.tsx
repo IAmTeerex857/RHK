@@ -29,7 +29,7 @@ export const lessons: Record<string, { titles: string[]; quiz: { q: string; opti
     titles: ["Who's on the list", "Asking for ID", "Waiting five minutes", "Nobody's there: alert the office"],
     quiz: {
       q: "You've waited five minutes and no approved adult is home. What do you do?",
-      options: ["Call the parent yourself", "Leave the child with a neighbour you recognise", "Tap “No approved adult” so the office calls the family, and keep the child on the van"],
+      options: ["Call the parent yourself", "Leave the child with a neighbor you recognize", "Tap “No approved adult” so the office calls the family, and keep the child on the van"],
       answer: 2,
       why: "Drivers don't call families. The office calls the parent and approved adults and tells you where to bring the child.",
     },
@@ -44,7 +44,7 @@ export const lessons: Record<string, { titles: string[]; quiz: { q: string; opti
     },
   },
   "co-4": {
-    titles: ["Breakdowns", "Crashes and near misses", "Behaviour on the van", "Reporting in four taps", "What the office does next"],
+    titles: ["Breakdowns", "Crashes and near misses", "Behavior on the van", "Reporting in four taps", "What the office does next"],
     quiz: {
       q: "Two children are fighting on the van. What comes first?",
       options: ["Pull over where it's safe, then separate them", "Keep driving and shout", "Report it at the end of the day"],
