@@ -8,6 +8,7 @@ import { RouteMap, Steps } from "@rhk/ui/components/blocks";
 import { Card, CardHeader } from "@rhk/ui/components/card";
 import { Ring } from "@rhk/ui/components/charts";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
+import { routeColor } from "@rhk/ui/lib/route-color";
 import { driver, ETA_LABEL, homeStop, kids, run, school, schoolStop, stopsBefore, useMinutesAway, van } from "./family";
 
 export function LiveView() {
@@ -30,6 +31,7 @@ export function LiveView() {
           {/* Only the school, the van and our own stop. Other families' homes are never shown. */}
           <RouteMap
             className="h-[380px] lg:h-full lg:min-h-[520px]"
+            color={routeColor(run.routeId)}
             stops={[
               { id: schoolStop.id, x: schoolStop.x, y: schoolStop.y, label: "S", state: "school" },
               { id: homeStop.id, x: homeStop.x, y: homeStop.y, label: "You", state: "next" },

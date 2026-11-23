@@ -13,6 +13,7 @@ import { IconButton } from "@rhk/ui/components/controls";
 import { Segmented } from "@rhk/ui/components/segmented";
 import { PageHeader } from "@rhk/ui/shell/app-shell";
 import { cn } from "@rhk/ui/lib/cn";
+import { routeColor } from "@rhk/ui/lib/route-color";
 import { runTone } from "../today/today-view";
 
 const vanTone = { running: "data", late: "bad", not_started: "warn", done: "good" } as const;
@@ -73,7 +74,7 @@ export function LiveView() {
                   </Badge>
                 </div>
                 <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-raised">
-                  <div className={cn("h-full rounded-full", r.status === "late" ? "bg-bad" : "bg-data-500")} style={{ width: `${Math.max(4, r.progress * 100)}%` }} />
+                  <div className="h-full rounded-full" style={{ width: `${Math.max(4, r.progress * 100)}%`, background: routeColor(r.routeId) }} />
                 </div>
                 <p className="mt-2 flex justify-between font-mono text-[12px] text-ink-muted tabular">
                   <span>{Math.round(r.progress * 100)}% done</span>
@@ -97,8 +98,9 @@ export function LiveView() {
               }))}
               vans={runs
                 .filter((r) => r.id !== sel)
-                .map((r) => ({ id: r.id, x: r.van.x, y: r.van.y, label: getVan(getRoute(r.routeId).vanId).name, tone: vanTone[r.status] }))}
+                .map((r) => ({ id: r.id, x: r.van.x, y: r.van.y, label: getVan(getRoute(r.routeId).vanId).name, tone: vanTone[r.status], color: routeColor(r.routeId) }))}
               van={{ ...run.van, label: van.name }}
+              color={routeColor(run.routeId)}
             />
             <div className="absolute right-3 top-3 flex flex-col gap-1.5">
               <IconButton label="Zoom in" size="sm">
@@ -157,9 +159,14 @@ export function LiveView() {
               </div>
             </div>
             <div className="absolute left-3 top-3 hidden items-center gap-3 rounded-full border border-line bg-card/95 px-3.5 py-2 text-[12px] shadow-subtle backdrop-blur sm:flex">
-              <StatusDot tone="info">Moving</StatusDot>
+              {[1, 2, 3, 4].map((n) => (
+                <span key={n} className="inline-flex items-center gap-1.5 text-ink">
+                  <span className="size-2 rounded-[3px]" style={{ background: `var(--color-route-${n})` }} aria-hidden />
+                  Route {n}
+                </span>
+              ))}
+              <span className="h-3 w-px bg-line-strong" aria-hidden />
               <StatusDot tone="bad">Behind</StatusDot>
-              <StatusDot tone="warn">Waiting at school</StatusDot>
             </div>
           </div>
         </Card>

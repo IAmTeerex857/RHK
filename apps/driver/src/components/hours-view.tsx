@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { BadgeCheck, Bus, IdCard, LogOut, Phone } from "lucide-react";
+import { BadgeCheck, Bus, Clock3, Gauge, IdCard, LogOut, Phone, Timer } from "lucide-react";
 import { NOW, OFFICE, shifts } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
@@ -49,16 +49,16 @@ export function HoursView() {
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <Card>
-          <Stat label="This week" value={total.toFixed(1)} unit="h" note={NOW.week} />
+          <Stat icon={<Clock3 />} iconTone="blue" label="This week" value={total.toFixed(1)} unit="h" note={NOW.week} />
         </Card>
         <Card>
-          <Stat label="Runs" value={rows.filter((r) => r.hours > 0).length} note="of 10 scheduled" />
+          <Stat icon={<Bus />} iconTone="yellow" label="Runs" value={rows.filter((r) => r.hours > 0).length} note="of 10 scheduled" />
         </Card>
         <Card>
-          <Stat label="Miles" value={miles.toFixed(0)} unit="mi" note={van.name} />
+          <Stat icon={<Gauge />} iconTone="orange" label="Miles" value={miles.toFixed(0)} unit="mi" note={van.name} />
         </Card>
         <Card>
-          <Stat label="On time" value={Math.round(me.onTimeRate * 100)} unit="%" note="this term" />
+          <Stat icon={<Timer />} iconTone="green" label="On time" value={Math.round(me.onTimeRate * 100)} unit="%" note="this term" />
         </Card>
 
         <Card className="col-span-2 lg:col-span-4">

@@ -11,6 +11,17 @@ import { cn } from "../lib/cn";
 
 /* ------------------------------------------------------------------ stat */
 
+export type StatTone = "teal" | "blue" | "violet" | "orange" | "yellow" | "coral" | "green";
+const statTone: Record<StatTone, string> = {
+  teal: "bg-route-1 text-white",
+  blue: "bg-route-2 text-white",
+  violet: "bg-route-3 text-white",
+  orange: "bg-route-4 text-white",
+  yellow: "bg-bus-400 text-[#1d1a2f]",
+  coral: "bg-coral text-white",
+  green: "bg-good text-white",
+};
+
 /** KPI: label, big number with a small unit, a delta and a muted comparison. */
 export function Stat({
   label,
@@ -19,10 +30,13 @@ export function Stat({
   delta,
   note,
   icon,
+  iconTone,
   size = "md",
   className,
   children,
 }: {
+  /** Fills the icon into a small coloured square, like the reference stat cards. */
+  iconTone?: StatTone;
   label?: ReactNode;
   value: ReactNode;
   unit?: ReactNode;
@@ -37,21 +51,25 @@ export function Stat({
     <div className={cn("min-w-0", className)}>
       {label ? (
         <p className="mb-2 flex items-center gap-2 text-[13px] text-ink-muted">
-          {icon ? <span className="text-ink-muted [&_svg]:size-4">{icon}</span> : null}
+          {icon && iconTone ? (
+            <span className={cn("grid size-5 place-items-center rounded-md [&_svg]:size-3 [&_svg]:stroke-[2.25]", statTone[iconTone])}>{icon}</span>
+          ) : icon ? (
+            <span className="text-ink-muted [&_svg]:size-4">{icon}</span>
+          ) : null}
           {label}
         </p>
       ) : null}
       <p
         className={cn(
-          "flex items-baseline gap-1 font-display font-medium text-ink tabular",
-          { md: "text-[32px] leading-none tracking-[-0.025em]", lg: "text-[40px] leading-none tracking-[-0.03em]", xl: "text-[64px] leading-[0.95] tracking-[-0.035em]" }[size],
+          "flex items-baseline gap-1.5 font-display font-medium tracking-[-0.04em] text-ink tabular",
+          { md: "text-[30px] leading-none", lg: "text-[44px] leading-none", xl: "text-[64px] leading-[0.95]" }[size],
         )}
       >
         {value}
-        {unit ? <span className={cn("font-normal tracking-normal text-ink-muted", { md: "text-[15px]", lg: "text-[16px]", xl: "text-[24px]" }[size])}>{unit}</span> : null}
+        {unit ? <span className="text-[0.42em] font-normal tracking-normal text-ink-muted">{unit}</span> : null}
       </p>
       {delta || note ? (
-        <p className="mt-3 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[13px] text-ink-muted">
+        <p className="mt-3 flex flex-wrap items-center gap-2 text-[13px] text-ink-muted">
           {delta}
           {note}
         </p>
@@ -168,7 +186,7 @@ export function Steps({ steps, className, dense }: { steps: Step[]; className?: 
                 </span>
               ) : s.state === "current" ? (
                 <span className="relative grid size-6 place-items-center rounded-full border-2 border-data-500 bg-card">
-                  <span className="size-2 rounded-full bg-data-500" />
+                  <span className="size-2 animate-pulse rounded-full bg-data-500" />
                 </span>
               ) : s.state === "alert" ? (
                 <span className="grid size-6 place-items-center rounded-full bg-bad text-[13px] font-bold text-white">!</span>
@@ -309,14 +327,17 @@ export function RouteMap({
   className,
   path,
   vans,
+  color = "var(--color-data-500)",
 }: {
   stops: MapStop[];
+  /** Route colour for the line and the next stop (see routeColor). */
+  color?: string;
   van?: { x: number; y: number; label?: string };
   className?: string;
   /** Polyline through these points; defaults to the stops in order. */
   path?: { x: number; y: number }[];
   /** Extra vans (fleet view). */
-  vans?: { id: string; x: number; y: number; label: string; tone: "good" | "warn" | "bad" | "data" }[];
+  vans?: { id: string; x: number; y: number; label: string; tone: "good" | "warn" | "bad" | "data"; color?: string }[];
 }) {
   const pts = path ?? stops;
   const d = pts.map((p, i) => `${i ? "L" : "M"}${p.x} ${p.y}`).join(" ");
@@ -335,7 +356,7 @@ export function RouteMap({
         <rect x="64" y="8" width="22" height="16" rx="3" className="fill-[#dcefd9] dark:fill-[#1b2a20]" />
         <rect x="6" y="74" width="16" height="18" rx="3" className="fill-[#dcefd9] dark:fill-[#1b2a20]" />
         <path d={d} fill="none" className="stroke-white dark:stroke-[#2c3038]" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d={d} fill="none" stroke="var(--color-data-500)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={d} fill="none" stroke={color} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       {stops.map((s) => (
         <span
@@ -350,8 +371,9 @@ export function RouteMap({
             <span
               className={cn(
                 "block rounded-full border-2 border-white shadow dark:border-[#2c3038]",
-                s.state === "done" ? "size-3 bg-good" : s.state === "next" ? "size-4 bg-data-500 ring-4 ring-data-500/25" : "size-3 bg-ink-muted",
+                s.state === "done" ? "size-3 bg-good" : s.state === "next" ? "size-4" : "size-3 bg-ink-muted",
               )}
+              style={s.state === "next" ? { background: color, boxShadow: `0 0 0 4px color-mix(in oklab, ${color} 25%, transparent)` } : undefined}
             />
           )}
         </span>
@@ -359,9 +381,10 @@ export function RouteMap({
       {vans?.map((v) => (
         <span key={v.id} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${v.x}%`, top: `${v.y}%` }}>
           <span className="flex items-center gap-1.5 rounded-full border border-line bg-card py-1 pl-1 pr-2.5 text-[12px] font-medium text-ink shadow-float">
-            <span className="grid size-5 place-items-center rounded-full text-[11px] text-white" style={{ background: tone[v.tone] }}>
+            <span className="grid size-5 place-items-center rounded-full text-[11px] text-white" style={{ background: v.color ?? tone[v.tone] }}>
               ▲
             </span>
+            {v.color && v.tone !== "good" && v.tone !== "data" ? <span className="size-1.5 rounded-full" style={{ background: tone[v.tone] }} aria-hidden /> : null}
             {v.label}
           </span>
         </span>

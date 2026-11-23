@@ -70,9 +70,12 @@ export function SegmentBar({
   size = "md",
   className,
   label,
+  color,
 }: {
   value: number;
   total: number;
+  /** Any CSS colour for the filled segments (route colours); overrides tone. */
+  color?: string;
   tone?: "data" | "good" | "warn" | "bad" | "ink" | "brand" | "onBrand";
   size?: "sm" | "md";
   className?: string;
@@ -84,7 +87,8 @@ export function SegmentBar({
       {Array.from({ length: total }, (_, i) => (
         <span
           key={i}
-          className={cn("flex-1 rounded-full", size === "sm" ? "h-2" : "h-3", i < value ? fill : tone === "onBrand" ? "bg-[#1d1a2f]/15" : "bg-raised")}
+          className={cn("flex-1 rounded-full", size === "sm" ? "h-2" : "h-3", i < value ? (color ? "" : fill) : tone === "onBrand" ? "bg-[#1d1a2f]/15" : "bg-raised")}
+          style={i < value && color ? { background: color } : undefined}
         />
       ))}
     </div>

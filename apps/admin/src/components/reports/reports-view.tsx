@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarDays, Download } from "lucide-react";
+import { Bus, CalendarDays, Clock3, Download, ShieldAlert, Wallet } from "lucide-react";
 import { money, onTimeByWeek, revenueByWeek, vans } from "@rhk/fixtures";
 import { Delta } from "@rhk/ui/components/badge";
 import { Stat } from "@rhk/ui/components/blocks";
@@ -46,16 +46,16 @@ export function ReportsView() {
       />
       <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <Card>
-          <Stat label="Revenue collected" value={money(total, true)} delta={<Delta value={8.4} />} note="vs last term" />
+          <Stat icon={<Wallet />} iconTone="green" label="Revenue collected" value={money(total, true)} delta={<Delta value={8.4} />} note="vs last term" />
         </Card>
         <Card>
-          <Stat label="Rides given" value="1,612" delta={<Delta value={11.2} />} note="vs last term" />
+          <Stat icon={<Bus />} iconTone="yellow" label="Rides given" value="1,612" delta={<Delta value={11.2} />} note="vs last term" />
         </Card>
         <Card>
-          <Stat label="On-time rate" value="94.6" unit="%" delta={<Delta value={2.3} suffix=" pts" />} note="vs last term · goal 95%" />
+          <Stat icon={<Clock3 />} iconTone="blue" label="On-time rate" value="94.6" unit="%" delta={<Delta value={2.3} suffix=" pts" />} note="vs last term · goal 95%" />
         </Card>
         <Card>
-          <Stat label="Incidents" value="7" delta={<Delta value={-3} suffix="" goodWhen="down" />} note="vs last term · 2 open" />
+          <Stat icon={<ShieldAlert />} iconTone="coral" label="Incidents" value="7" delta={<Delta value={-3} suffix="" goodWhen="down" />} note="vs last term · 2 open" />
         </Card>
 
         <Card className="col-span-2">

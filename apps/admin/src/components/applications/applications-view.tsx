@@ -3,7 +3,9 @@
 import { useMemo, useState } from "react";
 import { ExternalLink, FileText, Inbox } from "lucide-react";
 import { applications, getSchool, serviceLabel, type Application, type ApplicationStatus } from "@rhk/fixtures";
-import { Avatar } from "@rhk/ui/components/avatar";
+import { Avatar, AvatarStack } from "@rhk/ui/components/avatar";
+import { FlowGraph } from "@rhk/ui/components/flow";
+import { cn } from "@rhk/ui/lib/cn";
 import { EmptyState } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card } from "@rhk/ui/components/card";
@@ -40,6 +42,7 @@ export function ApplicationsView() {
           </Button>
         }
       />
+      <Pipeline filter={filter} onPick={setFilter} />
       <Card flush>
         <TableToolbar
           left={
@@ -105,5 +108,61 @@ export function ApplicationsView() {
         </div>
       </Card>
     </>
+  );
+}
+
+/** The application path as a flow: website form → route confirmed and fee requested → fee paid → approved, with declines branching off. */
+function Pipeline({ filter, onPick }: { filter: Filter; onPick: (f: Filter) => void }) {
+  const stage = (
+    id: Filter,
+    title: string,
+    next: string,
+    color: string,
+    list: Application[],
+  ) => (
+    <button
+      type="button"
+      onClick={() => onPick(id)}
+      aria-pressed={filter === id}
+      className={cn(
+        "w-full rounded-2xl border bg-card p-3.5 text-left transition-[border-color,box-shadow]",
+        filter === id ? "border-ink/30 shadow-[0_0_0_1px_var(--color-ink)]" : "border-line hover:border-line-strong",
+      )}
+    >
+      <span className="flex items-center gap-2 text-[13px] text-ink-muted">
+        <span className="size-2 rounded-full" style={{ background: color }} aria-hidden />
+        {title}
+      </span>
+      <span className="mt-2 flex items-end justify-between gap-2">
+        <span className="font-display text-[28px] font-medium leading-none tracking-[-0.04em] tabular">{list.length}</span>
+        {list.length ? <AvatarStack people={list.map((a) => ({ seed: a.parent.id, name: a.parent.name }))} size={24} max={3} /> : null}
+      </span>
+      <span className="mt-2 block truncate text-[13px] text-ink-muted">{next}</span>
+    </button>
+  );
+  const by = (st: ApplicationStatus) => applications.filter((a) => a.status === st);
+  return (
+    <Card className="mb-4">
+      <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
+        <p className="text-[15px] font-medium">Path to a seat</p>
+        <p className="text-[13px] text-ink-muted">Tap a stage to filter the list</p>
+      </div>
+      <FlowGraph
+        cols={4}
+        nodes={[
+          { id: "new", col: 1, row: 1, children: stage("submitted", "Applied", "Call to confirm a route has room", "var(--color-route-2)", by("submitted")) },
+          { id: "fee", col: 2, row: 1, children: stage("route_confirmed", "Route confirmed", "$25 link sent, waiting to pay", "var(--color-bus-500)", by("route_confirmed")) },
+          { id: "paid", col: 3, row: 1, children: stage("fee_paid", "Fee paid", "Approve to create their account", "var(--color-route-3)", by("fee_paid")) },
+          { id: "ok", col: 4, row: 1, children: stage("approved", "Approved", "Account created, rides start", "var(--color-good)", by("approved")) },
+          { id: "no", col: 2, row: 2, children: stage("declined", "Declined", "No room on the route", "var(--color-ink-muted)", by("declined")) },
+        ]}
+        edges={[
+          { from: "new", to: "fee", color: "var(--color-route-2)", active: by("submitted").length > 0 },
+          { from: "fee", to: "paid", color: "var(--color-bus-500)", active: by("route_confirmed").length > 0 },
+          { from: "paid", to: "ok", color: "var(--color-route-3)", active: by("fee_paid").length > 0 },
+          { from: "new", to: "no", dashed: true },
+        ]}
+      />
+    </Card>
   );
 }

@@ -17,3 +17,7 @@ rush-hour-kids-app-prd.md
 
 # build plan, private like the PRD
 docs/PLAN.md
+
+# Vercel project links (one per portal)
+.vercel
+.env*

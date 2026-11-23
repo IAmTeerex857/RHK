@@ -25,6 +25,8 @@ import { Badge } from "@rhk/ui/components/badge";
 import { EmptyState } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader, MoreButton, Row } from "@rhk/ui/components/card";
+import { Tree } from "@rhk/ui/components/flow";
+import { routeColor } from "@rhk/ui/lib/route-color";
 import { Menu } from "@rhk/ui/components/controls";
 import { Tabs } from "@rhk/ui/components/segmented";
 import { DataTable } from "@rhk/ui/components/table";
@@ -199,6 +201,27 @@ export function FamilyDetail({ id }: { id: string }) {
             <p className="text-[13px] text-ink-muted">
               {f.emergency.relationship} · {f.emergency.phone}
             </p>
+          </Card>
+          <Card>
+            <CardHeader title="Who can receive each child" subtitle="What the driver sees at the door" />
+            <Tree
+              className="mt-3"
+              nodes={kids.map((k) => ({
+                id: k.id,
+                icon: <Avatar seed={k.id} name={k.first} size={24} />,
+                title: k.first,
+                detail: k.pmRouteId ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <span className="size-2 rounded-[3px]" style={{ background: routeColor(k.pmRouteId) }} aria-hidden />
+                    {k.pmRouteId.replace(/r-(am|pm)-/, "Route ")}
+                  </span>
+                ) : undefined,
+                children: [
+                  ...f.guardians.map((g) => ({ id: `${k.id}-${g.id}`, icon: <Avatar seed={g.id} name={g.name} size={20} />, title: g.name, detail: "Parent" })),
+                  ...k.approvedAdults.map((a) => ({ id: `${k.id}-${a.id}`, icon: <Avatar seed={a.id} name={a.name} size={20} />, title: a.name, detail: a.relationship, meta: `added ${a.addedOn}` })),
+                ],
+              }))}
+            />
           </Card>
         </div>
 

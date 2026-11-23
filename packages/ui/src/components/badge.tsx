@@ -98,12 +98,12 @@ export function Delta({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-0.5 text-[13px] font-medium tabular",
-        good === null ? "text-ink-muted" : good ? "text-good" : "text-bad",
+        "inline-flex h-6 items-center gap-0.5 rounded-full border px-2 text-[13px] font-medium tabular",
+        good === null ? toneClasses.neutral : good ? toneClasses.good : toneClasses.bad,
         className,
       )}
     >
-      <Icon className="size-3.5" aria-hidden />
+      <Icon className="size-3.5 stroke-[2]" aria-hidden />
       {value > 0 ? "+" : value < 0 ? "−" : ""}
       {Math.abs(value)}
       {suffix}

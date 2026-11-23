@@ -22,6 +22,7 @@ import {
   runs,
   type Run,
 } from "@rhk/fixtures";
+import { routeColor } from "@rhk/ui/lib/route-color";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge, Delta, StatusDot } from "@rhk/ui/components/badge";
 import { ActionRow, Stat } from "@rhk/ui/components/blocks";
@@ -60,7 +61,7 @@ export function TodayView() {
       <PageHeader
         eyebrow={
           <span className="inline-flex items-center gap-2 text-[13px] text-ink-muted">
-            <StatusDot tone="good">
+            <StatusDot tone="good" pulse>
               {NOW.dayLabel}
             </StatusDot>
             <span className="text-line-strong">/</span>
@@ -166,6 +167,7 @@ export function TodayView() {
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center justify-between gap-3">
                             <p className="truncate text-[14px] font-medium">
+                              <span className="mr-1.5 inline-block size-2 rounded-[3px] align-middle" style={{ background: routeColor(route.id) }} aria-hidden />
                               {route.name.replace(" · Afternoon", "")} <span className="font-normal text-ink-muted">· {van.name} · {driver.name.split(" ")[0]}</span>
                             </p>
                             <Badge tone={t.tone} dot>

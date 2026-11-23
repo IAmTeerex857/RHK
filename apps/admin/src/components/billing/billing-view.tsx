@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BellRing, CreditCard, Gift, Lock, Plus, Receipt, Send } from "lucide-react";
+import { AlertCircle, BellRing, CalendarClock, CalendarDays, CreditCard, Gift, Lock, Plus, Receipt, Send, Wallet } from "lucide-react";
 import {
   FEES,
   OFFICE,
@@ -13,6 +13,7 @@ import {
   money,
   payments,
   priceList,
+  revenueByWeek,
   type Invoice,
 } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
@@ -20,6 +21,7 @@ import { Badge, Delta } from "@rhk/ui/components/badge";
 import { Stat } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader, Row } from "@rhk/ui/components/card";
+import { Sparkline } from "@rhk/ui/components/charts";
 import { SearchField, Select } from "@rhk/ui/components/controls";
 import { Dialog, RadioCard, Sheet } from "@rhk/ui/components/dialog";
 import { Field } from "@rhk/ui/components/field";
@@ -77,16 +79,19 @@ export function BillingView() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Card>
-          <Stat label="Collected this week" value={money(3415)} delta={<Delta value={-12.5} />} note="vs last week" />
+          <div className="flex items-start justify-between">
+            <Stat icon={<Wallet />} iconTone="green" label="Collected this week" value={money(3415, true)} delta={<Delta value={-12.5} />} note="vs last week" />
+            <Sparkline values={revenueByWeek.map((r) => r.value)} width={96} height={40} />
+          </div>
         </Card>
         <Card>
-          <Stat label="Due today" value={money(sum(due))} note={`${due.length} bills · Fri, Nov 20`} />
+          <Stat icon={<CalendarClock />} iconTone="yellow" label="Due today" value={money(sum(due))} note={`${due.length} bills · Fri, Nov 20`} />
         </Card>
         <Card>
-          <Stat label="Overdue" value={<span className="text-bad">{money(sum(overdue))}</span>} note={`${overdue.length} families · reminders weekly`} />
+          <Stat icon={<AlertCircle />} iconTone="coral" label="Overdue" value={<span className="text-bad">{money(sum(overdue))}</span>} note={`${overdue.length} families · reminders weekly`} />
         </Card>
         <Card>
-          <Stat label="Next due dates" value="Nov 27" note="Weekly · then Dec 11 for monthly" />
+          <Stat icon={<CalendarDays />} iconTone="blue" label="Next due dates" value="Nov 27" note="Weekly · then Dec 11 for monthly" />
         </Card>
       </div>
 

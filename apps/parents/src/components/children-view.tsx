@@ -72,7 +72,7 @@ export function ChildView({ id }: { id: string }) {
       <div className="flex flex-col gap-5 pb-6 pt-4 sm:flex-row sm:items-center lg:pt-6">
         <label className="group relative w-fit cursor-pointer">
           <Avatar seed={c.id} name={c.first} photo={photo} size={88} />
-          <span className="absolute -bottom-1 -right-1 grid size-8 place-items-center rounded-full border-2 border-canvas bg-ink text-cream transition-colors group-hover:bg-ink/85">
+          <span className="absolute -bottom-1 -right-1 grid size-8 place-items-center rounded-full border-2 border-canvas bg-ink text-cream transition-transform group-hover:scale-105">
             <Camera className="size-3.5" />
           </span>
           <input

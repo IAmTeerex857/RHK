@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { GripVertical, HeartPulse, Pencil, Printer } from "lucide-react";
-import { getChild, getDriver, getRoute, getSchool, getVan, runFor } from "@rhk/fixtures";
+import { Check, GripVertical, HeartPulse, Pencil, Printer } from "lucide-react";
+import { audit, getChild, getDriver, getFamily, getRoute, getSchool, getVan, runFor, type Route, type Run } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
 import { RouteMap } from "@rhk/ui/components/blocks";
 import { Button } from "@rhk/ui/components/button";
 import { Card, CardHeader, Row } from "@rhk/ui/components/card";
 import { SegmentBar } from "@rhk/ui/components/charts";
+import { Tree, type TreeNode } from "@rhk/ui/components/flow";
+import { routeColor } from "@rhk/ui/lib/route-color";
 import { Crumb, PageHeader } from "@rhk/ui/shell/app-shell";
 import { cn } from "@rhk/ui/lib/cn";
 import { runTone } from "../today/today-view";
@@ -52,6 +54,7 @@ export function RouteDetail({ id }: { id: string }) {
               state: s.kind === "school" ? "school" : hover === s.id ? "next" : run?.stops.find((x) => x.stopId === s.id)?.state === "done" ? "done" : "todo",
             }))}
             van={run && run.status !== "not_started" ? { ...run.van, label: van.name } : undefined}
+            color={routeColor(r.id)}
           />
         </Card>
         <Card flush className="lg:col-span-5">
@@ -116,9 +119,9 @@ export function RouteDetail({ id }: { id: string }) {
             <Row label="Camera / GPS" value={<span className="text-ink-muted">Not installed yet</span>} />
           </div>
           <div className="mt-4">
-            <SegmentBar value={riders.length} total={van.capacity} tone="ink" size="sm" label="Seats used" />
+            <SegmentBar value={riders.length} total={van.capacity} color={routeColor(r.id)} size="sm" label="Seats used" />
             <p className="mt-2 font-mono text-[12px] text-ink-muted">
-              {riders.length} / {van.capacity} SEATS USED
+              {riders.length} / {van.capacity} seats used
             </p>
           </div>
         </Card>
@@ -145,14 +148,89 @@ export function RouteDetail({ id }: { id: string }) {
                 <li key={sid} className="rounded-xl bg-raised px-4 py-3">
                   <p className="text-[14px] font-medium">{s.name}</p>
                   <p className="mt-0.5 font-mono text-[12px] text-ink-muted">
-                    BELL {s.bellAm} · RELEASE {s.bellPm}
+                    Bell {s.bellAm} · release {s.bellPm}
                   </p>
                 </li>
               );
             })}
           </ul>
         </Card>
+        <Card className="lg:col-span-12">
+          <CardHeader
+            title={run ? "This run, stop by stop" : "Stops and riders"}
+            subtitle={run ? "Every check-on and hand-off the driver taps, as it happens" : "Who gets on and off where"}
+            actions={
+              <span className="flex items-center gap-2 text-[13px] text-ink-muted">
+                <span className="size-2 rounded-[3px]" style={{ background: routeColor(r.id) }} aria-hidden />
+                {r.name.split(" · ")[0]}
+              </span>
+            }
+          />
+          <Tree className="mt-4" nodes={runTree(r, run)} />
+        </Card>
       </div>
     </>
   );
+}
+
+/** Stops as branches, children as leaves, with what happened to each child. */
+function runTree(r: Route, run: Run | undefined): TreeNode[] {
+  const color = routeColor(r.id);
+  return r.stops.map((s, i) => {
+    const st = run?.stops.find((x) => x.stopId === s.id);
+    const state = run ? (st?.state ?? "todo") : r.slot === "am" ? "done" : "todo";
+    const icon =
+      s.kind === "school" ? (
+        <span className="grid size-6 place-items-center rounded-md bg-ink font-mono text-[11px] font-medium text-cream">S</span>
+      ) : state === "done" ? (
+        <span className="grid size-5 place-items-center rounded-full bg-good text-white">
+          <Check className="!size-3 stroke-[3]" />
+        </span>
+      ) : state === "next" ? (
+        <span className="grid size-5 place-items-center rounded-full border-2 bg-card" style={{ borderColor: color }}>
+          <span className="size-1.5 rounded-full" style={{ background: color }} />
+        </span>
+      ) : (
+        <span className="size-4 rounded-full border border-line-strong bg-card" />
+      );
+    const kids = s.kind === "school" || s.kind === "home" ? s.childIds : [];
+    return {
+      id: s.id,
+      icon,
+      title: s.kind === "home" ? `${s.label} home` : s.label,
+      detail: s.kind === "satellite" ? "satellite lot, no riders today" : `${s.address}`,
+      meta: st?.at ?? (state === "next" && st?.eta ? `ETA ${st.eta.replace(" PM", "")}` : s.time.replace(/ (AM|PM)/, "")),
+      tone: state === "todo" ? "muted" : "default",
+      children: kids.map((cid) => {
+        const c = getChild(cid);
+        const handed = audit.find((a) => a.target === `${c.first} ${c.last}` && a.action === "Dropped off");
+        const guardian = getFamily(c.familyId).guardians[0].name;
+        const pickup = s.kind === "school" || (r.slot === "am" && i < r.stops.length - 1);
+        const detail =
+          state === "done"
+            ? pickup
+              ? `Checked on ${st?.at ?? s.time}`
+              : `Handed to ${handed ? handed.detail.replace("Received by ", "") : `${guardian} (parent)`}`
+            : state === "next"
+              ? pickup
+                ? "Waiting at pickup"
+                : "On board · drop-off next"
+              : pickup
+                ? "Expected"
+                : "On board";
+        return {
+          id: `${s.id}-${cid}`,
+          icon: <Avatar seed={c.id} name={c.first} size={22} />,
+          title: (
+            <span className="inline-flex items-center gap-1.5">
+              {c.first} {c.last}
+              {c.medical ? <HeartPulse className="size-3.5 text-bad" aria-label={c.medical} /> : null}
+            </span>
+          ),
+          detail,
+          tone: state === "done" ? "default" : "muted",
+        } satisfies TreeNode;
+      }),
+    } satisfies TreeNode;
+  });
 }

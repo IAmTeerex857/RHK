@@ -146,7 +146,7 @@ export function RadioCard({
         <input type="radio" name={name} checked={checked} onChange={onChange} className="peer absolute inset-0 cursor-pointer opacity-0" />
         <span
           className={cn(
-            "size-6 rounded-full border transition-[border-width,border-color,box-shadow] duration-150 peer-focus-visible:shadow-[0_0_0_4px_var(--color-sky-soft)]",
+            "size-6 rounded-full border transition-all peer-focus-visible:shadow-[0_0_0_4px_var(--color-sky-soft)]",
             checked ? "border-[7px] border-ink bg-card" : "border-line-strong bg-card",
           )}
           aria-hidden

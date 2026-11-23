@@ -23,13 +23,31 @@ import {
   UserPlus,
 } from "lucide-react";
 import type { ReactNode } from "react";
-import { adminNotices, applications, changeRequests, conversations, incidents, ME } from "@rhk/fixtures";
+import { adminNotices, applications, changeRequests, conversations, incidents, ME, routes, runFor } from "@rhk/fixtures";
 import { AppShell, type NavGroup, type NavItem } from "@rhk/ui/shell/app-shell";
+import { routeColor } from "@rhk/ui/lib/route-color";
 
 const waiting = applications.filter((a) => a.status === "submitted" || a.status === "fee_paid").length;
 const pendingChanges = changeRequests.filter((c) => c.status === "pending").length;
 const unread = conversations.reduce((s, c) => s + c.unread, 0);
 const openIncidents = incidents.filter((i) => i.status !== "closed").length;
+
+/* This afternoon's routes, nested under Routes with their colour and live status. */
+const liveRoutes: NavItem[] = routes
+  .filter((r) => r.slot === "pm")
+  .map((r) => {
+    const run = runFor(r.id);
+    const late = run?.status === "late";
+    return {
+      href: `/routes/${r.id}`,
+      label: r.name.split(" · ")[0],
+      icon: RouteIcon,
+      dot: routeColor(r.id),
+      meta: !run || run.status === "not_started" ? "soon" : late ? `${run.lateMinutes}m late` : run.lateMinutes ? `+${run.lateMinutes}m` : "on time",
+      metaTone: late ? "bad" : "muted",
+    } satisfies NavItem;
+  })
+  .sort((a, b) => a.label.localeCompare(b.label));
 
 const today: NavItem = { href: "/", label: "Today", icon: LayoutGrid, key: "t", exact: true };
 const live: NavItem = { href: "/live", label: "Live map", icon: Map, key: "l" };
@@ -44,7 +62,7 @@ const nav: NavGroup[] = [
       apps,
       { href: "/families", label: "Families", icon: Users, key: "f" },
       { href: "/schedules", label: "Schedules", icon: CalendarClock, key: "s", count: pendingChanges },
-      { href: "/routes", label: "Routes", icon: RouteIcon, key: "r" },
+      { href: "/routes", label: "Routes", icon: RouteIcon, key: "r", children: liveRoutes },
       { href: "/programs", label: "Trips & programs", icon: Ticket, key: "p" },
     ],
   },

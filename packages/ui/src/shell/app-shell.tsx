@@ -33,6 +33,13 @@ export type NavItem = {
   /** "G" then this key jumps here. */
   key?: string;
   exact?: boolean;
+  /** A colour dot in place of the icon (route colours, projects). */
+  dot?: string;
+  /** Short mono text on the right, like "8m late". */
+  meta?: string;
+  metaTone?: "muted" | "bad";
+  /** Nested items, drawn as a tree under this one in the sidebar. */
+  children?: NavItem[];
 };
 export type NavGroup = { label?: string; items: NavItem[] };
 
@@ -75,7 +82,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
   const [drawer, setDrawer] = useState(false);
   const [palette, setPalette] = useState(false);
   const [crumb, setCrumb] = useState<string | null>(null);
-  const flat = useMemo(() => nav.flatMap((g) => g.items), [nav]);
+  const flat = useMemo(() => nav.flatMap((g) => g.items.flatMap((i) => [i, ...(i.children ?? [])])), [nav]);
   const current = useMemo(
     () => [...flat].sort((a, b) => b.href.length - a.href.length).find((i) => isActive(pathname, i)),
     [flat, pathname],
@@ -186,6 +193,17 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
                   {group.items.map((item) => (
                     <li key={item.href}>
                       <SideLink item={item} active={current?.href === item.href} collapsed={collapsed} />
+                      {item.children?.length && !collapsed ? (
+                        <ul className="relative mb-1 ml-[19px] mt-px flex flex-col gap-px">
+                          {item.children.map((c, ci) => (
+                            <li key={c.href} className="relative pl-3.5">
+                              {ci < item.children!.length - 1 ? <span aria-hidden className="absolute bottom-0 left-0 top-0 w-px bg-line-strong" /> : null}
+                              <span aria-hidden className="absolute left-0 top-0 h-[18px] w-2.5 rounded-bl-[6px] border-b border-l border-line-strong" />
+                              <SideLink item={c} active={current?.href === c.href} collapsed={false} sub />
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
                     </li>
                   ))}
                 </ul>
@@ -306,7 +324,20 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
                     <div key={gi} className={gi ? "mt-5" : undefined}>
                       {group.label ? <p className="mb-1 px-2.5 text-[12px] font-medium text-ink-muted">{group.label}</p> : null}
                       {group.items.map((item) => (
-                        <SideLink key={item.href} item={item} active={current?.href === item.href} collapsed={false} large />
+                        <div key={item.href}>
+                          <SideLink item={item} active={current?.href === item.href} collapsed={false} large />
+                          {item.children?.length ? (
+                            <div className="relative ml-[21px] flex flex-col gap-px">
+                              {item.children.map((c, ci) => (
+                                <div key={c.href} className="relative pl-3.5">
+                                  {ci < item.children!.length - 1 ? <span aria-hidden className="absolute bottom-0 left-0 top-0 w-px bg-line-strong" /> : null}
+                                  <span aria-hidden className="absolute left-0 top-0 h-[20px] w-2.5 rounded-bl-[6px] border-b border-l border-line-strong" />
+                                  <SideLink item={c} active={current?.href === c.href} collapsed={false} sub />
+                                </div>
+                              ))}
+                            </div>
+                          ) : null}
+                        </div>
                       ))}
                     </div>
                   ))}
@@ -327,7 +358,7 @@ export function AppShell({ app, nav, user, notices = [], tabs, fab, sidebarFoote
 
 /* ------------------------------------------------------------------ pieces */
 
-function SideLink({ item, active, collapsed, large }: { item: NavItem; active: boolean; collapsed: boolean; large?: boolean }) {
+function SideLink({ item, active, collapsed, large, sub }: { item: NavItem; active: boolean; collapsed: boolean; large?: boolean; sub?: boolean }) {
   const Icon = item.icon;
   return (
     <Link
@@ -336,15 +367,22 @@ function SideLink({ item, active, collapsed, large }: { item: NavItem; active: b
       title={collapsed ? item.label + (item.key ? `  ·  G then ${item.key.toUpperCase()}` : "") : undefined}
       className={cn(
         "group relative flex items-center gap-2.5 rounded-[10px] border text-[14px] transition-colors duration-150",
-        large ? "h-11 px-3" : "h-9 px-2.5",
+        large ? "h-11 px-3" : sub ? "h-8 px-2 text-[13px]" : "h-9 px-2.5",
         collapsed && "justify-center px-0",
         active
           ? "border-line bg-card font-medium text-ink shadow-[0_1px_2px_rgb(0_0_0/0.04)]"
           : "border-transparent text-ink-soft hover:bg-[color-mix(in_oklab,var(--color-card)_60%,transparent)] hover:text-ink",
       )}
     >
-      <Icon className={cn("size-[17px] shrink-0", active ? "text-ink" : "text-ink-muted group-hover:text-ink")} />
+      {item.dot ? (
+        <span className="grid size-[17px] shrink-0 place-items-center" aria-hidden>
+          <span className="size-2 rounded-[3px]" style={{ background: item.dot }} />
+        </span>
+      ) : (
+        <Icon className={cn("size-[17px] shrink-0", active ? "text-ink" : "text-ink-muted group-hover:text-ink")} />
+      )}
       {!collapsed ? <span className="flex-1 truncate">{item.label}</span> : null}
+      {item.meta && !collapsed ? <span className={cn("shrink-0 font-mono text-[12px] tabular", item.metaTone === "bad" ? "text-bad" : "text-ink-muted")}>{item.meta}</span> : null}
       {item.count !== undefined && item.count > 0 ? (
         collapsed ? (
           <span className={cn("absolute right-1.5 top-1.5 size-2 rounded-full", item.alert ? "bg-coral" : "bg-ink-muted")} />

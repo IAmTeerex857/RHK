@@ -92,10 +92,9 @@ export const Field = forwardRef<HTMLInputElement, FieldProps>(function Field(
         <label
           htmlFor={inputId}
           className={cn(
-            /* Floats with a transform (12px label scaled 1.25 = 15px), so nothing animates layout. */
-            "pointer-events-none absolute left-4 top-[14px] origin-left translate-y-[6px] scale-[1.25] text-[12px] text-ink-muted transition-[transform,color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            "peer-focus:translate-y-0 peer-focus:scale-100 peer-focus:font-medium peer-focus:text-ink-soft",
-            "peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:scale-100 peer-[:not(:placeholder-shown)]:font-medium",
+            "pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[15px] text-ink-muted transition-all duration-200",
+            "peer-focus:top-[14px] peer-focus:text-[12px] peer-focus:font-semibold peer-focus:text-ink-soft",
+            "peer-[:not(:placeholder-shown)]:top-[14px] peer-[:not(:placeholder-shown)]:text-[12px] peer-[:not(:placeholder-shown)]:font-semibold",
             icon && "left-11",
           )}
         >
@@ -156,9 +155,9 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(function 
         <label
           htmlFor={areaId}
           className={cn(
-            "pointer-events-none absolute left-4 top-[10px] origin-left translate-y-[11px] scale-[1.25] text-[12px] text-ink-muted transition-[transform,color] duration-200 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            "peer-focus:translate-y-0 peer-focus:scale-100 peer-focus:font-medium peer-focus:text-ink-soft",
-            "peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:scale-100 peer-[:not(:placeholder-shown)]:font-medium",
+            "pointer-events-none absolute left-4 top-[18px] text-[15px] text-ink-muted transition-all duration-200",
+            "peer-focus:top-[10px] peer-focus:text-[12px] peer-focus:font-semibold peer-focus:text-ink-soft",
+            "peer-[:not(:placeholder-shown)]:top-[10px] peer-[:not(:placeholder-shown)]:text-[12px] peer-[:not(:placeholder-shown)]:font-semibold",
           )}
         >
           {label}

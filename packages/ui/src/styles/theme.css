@@ -49,6 +49,12 @@
   --color-data-600: #1c5cab;
   --color-data-700: #0d366b;
 
+  /* Route colours (one per van route), for map vans, flows, trees and sidebar dots. */
+  --color-route-1: #0fa595;
+  --color-route-2: #2a78d6;
+  --color-route-3: #8b5cf6;
+  --color-route-4: #f2711c;
+
   /* Status: reserved for state, always shipped with an icon or a word. */
   --color-good: #12a150;
   --color-warn: #d99a00;
@@ -105,6 +111,10 @@
     --color-data-300: #24538d;
     --color-data-400: #3987e5;
     --color-data-500: #5598e7;
+    --color-route-1: #2dd4bf;
+    --color-route-2: #5598e7;
+    --color-route-3: #a78bfa;
+    --color-route-4: #fb923c;
     --color-data-600: #86b6ef;
     --color-data-700: #b7d3f6;
     --color-good: #3fc48a;

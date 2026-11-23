@@ -74,10 +74,10 @@ export function HomeView() {
             </Link>
           ) : null}
           <div className="grid grid-cols-2 gap-2.5">
-            <Quick href="/schedule" icon={<CalendarX2 className="size-5" />} label="Report an absence" />
-            <Quick href="/schedule" icon={<Repeat className="size-5" />} label="Request a change" />
-            <Quick href={`/children/${kids[0].id}`} icon={<UserCheck className="size-5" />} label="Approved adults" />
-            <Quick href="/messages" icon={<MessageSquare className="size-5" />} label="Message the office" />
+            <Quick href="/schedule" color="var(--color-coral)" icon={<CalendarX2 />} label="Report an absence" />
+            <Quick href="/schedule" color="var(--color-route-3)" icon={<Repeat />} label="Request a change" />
+            <Quick href={`/children/${kids[0].id}`} color="var(--color-route-1)" icon={<UserCheck />} label="Approved adults" />
+            <Quick href="/messages" color="var(--color-route-2)" icon={<MessageSquare />} label="Message the office" />
           </div>
         </div>
 
@@ -132,10 +132,12 @@ export function HomeView() {
   );
 }
 
-function Quick({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
+function Quick({ href, icon, label, color }: { href: string; icon: React.ReactNode; label: string; color: string }) {
   return (
     <Link href={href} className={cn("flex min-h-[92px] flex-col justify-between rounded-2xl border border-line bg-card p-4 transition-colors hover:border-line-strong active:scale-[0.99]")}>
-      <span className="text-ink-soft">{icon}</span>
+      <span className="grid size-8 place-items-center rounded-[10px] text-white [&_svg]:size-4" style={{ background: color }}>
+        {icon}
+      </span>
       <span className="text-[14px] font-medium leading-tight">{label}</span>
     </Link>
   );

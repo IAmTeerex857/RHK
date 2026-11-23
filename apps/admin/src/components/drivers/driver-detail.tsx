@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle2, Circle, Clock3, MessageSquare, Phone } from "lucide-react";
+import { CheckCircle2, Circle, Clock3, Gauge, GraduationCap, MessageSquare, Phone, Timer } from "lucide-react";
 import { courses, getDriver, getVan, routesFor, shifts, timeOff } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge, Delta } from "@rhk/ui/components/badge";
@@ -49,16 +49,16 @@ export function DriverDetail({ id }: { id: string }) {
       />
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
         <Card className="lg:col-span-3">
-          <Stat label="Hours this week" value={d.hoursThisWeek.toFixed(1)} unit="h" size="lg" delta={<Delta value={2.5} suffix="h" />} note="vs last week" />
+          <Stat icon={<Clock3 />} iconTone="blue" label="Hours this week" value={d.hoursThisWeek.toFixed(1)} unit="h" size="lg" delta={<Delta value={2.5} suffix="h" />} note="vs last week" />
         </Card>
         <Card className="lg:col-span-3">
-          <Stat label="On time" value={Math.round(d.onTimeRate * 100)} unit="%" size="lg" delta={<Delta value={1} suffix=" pt" />} note="vs last term" />
+          <Stat icon={<Timer />} iconTone="green" label="On time" value={Math.round(d.onTimeRate * 100)} unit="%" size="lg" delta={<Delta value={1} suffix=" pt" />} note="vs last term" />
         </Card>
         <Card className="lg:col-span-3">
-          <Stat label="Miles this week" value={weekMiles.toFixed(0)} unit="mi" size="lg" note={van ? `${van.name} odometer` : "From check-ins"} />
+          <Stat icon={<Gauge />} iconTone="orange" label="Miles this week" value={weekMiles.toFixed(0)} unit="mi" size="lg" note={van ? `${van.name} odometer` : "From check-ins"} />
         </Card>
         <Card className="lg:col-span-3">
-          <Stat label="Training" value={`${d.trainingDone}/${d.trainingTotal}`} size="lg" note={d.trainingDone === d.trainingTotal ? "All courses done" : "Courses still open"} />
+          <Stat icon={<GraduationCap />} iconTone="violet" label="Training" value={`${d.trainingDone}/${d.trainingTotal}`} size="lg" note={d.trainingDone === d.trainingTotal ? "All courses done" : "Courses still open"} />
         </Card>
 
         <Card className="lg:col-span-7">

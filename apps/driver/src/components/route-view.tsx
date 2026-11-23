@@ -27,6 +27,7 @@ import { Card, CardHeader } from "@rhk/ui/components/card";
 import { Ring } from "@rhk/ui/components/charts";
 import { Dialog } from "@rhk/ui/components/dialog";
 import { cn } from "@rhk/ui/lib/cn";
+import { routeColor } from "@rhk/ui/lib/route-color";
 import { LateDialog } from "./frame";
 import { kidsAt, mmss, receivers, route, stopName, stopResolved, useRun, useWait, van, type ChildRec } from "./run-store";
 
@@ -68,9 +69,9 @@ export function RouteView() {
           {run.phase === "live" && stop ? <CurrentStop stop={stop} /> : <Finished />}
 
           <div className="grid grid-cols-3 gap-2">
-            <QuickAction icon={<Timer className="size-5" />} label="Running late" onClick={() => setLate(true)} />
-            <QuickAction icon={<ShieldAlert className="size-5" />} label="Report" href="/report" />
-            <QuickAction icon={<Phone className="size-5" />} label="Call office" href={`tel:${OFFICE.phone}`} />
+            <QuickAction color="var(--color-route-4)" icon={<Timer />} label="Running late" onClick={() => setLate(true)} />
+            <QuickAction color="var(--color-coral)" icon={<ShieldAlert />} label="Report" href="/report" />
+            <QuickAction color="var(--color-good)" icon={<Phone />} label="Call office" href={`tel:${OFFICE.phone}`} />
           </div>
         </div>
 
@@ -391,6 +392,7 @@ function LiveMap() {
   return (
     <RouteMap
       className="h-[260px] lg:h-[300px]"
+      color={routeColor(route.id)}
       stops={route.stops.map((s, idx) => ({
         id: s.id,
         x: s.x,
@@ -424,9 +426,14 @@ function stopSteps(run: ReturnType<typeof useRun>): Step[] {
   });
 }
 
-function QuickAction({ icon, label, href, onClick }: { icon: React.ReactNode; label: string; href?: string; onClick?: () => void }) {
+function QuickAction({ icon: glyph, label, href, onClick, color }: { icon: React.ReactNode; label: string; href?: string; onClick?: () => void; color: string }) {
   const cls =
-    "flex h-[76px] flex-col items-center justify-center gap-1.5 rounded-2xl border border-line bg-card text-[13px] font-medium text-ink transition-colors hover:bg-raised/60 active:scale-[0.98]";
+    "flex h-[84px] flex-col items-center justify-center gap-2 rounded-2xl border border-line bg-card text-[13px] font-medium text-ink transition-colors hover:bg-raised/60 active:scale-[0.98]";
+  const icon = (
+    <span className="grid size-8 place-items-center rounded-[10px] text-white [&_svg]:size-4" style={{ background: color }}>
+      {glyph}
+    </span>
+  );
   if (href?.startsWith("/"))
     return (
       <Link href={href} className={cls}>
