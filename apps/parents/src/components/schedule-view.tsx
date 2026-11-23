@@ -200,7 +200,7 @@ function SlotCell({ label, time, state }: { label: string; time: string; state: 
 }
 
 function AbsenceDialog({ open, onClose, onSend }: { open: boolean; onClose: () => void; onSend: (a: Absence) => void }) {
-  const [who, setWho] = useState<string[]>(kids.map((k) => k.id));
+  const [who, setWho] = useState<string[]>([]);
   const [day, setDay] = useState<DayKey>("nov-23");
   const [slot, setSlot] = useState<Slot>("both");
   const [reason, setReason] = useState("");
@@ -226,7 +226,7 @@ function AbsenceDialog({ open, onClose, onSend }: { open: boolean; onClose: () =
         </>
       }
     >
-      <p className="mb-2.5 text-[13px] font-medium text-ink-soft">Who?</p>
+      <p className="mb-2.5 text-[13px] font-medium text-ink-soft">Who&apos;s staying home?</p>
       <div className="flex flex-wrap gap-2">
         {kids.map((k) => {
           const on = who.includes(k.id);
