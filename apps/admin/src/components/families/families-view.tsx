@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { FileSpreadsheet, Plus, Upload, Users } from "lucide-react";
-import { childrenOf, families, money, priceList, schools } from "@rhk/fixtures";
+import { childrenOf, families, money, schools } from "@rhk/fixtures";
 import { Avatar, AvatarStack } from "@rhk/ui/components/avatar";
 import { Badge } from "@rhk/ui/components/badge";
 import { EmptyState } from "@rhk/ui/components/blocks";
@@ -23,9 +23,8 @@ export function FamiliesView() {
   const [importOpen, setImportOpen] = useState(false);
   const [addOpen, setAddOpen] = useState(false);
   const [file, setFile] = useState<{ name: string; size: number; rows: string[][] | null } | null>(null);
-  const [nf, setNf] = useState({ name: "", email: "", phone: "", address: "", first: "", last: "", school: schools[0].id, service: "both", plan: "weekly", price: "list", custom: "", reason: "" });
+  const [nf, setNf] = useState({ name: "", email: "", phone: "", address: "", first: "", last: "", school: schools[0].id, service: "both", plan: "weekly", price: "", note: "" });
   const [addErr, setAddErr] = useState<string | undefined>();
-  const listPrice = priceList.find((p) => p.service === nf.service);
   const closeImport = () => {
     setImportOpen(false);
     setFile(null);
@@ -33,11 +32,11 @@ export function FamiliesView() {
   const create = () => {
     if (!nf.name.trim() || !nf.first.trim() || !nf.last.trim()) return setAddErr("Add the parent's name and the child's first and last name.");
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(nf.email)) return setAddErr("Enter the parent's email. The invite goes there.");
-    if (nf.price === "custom" && !(Number(nf.custom) > 0)) return setAddErr("Enter the custom price, or use the price list.");
+    if (!(Number(nf.price) > 0)) return setAddErr(`Enter this child's price per ${nf.plan === "weekly" ? "week" : "month"}.`);
     setAddErr(undefined);
     setAddOpen(false);
     toast(`${nf.name.trim().split(" ").slice(-1)[0]} family created`, { body: `Set-password email sent to ${nf.email}` });
-    setNf((x) => ({ ...x, name: "", email: "", phone: "", address: "", first: "", last: "", price: "list", custom: "", reason: "" }));
+    setNf((x) => ({ ...x, name: "", email: "", phone: "", address: "", first: "", last: "", price: "", note: "" }));
   };
   const rows = useMemo(
     () =>
@@ -313,19 +312,9 @@ export function FamiliesView() {
               <option value="weekly">Weekly · due Fridays</option>
               <option value="monthly">Monthly · due 2nd Friday</option>
             </Select>
-            <Select label="Price" value={nf.price} onChange={(e) => setNf((x) => ({ ...x, price: e.target.value }))}>
-              <option value="list">
-                From price list ({listPrice ? money(nf.plan === "weekly" ? listPrice.weekly : listPrice.monthly) : "not set"} / {nf.plan === "weekly" ? "week" : "month"})
-              </option>
-              <option value="custom">Custom price</option>
-            </Select>
+            <Field label={`Price per ${nf.plan === "weekly" ? "week" : "month"}`} inputMode="decimal" value={nf.price} onChange={(e) => setNf((x) => ({ ...x, price: e.target.value }))} />
           </div>
-          {nf.price === "custom" ? (
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <Field label={`Price per ${nf.plan === "weekly" ? "week" : "month"}`} inputMode="decimal" value={nf.custom} onChange={(e) => setNf((x) => ({ ...x, custom: e.target.value }))} />
-              <Field label="Reason" hint="For example: sibling half off" value={nf.reason} onChange={(e) => setNf((x) => ({ ...x, reason: e.target.value }))} />
-            </div>
-          ) : null}
+          <Field label="Price note" hint="Optional. For example: sibling half off" value={nf.note} onChange={(e) => setNf((x) => ({ ...x, note: e.target.value }))} />
           {addErr ? <p className="text-[13px] font-medium text-bad">{addErr}</p> : null}
         </div>
       </Sheet>

@@ -104,15 +104,10 @@ function ChildCard({ c }: { c: Child }) {
         <Row
           label="Price"
           value={
-            c.priceOverride ? (
-              <span className="flex items-center justify-end gap-2">
-                <span className="text-ink-muted line-through">{money(c.price)}</span>
-                {money(c.priceOverride.amount)}
-                <Badge tone="lilac">{c.priceOverride.reason}</Badge>
-              </span>
-            ) : (
-              `${money(c.price)} · price list`
-            )
+            <span className="flex items-center justify-end gap-2">
+              {money(c.price)}
+              {c.priceNote ? <Badge tone="lilac">{c.priceNote}</Badge> : null}
+            </span>
           }
         />
       </div>

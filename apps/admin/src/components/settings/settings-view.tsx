@@ -121,7 +121,7 @@ export function SettingsView() {
           <Card>
             <CardHeader title="How families pay" subtitle="Shown on every bill and reminder" />
             <div className="mt-4 flex flex-col gap-3">
-              <Field label="Zelle" defaultValue={OFFICE.zelle} />
+              <Field label="Zelle" hint="The phone number or email the business Zelle is linked to" defaultValue={OFFICE.zelle} />
               <Field label="Cash App" defaultValue={OFFICE.cashApp} />
               <Row label="Card and auto-pay" value={<Badge>Needs Stripe</Badge>} />
               <Button variant="ink" size="sm" className="mt-1 self-start" onClick={() => toast("Payment details saved", { body: "Shown on the next bills and reminders." })}>

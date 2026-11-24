@@ -195,19 +195,8 @@ export function ChildView({ id }: { id: string }) {
           <Card>
             <CardHeader title="Price" />
             <div className="mt-3">
-              {c.priceOverride ? (
-                <Row
-                  label={c.priceOverride.reason}
-                  value={
-                    <span className="flex items-baseline gap-2">
-                      <span className="text-[13px] text-ink-muted line-through">{money(c.price)}</span>
-                      <span className="font-medium">{money(c.priceOverride.amount)}</span>
-                    </span>
-                  }
-                />
-              ) : (
-                <Row label={serviceLabel[c.service]} value={money(c.price)} />
-              )}
+              <Row label={serviceLabel[c.service]} value={money(c.price)} />
+              {c.priceNote ? <Row label="Note" value={c.priceNote} /> : null}
               <Row label="Billed" value={family.cadence === "weekly" ? "Weekly, due Fridays" : "Monthly, due the second Friday"} />
             </div>
           </Card>

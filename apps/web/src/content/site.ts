@@ -166,7 +166,7 @@ export const appFeatures = [
   { title: "Message the office", body: "A private chat with our office. Announcements arrive here too." },
 ];
 
-// CONFIRM: answers below follow the PRD; pricing details and policies are still open questions for Clara.
+// Clara confirmed (Nov 2026): there is no set price list; each child's price is quoted and set by the office.
 export const faqs = [
   {
     q: "How do I sign my child up?",

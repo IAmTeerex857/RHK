@@ -12,10 +12,10 @@ import {
   methodLabel,
   money,
   payments,
-  priceList,
+  children,
   revenueByWeek,
   type Invoice,
-  type PriceItem,
+  serviceLabel,
 } from "@rhk/fixtures";
 import { Avatar } from "@rhk/ui/components/avatar";
 import { Badge, Delta } from "@rhk/ui/components/badge";
@@ -40,10 +40,8 @@ export function BillingView() {
   const [method, setMethod] = useState("zelle");
   const [q, setQ] = useState("");
   const [remind, setRemind] = useState(false);
-  const [prices, setPrices] = useState<PriceItem[]>(priceList);
-  const [priceDraft, setPriceDraft] = useState<Record<string, { weekly: string; monthly: string }>>({});
-  const [addPrice, setAddPrice] = useState(false);
-  const [np, setNp] = useState({ label: "", service: "both" as PriceItem["service"], weekly: "", monthly: "" });
+  const [prices, setPrices] = useState<Record<string, number>>(() => Object.fromEntries(children.map((c) => [c.id, c.price])));
+  const [priceDraft, setPriceDraft] = useState<Record<string, string>>({});
   const [credit, setCredit] = useState(false);
   const [credits, setCredits] = useState<Record<string, { amount: number; reason: string }[]>>({});
   const [cr, setCr] = useState({ amount: "", reason: "" });
@@ -122,7 +120,7 @@ export function BillingView() {
         options={[
           { value: "bills", label: "Bills", count: invoices.length },
           { value: "payments", label: "Payments", count: payments.length },
-          { value: "prices", label: "Price list" },
+          { value: "prices", label: "Prices", count: children.length },
         ]}
       />
 
@@ -144,7 +142,7 @@ export function BillingView() {
           />
           <DataTable
             rows={rows}
-            empty={<EmptyState icon={<Receipt />} title={billFilter === "overdue" ? "No overdue bills" : billFilter === "due" ? "Nothing due right now" : "No bills yet"} body={q ? "Try another family name or bill number." : "Bills are made each week and month from the price list."} />}
+            empty={<EmptyState icon={<Receipt />} title={billFilter === "overdue" ? "No overdue bills" : billFilter === "due" ? "Nothing due right now" : "No bills yet"} body={q ? "Try another family name or bill number." : "Bills are made each week and month from each child's price."} />}
             rowKey={(i) => i.id}
             onRowClick={setBill}
             columns={[
@@ -193,52 +191,51 @@ export function BillingView() {
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
           <Card flush className="lg:col-span-8">
             <div className="flex items-center justify-between p-5">
-              <CardHeader title="Service prices" subtitle="Each child gets a price from this list. Override per child for siblings and deals." />
-              <div className="flex shrink-0 gap-2">
-                {pricesChanged ? (
-                  <Button
-                    variant="ink"
-                    size="xs"
-                    onClick={() => {
-                      setPrices((list) => list.map((p) => (priceDraft[p.id] ? { ...p, weekly: num(priceDraft[p.id].weekly) || p.weekly, monthly: num(priceDraft[p.id].monthly) || p.monthly } : p)));
-                      setPriceDraft({});
-                      toast("Prices saved", { body: "New bills use them. Existing bills and overrides stay the same." });
-                    }}
-                  >
-                    Save prices
-                  </Button>
-                ) : null}
-                <Button variant="outline" size="xs" icon={<Plus />} onClick={() => setAddPrice(true)}>
-                  Add price
+              <CardHeader title="Child prices" subtitle="There's no set price list. Each child has their own price, set when they join." />
+              {pricesChanged ? (
+                <Button
+                  variant="ink"
+                  size="xs"
+                  onClick={() => {
+                    setPrices((all) => ({ ...all, ...Object.fromEntries(Object.entries(priceDraft).map(([id, v]) => [id, num(v) || all[id]])) }));
+                    setPriceDraft({});
+                    toast("Prices saved", { body: "New bills use them. Bills already sent stay the same." });
+                  }}
+                >
+                  Save prices
                 </Button>
-              </div>
+              ) : null}
             </div>
             <DataTable
-              rows={prices}
-            empty={<EmptyState icon={<Plus />} title="No prices yet" body="Add a price for each kind of service before the first bills go out." />}
-              rowKey={(p) => p.id}
+              rows={children}
+              empty={<EmptyState icon={<Plus />} title="No children yet" body="Add a family and set each child's price there." />}
+              rowKey={(c) => c.id}
               columns={[
-                { key: "label", header: "Service", cell: (p) => <span className="font-medium">{p.label}</span> },
                 {
-                  key: "weekly",
-                  header: "Weekly",
-                  align: "right",
-                  cell: (p) => (
-                    <input aria-label={`${p.label} weekly price`} inputMode="decimal" value={priceDraft[p.id]?.weekly ?? p.weekly.toFixed(2)} onChange={(e) => setPriceDraft((d) => ({ ...d, [p.id]: { ...{ weekly: d[p.id]?.weekly ?? p.weekly.toFixed(2), monthly: d[p.id]?.monthly ?? p.monthly.toFixed(2) }, weekly: e.target.value } }))} className="h-9 w-24 rounded-lg border border-line-strong bg-card px-2.5 text-right font-mono text-[14px] tabular outline-none focus:border-ink/40" />
+                  key: "child",
+                  header: "Child",
+                  cell: (c) => (
+                    <span className="flex min-w-0 flex-col">
+                      <span className="font-medium">
+                        {c.first} {c.last}
+                      </span>
+                      <span className="text-[13px] text-ink-muted">{serviceLabel[c.service]}</span>
+                    </span>
                   ),
                 },
+                { key: "note", header: "Note", cell: (c) => (c.priceNote ? <Badge tone="lilac">{c.priceNote}</Badge> : <span className="text-ink-muted">None</span>), hideBelow: "md" },
+                { key: "plan", header: "Billed", cell: (c) => <span className="text-ink-soft">{getFamily(c.familyId).cadence === "weekly" ? "Per week" : "Per month"}</span>, hideBelow: "sm" },
                 {
-                  key: "monthly",
-                  header: "Monthly",
+                  key: "price",
+                  header: "Price",
                   align: "right",
-                  cell: (p) => (
-                    <input aria-label={`${p.label} monthly price`} inputMode="decimal" value={priceDraft[p.id]?.monthly ?? p.monthly.toFixed(2)} onChange={(e) => setPriceDraft((d) => ({ ...d, [p.id]: { ...{ weekly: d[p.id]?.weekly ?? p.weekly.toFixed(2), monthly: d[p.id]?.monthly ?? p.monthly.toFixed(2) }, monthly: e.target.value } }))} className="h-9 w-24 rounded-lg border border-line-strong bg-card px-2.5 text-right font-mono text-[14px] tabular outline-none focus:border-ink/40" />
+                  cell: (c) => (
+                    <input aria-label={`${c.first} ${c.last} price`} inputMode="decimal" value={priceDraft[c.id] ?? prices[c.id].toFixed(2)} onChange={(e) => setPriceDraft((d) => ({ ...d, [c.id]: e.target.value }))} className="h-9 w-24 rounded-lg border border-line-strong bg-card px-2.5 text-right font-mono text-[14px] tabular outline-none focus:border-ink/40" />
                   ),
                 },
-                { key: "kids", header: "Children", align: "right", cell: (p) => <span className="font-mono tabular text-ink-muted">{p.children}</span>, hideBelow: "sm" },
               ]}
             />
-            <p className="border-t border-line px-5 py-3 text-[13px] text-ink-muted">Changing a price applies to new bills. Existing bills and per-child overrides stay as they are.</p>
+            <p className="border-t border-line px-5 py-3 text-[13px] text-ink-muted">A new price applies to the next bill. Bills already sent stay as they are.</p>
           </Card>
           <Card className="lg:col-span-4">
             <CardHeader title="Fees" />
@@ -442,58 +439,6 @@ export function BillingView() {
             );
           })}
         </ul>
-      </Dialog>
-
-      <Dialog
-        open={addPrice}
-        onClose={() => {
-          setAddPrice(false);
-          setErr(undefined);
-        }}
-        icon={<Plus className="size-5" />}
-        title="Add a price"
-        description="Children get a price from this list. You can still override it per child."
-        footer={
-          <>
-            <Button
-              variant="soft"
-              size="sm"
-              onClick={() => {
-                setAddPrice(false);
-                setErr(undefined);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="ink"
-              size="sm"
-              onClick={() => {
-                if (!np.label.trim()) return setErr("Name the service.");
-                if (!(num(np.weekly) > 0) || !(num(np.monthly) > 0)) return setErr("Enter a weekly and a monthly price.");
-                setPrices((l) => [...l, { id: `pl-${Date.now()}`, service: np.service, label: np.label.trim(), weekly: num(np.weekly), monthly: num(np.monthly), active: true, children: 0 }]);
-                toast(`${np.label.trim()} added to the price list`);
-                setNp({ label: "", service: "both", weekly: "", monthly: "" });
-                setErr(undefined);
-                setAddPrice(false);
-              }}
-            >
-              Add price
-            </Button>
-          </>
-        }
-      >
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Field label="Service name" className="sm:col-span-2" value={np.label} onChange={(e) => setNp((x) => ({ ...x, label: e.target.value }))} />
-          <Select label="Rides" className="sm:col-span-2" value={np.service} onChange={(e) => setNp((x) => ({ ...x, service: e.target.value as PriceItem["service"] }))}>
-            <option value="both">Before and after school</option>
-            <option value="pm">After school only</option>
-            <option value="am">Before school only</option>
-          </Select>
-          <Field label="Weekly price" inputMode="decimal" value={np.weekly} onChange={(e) => setNp((x) => ({ ...x, weekly: e.target.value }))} />
-          <Field label="Monthly price" inputMode="decimal" value={np.monthly} onChange={(e) => setNp((x) => ({ ...x, monthly: e.target.value }))} />
-        </div>
-        {err ? <p className="mt-3 text-[13px] font-medium text-bad">{err}</p> : null}
       </Dialog>
 
       <Dialog

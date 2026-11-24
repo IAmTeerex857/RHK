@@ -1,10 +1,4 @@
-import type { Invoice, Payment, PriceItem } from "./types";
-
-export const priceList: PriceItem[] = [
-  { id: "pl-both", service: "both", label: "Before and after school", weekly: 95, monthly: 360, active: true, children: 10 },
-  { id: "pl-pm", service: "pm", label: "After school only", weekly: 60, monthly: 225, active: true, children: 4 },
-  { id: "pl-am", service: "am", label: "Before school only", weekly: 50, monthly: 190, active: true, children: 1 },
-];
+import type { Invoice, Payment } from "./types";
 
 export const FEES = { application: 25, lateCancel: 35 };
 

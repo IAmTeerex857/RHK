@@ -62,8 +62,10 @@ export type Child = {
   /** before + after / after only / before only */
   service: "both" | "pm" | "am";
   days: Weekday[];
+  /** Set per child by the office. There is no fixed price list. Weekly or monthly follows the family. */
   price: number;
-  priceOverride?: { amount: number; reason: string };
+  /** Why this child has the price they have, e.g. "Sibling, half off". */
+  priceNote?: string;
   approvedAdults: ApprovedAdult[];
   startDate: string;
 };
@@ -171,7 +173,6 @@ export type PaymentMethod = "card" | "zelle" | "cash_app" | "cash";
 
 export type Payment = { id: ID; invoiceId: ID; familyId: ID; method: PaymentMethod; amount: number; at: string; reference?: string; recordedBy: string };
 
-export type PriceItem = { id: ID; service: "both" | "pm" | "am"; label: string; weekly: number; monthly: number; active: boolean; children: number };
 
 export type ChangeRequest = {
   id: ID;
