@@ -1,0 +1,8 @@
+node_modules
+.turbo
+**/.next
+**/*.tsbuildinfo
+.agents
+.claude
+docs/PLAN.md
+rush-hour-kids-app-prd.md

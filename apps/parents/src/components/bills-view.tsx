@@ -155,12 +155,9 @@ export function BillsView() {
 export function PayRow({ icon, title, value }: { icon: React.ReactNode; title: string; value: string }) {
   const [copied, setCopied] = useState(false);
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-line p-3">
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-raised">{icon}</span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-[15px] font-medium">{title}</span>
-        <span className="block truncate font-mono text-[13px] text-ink-muted">{value}</span>
-      </span>
+    <div className="grid grid-cols-[40px_1fr_auto] items-center gap-x-3 rounded-2xl border border-line p-3">
+      <span className="grid size-10 place-items-center rounded-xl bg-raised">{icon}</span>
+      <span className="text-[15px] font-medium">{title}</span>
       <button
         type="button"
         onClick={() => {
@@ -173,6 +170,17 @@ export function PayRow({ icon, title, value }: { icon: React.ReactNode; title: s
         {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
         {copied ? "Copied" : "Copy"}
       </button>
+      <span className="col-span-3 mt-2.5 rounded-xl bg-raised px-3 py-2 text-[14px] text-ink [overflow-wrap:anywhere]">
+        {value.includes("@") ? (
+          <>
+            {value.slice(0, value.indexOf("@") + 1)}
+            <wbr />
+            {value.slice(value.indexOf("@") + 1)}
+          </>
+        ) : (
+          value
+        )}
+      </span>
     </div>
   );
 }

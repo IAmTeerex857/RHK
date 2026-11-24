@@ -503,14 +503,14 @@ function TabBar({ tabs, fab, pathname }: { tabs: NavItem[]; fab?: ShellProps["fa
               href={t.href}
               aria-current={on ? "page" : undefined}
               aria-label={t.label}
-              className={cn("relative flex h-12 items-center justify-center rounded-full", on ? "px-4" : "w-12")}
+              className={cn("relative flex h-12 items-center justify-center rounded-full", on ? "px-4" : "w-12 md:w-auto md:px-4")}
             >
               {on ? (
                 <motion.span layoutId="rhk-tab" className="absolute inset-0 rounded-full bg-raised" transition={{ type: "spring", stiffness: 500, damping: 40 }} />
               ) : null}
               <span className="relative flex items-center gap-2">
                 <Icon className={cn("size-[21px]", on ? "text-ink" : "text-ink-muted")} />
-                {on ? <span className="text-[15px] font-medium">{t.label}</span> : null}
+                <span className={cn("text-[15px] font-medium", on ? "" : "hidden text-ink-soft md:inline")}>{t.label}</span>
                 {t.count && !on ? <span className="absolute -right-1 -top-1 size-2 rounded-full bg-coral ring-2 ring-card" /> : null}
               </span>
             </Link>

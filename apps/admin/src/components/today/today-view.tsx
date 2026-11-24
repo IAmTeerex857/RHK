@@ -125,9 +125,9 @@ export function TodayView() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-12">
         {/* on-time */}
-        <Card className="flex flex-col lg:col-span-4">
+        <Card className="flex flex-col xl:col-span-4">
           <CardHeader title="On-time drop-offs" subtitle={`This week · ${NOW.week}`} actions={
               <Menu
                 trigger={({ toggle }) => <MoreButton onClick={toggle} />}
@@ -182,7 +182,7 @@ export function TodayView() {
         </Card>
 
         {/* runs */}
-        <Card className="flex flex-col lg:col-span-5" flush>
+        <Card className="flex flex-col xl:col-span-5" flush>
           <div className="p-5 pb-3">
             <CardHeader
               title={slot === "pm" ? "Afternoon runs" : "Morning runs"}
@@ -219,7 +219,7 @@ export function TodayView() {
                             </Badge>
                           </div>
                           <SegmentBar className="mt-2.5" size="sm" value={done} total={route.stops.length} tone={run.status === "late" ? "bad" : "data"} label={`${done} of ${route.stops.length} stops`} />
-                          <p className="mt-2 flex items-center justify-between gap-3 text-[13px] text-ink-muted">
+                          <p className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[13px] text-ink-muted">
                             <span className="min-w-0 truncate">
                               {next ? (
                                 <>
@@ -282,9 +282,9 @@ export function TodayView() {
         </Card>
 
         {/* highlight + needs you */}
-        <div className="flex flex-col gap-4 lg:col-span-3">
+        <div className="flex flex-col gap-4 lg:col-span-2 lg:grid lg:grid-cols-2 xl:col-span-3 xl:flex">
           {late && lateRoute ? (
-            <section className="theme-light relative overflow-hidden rounded-2xl bg-bus-400 p-5 text-[#1d1a2f]">
+            <section className="theme-light relative flex flex-col overflow-hidden rounded-2xl bg-bus-400 p-5 text-[#1d1a2f]">
               <div className="flex items-center justify-between">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-[#1d1a2f]/10 px-2.5 py-1 text-[12px] font-medium">
                   <AlertTriangle className="size-3.5" /> Running late
@@ -298,16 +298,17 @@ export function TodayView() {
               <p className="mt-4 text-[15px] font-medium leading-snug">
                 {getDriver(late.driverId).name.split(" ")[0]} has one stop left{lateNext ? `: the ${lateNext.label} family` : ""}. They&apos;ve been sent a delay alert.
               </p>
+              <div className="flex-1" aria-hidden />
               <Link
                 href="/live"
-                className="mt-5 inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-4 text-[14px] font-medium text-[#1d1a2f] shadow-subtle transition-transform hover:translate-x-0.5"
+                className="mt-5 inline-flex h-9 self-start items-center gap-1.5 rounded-full bg-white px-4 text-[14px] font-medium text-[#1d1a2f] shadow-subtle transition-transform hover:translate-x-0.5"
               >
                 Open live map <ArrowRight className="size-4" />
               </Link>
             </section>
           ) : null}
 
-          <Card className="flex-1">
+          <Card className={`flex-1 ${late && lateRoute ? "" : "lg:col-span-2"}`}>
             <CardHeader title="Needs you" subtitle={`${4 + (lateFee ? 1 : 0)} things today`} />
             <div className="-mx-2 mt-3 flex flex-col">
               <ActionRow LinkAs={Link} href="/applications" icon={<FileText />} tone="info" title={`${waitingApps.length} new applications`} subtitle={`Call to confirm a route · ${feePaid.length} fee paid, ready to approve`} />
@@ -322,7 +323,7 @@ export function TodayView() {
         </div>
 
         {/* trend */}
-        <Card className="lg:col-span-4">
+        <Card className="xl:col-span-4">
           <CardHeader title="Last 12 weeks" subtitle="On-time rate by week" actions={<span className="font-mono text-[12px] text-ink-muted">%</span>} />
           <BarChart
             className="mt-8"
@@ -337,7 +338,7 @@ export function TodayView() {
         </Card>
 
         {/* heatmap */}
-        <Card className="lg:col-span-5">
+        <Card className="xl:col-span-5">
           <CardHeader
             title="When we run late"
             subtitle="Late drop-offs by weekday and time, this term"
@@ -358,7 +359,7 @@ export function TodayView() {
         </Card>
 
         {/* absences + activity */}
-        <Card className="lg:col-span-3">
+        <Card className="lg:col-span-2 xl:col-span-3">
           <CardHeader title="Absent today" subtitle={`${absences.filter((a) => a.date === "Nov 20").length} children`} />
           <ul className="mt-3 flex flex-col gap-1">
             {absences
